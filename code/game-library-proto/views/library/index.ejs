@@ -1,0 +1,25 @@
+<%- include('../partials/header'); %>
+
+<h1 class="title">
+    Library
+</h1>
+<p class="subtitle is-4">
+    Games here! Get your games here!
+</p>
+
+<form action="/library/" method="GET">
+    <input class="input" type="text" name="title" value="<%= search %>" placeholder="Search for title or platform!">
+</form>
+
+<!-- <div class="tabs"><ul></ul></div> -->
+<hr class="hr">
+
+<% if (rows) { %>
+    <% rows.forEach( row => { %>
+        <%- include('../partials/game_card', { game: row }); %>
+    <% }); %>
+<% } else { %>
+No Games!
+<% } %>
+
+<%- include('../partials/footer'); %>

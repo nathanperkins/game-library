@@ -1,0 +1,14 @@
+module.exports = {
+    app: {
+        name      : "GameLibrary",
+        address   : "localhost",
+        port      : 3000,
+    },
+
+    db: {
+        host      : 'localhost',
+        user      : 'root',
+        password  : 'example',
+        database  : 'game_library_dev'
+    }
+};

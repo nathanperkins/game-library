@@ -1,0 +1,28 @@
+<%- include('../partials/header', { page_title: page_title }); %>
+
+<% if (rows) { %>
+<table>
+    <thead>
+        <th>id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Role</th>
+    </thead>
+    <tbody>
+        <% rows.forEach( row => { %>
+        <tr>
+            <td><%= row.id %></td>
+            <td><%= row.first_name %></td>
+            <td><%= row.last_name %></td>
+            <td><%= row.email %></td>
+            <td><%= row.role %></td>
+        </tr>
+        <% }); %>
+    </tbody>
+</table>
+<% } else { %>
+No rows!
+<% } %>
+
+<%- include ../partials/footer %>

@@ -1,0 +1,29 @@
+<!-- from https://bulma.io/documentation/layout/media-object/ -->
+<article class="media">
+    <% if (game.boxart_url) { %>
+        <figure class="media-left">
+            <p class="image is-64x64">
+            <img src="<%= game.boxart_url %>">
+            </p>
+        </figure>
+    <% } %>
+    <div class="media-content">
+        <div class="content">
+        <p>
+            <strong><%= game.title %></strong> <small><%= game.platform %></small> <small><%= game.rating %></small>
+            <br>
+            <%= game.description %>
+        </p>
+        </div>
+        <nav class="level is-mobile">
+        <div class="level-left">
+            <a class="level-item">
+            <span class="icon is-small"><a href="/game_requests/new/?release_id=<%= game.rid %>" class="button is-success"><i class="fas fa-fw fa-arrow-circle-down"></i>Request</a></span>
+            </a>
+        </div>
+        </nav>
+    </div>
+    <div class="media-right">
+        <!-- <button class="delete"></button> -->
+    </div>
+</article>

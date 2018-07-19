@@ -17,17 +17,36 @@ Game-Library is a node/react app for managing inventory and requests for a real-
 ## Database Instructions
 
 1. Install MariaDB 10.1 or later.
-1. Create a DB.
-1. Connect to your DB.
-1. Run the data-definition queries from the queries folder to initialize the DB tables.
+1. Connect to your DB server.
+1. Create a database.
+1. Import `game_library_create_tables.sql` from the queries folder to initialize the DB tables.
+1. Import `game_library_insert_dummy_data.sql` to add the dummy data.
 
-## Dev Webserver Instructions
+## Docker Instructions
 
-1. Clone this repo.
-1. Edit the database config file with the proper hostname, user, password and database name.
-1. `cd code/game-library`
+1. Docker can be used to install a local MariaDB dev server.
+1. Install Docker via `brew install docker` or by following the instructions [here.](https://docs.docker.com/install/)
+1. Navigate to the base of this repo.
+1. `cd mariadb`
+1. To start in detached mode: `docker-compose up -d`.
+1. To check status: `docker ps`.
+1. To stop: `docker-compose down` (from inside the `mariadb` folder).
+
+## Prototype Webserver Instructions
+
+1. `cd code/game-library-proto`
+1. `cp config.js.template config.js`.
+1. Modify `config.js` with the proper hostname, user, password and database name.
 1. `npm install` to install all required node modules.
 1. `npm start` to run the dev server.
+
+## Dev Webserver Instructions 
+ 
+1. Clone this repo. 
+1. Edit the database config file with the proper hostname, user, password and database name. 
+1. `cd code/game-library` 
+1. `npm install` to install all required node modules. 
+1. `npm start` to run the dev server. 
 
 ## Production Webserver Instructions
 

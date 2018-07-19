@@ -1,0 +1,38 @@
+<%- include('../partials/header', { page_title: page_title }); %>
+<h1 class="title">
+    Login
+</h1>
+<!-- <p class="subtitle is-4">
+    Register for an account
+</p> -->
+
+<hr class="hr">
+
+<form action='/login/' method='POST'>
+  
+    <div class="field">
+    <label class="label">Email</label>
+        <div class="control">
+        <input class="input" type="email" name="email" placeholder="e.g. username@gmail.com">
+        </div>
+    </div>
+
+    <div class="field">
+    <label class="label">Password</label>
+    <p class="control has-icons-left">
+        <input class="input" type="password" name="password" placeholder="Password">
+        <span class="icon is-small is-left">
+        <i class="fas fa-lock"></i>
+        </span>
+    </p>
+    </div>
+
+    <div class="field">
+        <div class="control">
+            <button class="button is-link">Login</button>
+        </div>
+    </div>
+    
+</form>
+
+<%- include ../partials/footer %>

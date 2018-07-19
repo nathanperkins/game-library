@@ -1,0 +1,19 @@
+<%- include('../partials/header'); %>
+<h1 class="title">
+    Requests
+</h1>
+<p class="subtitle is-4">
+    Lend out some games!
+</p>
+
+<hr class="hr">
+
+<% if (rows) { %>
+    <% rows.forEach( row => { %>
+        <%- include('../partials/game_card', { game: row }); %>
+    <% }); %>
+<% } else { %>
+No rows!
+<% } %>
+
+<%- include('../partials/footer'); %>
