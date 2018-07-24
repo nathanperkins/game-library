@@ -1,0 +1,43 @@
+<%- include('../partials/header'); %>
+<h1 class="title">
+    Pending Requests
+</h1>
+<p class="subtitle is-4">
+    These requests are currently in queue:
+</p>
+<% if (rows) { %>
+<table>
+    <thead>
+        <th>User</th>
+        <th>Game</th>
+        <th>Platform</th>
+        <th>Assign copy</th>
+        <th>Update</th>
+    </thead>
+    <tbody>
+        <% rows.forEach( row => { %>
+        <tr>
+            <td><%= row.user %></td>
+            <td><%= row.title %></td>
+            <td><%= row.platform %></td>
+            <td><div class="field">
+                <div class="control">
+                    <div class="select">
+                        <select>
+                            <option>9565768</option>
+                            <option>8977879</option>
+                            <option>6957657</option>
+                        </select>
+                    </div>
+                </div>
+            </div></td>
+            <td><span class="button ">Check Out</span></td>
+        </tr>
+        <% }); %>
+    </tbody>
+</table>
+<% } else { %>
+No rows!
+<% } %>
+
+<%- include ../partials/footer %>

@@ -27,6 +27,36 @@ WHERE GT.name LIKE ?
 ORDER BY title, platform ASC
 ;`
 
+const get_pending_game_requests = `
+SELECT Request.id, Title.name AS title, Platform.name AS platform,
+  Request.user_id AS user, Copy.library_tag AS tag
+FROM game_requests AS Request
+JOIN game_releases AS GRelease
+  ON GRelease.id = Request.release_id
+JOIN game_titles AS Title
+  ON Title.id = GRelease.title_id
+JOIN game_platforms AS Platform
+  ON Platform.id = GRelease.platform_id
+LEFT JOIN game_copies AS Copy
+  ON Copy.id = Request.copy_id
+WHERE Request.status = 'pending'
+;`
+
+const get_active_game_requests = `
+SELECT Request.id, Title.name AS title, Platform.name AS platform,
+  Request.user_id AS user, Copy.library_tag AS tag
+FROM game_requests AS Request
+JOIN game_releases AS GRelease
+  ON GRelease.id = Request.release_id
+JOIN game_titles AS Title
+  ON Title.id = GRelease.title_id
+JOIN game_platforms AS Platform
+  ON Platform.id = GRelease.platform_id
+LEFT JOIN game_copies AS Copy
+  ON Copy.id = Request.copy_id
+WHERE Request.status = 'pending'
+;`
+
 const get_all_users = `
 SELECT User.id, User.last_name, User.first_name, User.email, User.role
 FROM users AS User
@@ -68,4 +98,6 @@ module.exports = {
     get_all_users,
     insert_new_user,
     get_all_game_releases_with_search,
+    get_pending_game_requests,
+    get_active_game_requests
 }

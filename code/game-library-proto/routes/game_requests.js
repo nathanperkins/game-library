@@ -31,4 +31,17 @@ routes.get('/new/', (req, res) => {
     });
 });
 
+routes.get('/pending/', (req, res) => {
+    const data = {
+        page_title: 'Requests',
+    };
+
+    connection.query(queries.get_pending_game_requests, (err, rows, fields) => {
+        if (err) throw err;
+
+        data.rows = rows;
+        res.render('game_requests/pending', data);
+    });
+});
+
 module.exports = routes;
