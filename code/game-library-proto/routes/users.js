@@ -40,6 +40,15 @@ routes.get('/login/', (req, res) => {
     res.render('users/login', data);
 });
 
+routes.get('/change_password/', (req, res) => {
+    const data = {
+        page_title: 'Change Password',
+        msg: null,
+    };
+
+    res.render('users/change_password', data);
+});
+
 routes.post('/', [
         // validations from express-validator
         body(['first_name', 'last_name']).trim()
