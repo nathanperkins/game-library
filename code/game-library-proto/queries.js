@@ -16,7 +16,7 @@ ORDER BY title, platform ASC
 
 const get_all_game_releases_with_search = `
 SELECT GR.id as rid, GT.name AS title, GP.name AS platform,
-  GR.boxart_url AS boxart_url, GT.description AS description
+  GR.boxart_url, GT.description
 FROM game_releases AS GR
 JOIN game_titles AS GT
   ON GT.id = GR.title_id
@@ -29,7 +29,7 @@ ORDER BY title, platform ASC
 
 const get_game_requests_by_status = `
 SELECT Request.id, Title.name AS title, Platform.name AS platform, Request.dt_completed,
-  CONCAT(User.first_name, ' ', User.last_name) AS user, Copy.library_tag AS library_tag
+  CONCAT(User.first_name, ' ', User.last_name) AS user, Copy.library_tag
 FROM game_requests AS Request
 JOIN game_releases AS GRelease
   ON GRelease.id = Request.release_id
