@@ -40,6 +40,31 @@ routes.get('/login/', (req, res) => {
     res.render('users/login', data);
 });
 
+routes.get('/profile/', (req, res) => {
+    const data = {
+        page_title: 'User Profile',
+    };
+
+    const user_id = 58;
+
+    connection.query(queries.get_user_by_id, [user_id], (err, rows, fields) => {
+        if (err) throw err;
+
+        data.user = rows[0];
+        
+        connection.query(queries.get_game_requests_by_user, [user_id], (err, rows, fields) => {
+            if (err) throw err;
+        
+            data.requests_checked_out = rows.filter(row => row.status === "checked_out");
+            data.requests_pending     = rows.filter(row => row.status === "pending");
+            data.requests_completed   = rows.filter(row => row.status === "completed");
+            data.requests_cancelled   = rows.filter(row => row.status === "completed");
+
+            res.render('users/profile', data);
+        });
+    });
+});
+
 routes.get('/change_password/', (req, res) => {
     const data = {
         page_title: 'Change Password',

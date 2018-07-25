@@ -45,10 +45,29 @@ WHERE Request.status = ?
 ORDER BY User.last_name, User.first_name ASC
 ;`
 
+const get_game_requests_by_user = `
+SELECT Request.status, Title.name AS title, Platform.name AS platform, Request.dt_completed
+FROM game_requests AS Request
+JOIN game_releases AS GRelease
+  ON GRelease.id = Request.release_id
+JOIN game_titles AS Title
+  ON Title.id = GRelease.title_id
+JOIN game_platforms AS Platform
+  ON Platform.id = GRelease.platform_id
+WHERE Request.user_id = ?
+ORDER BY Request.status
+;`
+
 const get_all_users = `
 SELECT User.id, User.last_name, User.first_name, User.email, User.role
 FROM users AS User
 ORDER BY User.last_name, User.first_name DESC
+;`
+
+const get_user_by_id = `
+SELECT User.last_name, User.first_name, User.email, User.role
+FROM users AS User
+WHERE User.id = ?
 ;`
 
 const insert_new_user = `
@@ -68,8 +87,10 @@ VALUES
 module.exports = {
     get_all_game_releases,
     get_all_users,
+    get_user_by_id,
     insert_new_user,
     get_all_game_releases_with_search,
     get_game_requests_by_status,
+    get_game_requests_by_user,
     insert_new_request,
 }

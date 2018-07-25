@@ -1,0 +1,129 @@
+<%- include('../partials/header'); %>
+<h1 class="title">
+    My Profile
+</h1>
+<p class="subtitle is-4">
+    Here is your user account information:
+</p>
+
+<div class="box">
+<% if (user) { %>
+    <font size="5">
+    <strong>User Details</strong>
+    <br>
+    <font size="4">
+        <strong>Name: </strong><%= user.first_name %> <%= user.last_name %>
+        <br>
+        <strong>Role: </strong><%= user.role %>
+        <br>
+        <strong>E-mail: </strong><%= user.email %>
+    </font>
+    <br><br>
+
+    <a href="/users/change_password/" class="button" style="height:25px;width:150px">Change Password</a>            
+<% } else { %>
+No user!
+<% } %>
+
+</div>
+
+<div class="box">
+    <font size="5">
+    <strong>Rental History</strong>
+    </font>
+    <br>
+<% if (requests_checked_out) { %>
+    <font size="3">
+    <strong>Checked Out</strong>
+    </font>
+
+    <font size="2">
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+        <thead>
+            <th>Game</th>
+            <th>Platform</th>
+        </thead>
+        <tbody>
+            <% requests_checked_out.forEach( request => { %>
+            <tr>
+                <td><%= request.title %></td>
+                <td><%= request.platform %></td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+<% } %>
+
+<% if (requests_pending) { %>
+    <font size="3">
+    <strong>Pending</strong>
+    </font>
+
+    <font size="2">
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+        <thead>
+            <th>Game</th>
+            <th>Platform</th>
+            <th>Cancel</th>
+        </thead>
+        <tbody>
+            <% requests_pending.forEach( request => { %>
+            <tr>
+                <td><%= request.title %></td>
+                <td><%= request.platform %></td>
+                <td><span class="button" style="height:25px;width:60px">Cancel</span></td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+<% } %>
+
+<% if (requests_completed) { %>
+    <font size="3">
+    <strong>Completed</strong>
+    </font>
+
+    <font size="2">
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+        <thead>
+            <th>Game</th>
+            <th>Platform</th>
+            <th>Date Completed</th>
+        </thead>
+        <tbody>
+            <% requests_completed.forEach( request => { %>
+            <tr>
+                <td><%= request.title %></td>
+                <td><%= request.platform %></td>
+                <td><%= request.dt_completed %></td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+<% } %>
+
+<% if (requests_cancelled) { %>
+    <font size="3">
+    <strong>Cancelled</strong>
+    </font>
+
+    <font size="2">
+    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+        <thead>
+            <th>Game</th>
+            <th>Platform</th>
+        </thead>
+        <tbody>
+            <% requests_cancelled.forEach( request => { %>
+            <tr>
+                <td><%= request.title %></td>
+                <td><%= request.platform %></td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+<% } %>
+
+</div>
+
+<%- include ../partials/footer %>
