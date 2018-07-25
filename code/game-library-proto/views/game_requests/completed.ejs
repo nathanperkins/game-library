@@ -1,0 +1,34 @@
+<%- include('../partials/header'); %>
+
+<h1 class="title">
+    Completed Requests
+</h1>
+<p class="subtitle is-4">
+    These requests are completed:
+</p>
+<% if (rows) { %>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <thead>
+        <th>User</th>
+        <th>Game</th>
+        <th>Platform</th>
+        <th>Library Tag</th>
+        <th>Returned</th>
+    </thead>
+    <tbody>
+        <% rows.forEach( row => { %>
+        <tr>
+            <td><%= row.user %></td>
+            <td><%= row.title %></td>
+            <td><%= row.platform %></td>
+            <td><%= row.library_tag %></td>
+            <td><%= row.dt_completed.toLocaleDateString('en-US') %></td>
+        </tr>
+        <% }); %>
+    </tbody>
+</table>
+<% } else { %>
+No rows!
+<% } %>
+
+<%- include ../partials/footer %>

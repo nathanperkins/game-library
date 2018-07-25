@@ -1,10 +1,10 @@
 <%- include('../partials/header'); %>
 
 <h1 class="title">
-    Pending Requests
+    Checked-out Requests
 </h1>
 <p class="subtitle is-4">
-    These requests are currently in queue:
+    These requests are currently checked-out:
 </p>
 <% if (rows) { %>
 <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
@@ -12,7 +12,7 @@
         <th>User</th>
         <th>Game</th>
         <th>Platform</th>
-        <th>Assign Library Tag</th>
+        <th>Library Tag</th>
         <th>Update</th>
     </thead>
     <tbody>
@@ -21,18 +21,8 @@
             <td><%= row.user %></td>
             <td><%= row.title %></td>
             <td><%= row.platform %></td>
-            <td><div class="field">
-                <div class="control">
-                    <div class="select">
-                        <select>
-                            <option>9565768</option>
-                            <option>8977879</option>
-                            <option>6957657</option>
-                        </select>
-                    </div>
-                </div>
-            </div></td>
-            <td><span class="button ">Check Out</span></td>
+            <td><%= row.library_tag %></td>
+            <td><span class="button">Check-in</span></td>
         </tr>
         <% }); %>
     </tbody>

@@ -27,9 +27,9 @@ WHERE GT.name LIKE ?
 ORDER BY title, platform ASC
 ;`
 
-const get_pending_game_requests = `
-SELECT Request.id, Title.name AS title, Platform.name AS platform,
-  Request.user_id AS user, Copy.library_tag AS tag
+const get_game_requests_by_status = `
+SELECT Request.id, Title.name AS title, Platform.name AS platform, Request.dt_completed,
+  CONCAT(User.first_name, ' ', User.last_name) AS user, Copy.library_tag AS library_tag
 FROM game_requests AS Request
 JOIN game_releases AS GRelease
   ON GRelease.id = Request.release_id
@@ -37,45 +37,18 @@ JOIN game_titles AS Title
   ON Title.id = GRelease.title_id
 JOIN game_platforms AS Platform
   ON Platform.id = GRelease.platform_id
+JOIN users AS User
+  ON User.id = Request.user_id
 LEFT JOIN game_copies AS Copy
   ON Copy.id = Request.copy_id
-WHERE Request.status = 'pending'
-;`
-
-const get_active_game_requests = `
-SELECT Request.id, Title.name AS title, Platform.name AS platform,
-  Request.user_id AS user, Copy.library_tag AS tag
-FROM game_requests AS Request
-JOIN game_releases AS GRelease
-  ON GRelease.id = Request.release_id
-JOIN game_titles AS Title
-  ON Title.id = GRelease.title_id
-JOIN game_platforms AS Platform
-  ON Platform.id = GRelease.platform_id
-LEFT JOIN game_copies AS Copy
-  ON Copy.id = Request.copy_id
-WHERE Request.status = 'pending'
+WHERE Request.status = ?
+ORDER BY User.last_name, User.first_name ASC
 ;`
 
 const get_all_users = `
 SELECT User.id, User.last_name, User.first_name, User.email, User.role
 FROM users AS User
 ORDER BY User.last_name, User.first_name DESC
-;`
-
-const get_all_game_requests = `
-SELECT Request.id, Title.name AS title, Platform.name AS platform,
-  Request.status AS status, Copy.library_tag AS tag,
-  GRelease.boxart_url AS boxart_url, Title.description AS description
-FROM game_requests AS Request
-JOIN game_releases AS GRelease
-  ON GRelease.id = Request.release_id
-JOIN game_titles AS Title
-  ON Title.id = GRelease.title_id
-JOIN game_platforms AS Platform
-  ON Platform.id = GRelease.platform_id
-LEFT JOIN game_copies AS Copy
-  ON Copy.id = Request.copy_id
 ;`
 
 const insert_new_user = `
@@ -94,10 +67,9 @@ VALUES
 
 module.exports = {
     get_all_game_releases,
-    get_all_game_requests,
     get_all_users,
     insert_new_user,
     get_all_game_releases_with_search,
-    get_pending_game_requests,
-    get_active_game_requests
+    get_game_requests_by_status,
+    insert_new_request,
 }

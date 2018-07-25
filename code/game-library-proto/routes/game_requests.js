@@ -36,11 +36,37 @@ routes.get('/pending/', (req, res) => {
         page_title: 'Requests',
     };
 
-    connection.query(queries.get_pending_game_requests, (err, rows, fields) => {
+    connection.query(queries.get_game_requests_by_status, ['pending'], (err, rows, fields) => {
         if (err) throw err;
 
         data.rows = rows;
         res.render('game_requests/pending', data);
+    });
+});
+
+routes.get('/checked_out/', (req, res) => {
+    const data = {
+        page_title: 'Requests',
+    };
+
+    connection.query(queries.get_game_requests_by_status, ['checked_out'], (err, rows, fields) => {
+        if (err) throw err;
+
+        data.rows = rows;
+        res.render('game_requests/checked_out', data);
+    });
+});
+
+routes.get('/completed/', (req, res) => {
+    const data = {
+        page_title: 'Requests',
+    };
+
+    connection.query(queries.get_game_requests_by_status, ['completed'], (err, rows, fields) => {
+        if (err) throw err;
+
+        data.rows = rows;
+        res.render('game_requests/completed', data);
     });
 });
 
