@@ -3,17 +3,6 @@ Contains all of the queries used by the app.
 Accessed from app.js by calling queries.<query_name>
 */
 
-const get_all_game_releases = `
-SELECT GR.id, GT.name AS title, GP.name AS platform,
-  GR.boxart_url AS boxart_url, GT.description AS description
-FROM game_releases AS GR
-JOIN game_titles AS GT
-  ON GT.id = GR.title_id
-JOIN game_platforms AS GP
-  ON GP.id = GR.platform_id
-ORDER BY title, platform ASC
-;`
-
 const get_all_game_releases_with_search = `
 SELECT GR.id as rid, GT.name AS title, GP.name AS platform,
   GR.boxart_url, GT.description
@@ -58,12 +47,6 @@ WHERE Request.user_id = ?
 ORDER BY Request.status
 ;`
 
-const get_all_users = `
-SELECT User.id, User.last_name, User.first_name, User.email, User.role
-FROM users AS User
-ORDER BY User.last_name, User.first_name DESC
-;`
-
 const get_user_by_id = `
 SELECT User.last_name, User.first_name, User.email, User.role
 FROM users AS User
@@ -84,9 +67,53 @@ VALUES
 (?, ?)
 ;`
 
+const get_all_users = `
+SELECT User.id, User.last_name, User.first_name, User.email, User.role
+FROM users AS User
+ORDER BY User.last_name, User.first_name DESC
+;`
+
+const get_all_game_titles = `
+SELECT Title.id, Title.name, Title.genre, Title.developer, Title.producer
+FROM game_titles AS Title
+ORDER BY name DESC
+;`
+
+const get_all_game_platforms = `
+SELECT Platform.id, Platform.name, Platform.manufacturer, Platform.release_date
+FROM game_platforms AS Platform
+ORDER BY release_date DESC
+;`
+
+const get_all_game_releases = `
+SELECT Title.name as title, Platform.name as platform, GRelease.release_date
+FROM game_releases AS GRelease
+JOIN game_titles AS Title
+ON Title.id = GRelease.title_id
+JOIN game_platforms AS Platform
+ON Platform.id = GRelease.platform_id
+ORDER BY release_date DESC
+;`
+
+const get_all_game_copies = `
+SELECT Title.name AS title, Platform.name AS platform, Copy.library_tag
+FROM game_copies AS Copy
+JOIN game_releases AS GRelease
+ON GRelease.id = Copy.release_id
+JOIN game_platforms AS Platform
+ON Platform.id = GRelease.platform_id
+JOIN game_titles AS Title
+ON Title.id = GRelease.title_id
+ORDER BY library_tag ASC
+;`
+
+
 module.exports = {
-    get_all_game_releases,
     get_all_users,
+    get_all_game_titles,
+    get_all_game_platforms,
+    get_all_game_releases,
+    get_all_game_copies,
     get_user_by_id,
     insert_new_user,
     get_all_game_releases_with_search,

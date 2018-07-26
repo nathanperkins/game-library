@@ -9,16 +9,28 @@ const connection = require('../db');
 const { body, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
-routes.get('/', (req, res) => {
-    const data = {
-        page_title: 'Users',
-    };
+routes. get('/', (req, res) => {
+    const context = {
+        page_title  : "Users Index",
+        table_name  : "users",
+        pretty_name : "Users",
+        errors     : null,
+        msg        : null,   
+    }
 
     connection.query(queries.get_all_users, (err, rows, fields) => {
         if (err) throw err;
 
-        data.rows = rows;
-        res.render('users/index', data);
+        context.rows   = rows;
+        context.fields = [
+            'ID',
+            'First Name',
+            'Last Name',
+            'Email',
+            'Role',
+        ]
+
+        res.render('generic/table', context);
     });
 });
 
