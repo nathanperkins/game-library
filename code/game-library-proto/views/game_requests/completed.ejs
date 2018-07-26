@@ -14,6 +14,7 @@
         <th>Platform</th>
         <th>Library Tag</th>
         <th>Returned</th>
+        <th>Update</th>
     </thead>
     <tbody>
         <% rows.forEach( row => { %>
@@ -23,6 +24,7 @@
             <td><%= row.platform %></td>
             <td><%= row.library_tag %></td>
             <td><%= row.dt_completed.toLocaleDateString('en-US') %></td>
+            <td><input type=submit value=Delete></td>
         </tr>
         <% }); %>
     </tbody>
