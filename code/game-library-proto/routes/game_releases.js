@@ -7,8 +7,6 @@ routes. get('/', (req, res) => {
         page_title  : "Game Releases Index",
         table_name  : "game_releases",
         pretty_name : "Game Releases",
-        errors     : null,
-        msg        : null,   
     }
 
     connection.query(queries.get_all_game_releases, (err, rows, fields) => {
@@ -30,8 +28,6 @@ routes. get('/', (req, res) => {
 routes.get('/new', (req, res) => {
     const data = {
         page_title  : 'New Game Release',
-        errors      : null,
-        msg         : null,
     };
 
     res.render('game_releases/new', data);

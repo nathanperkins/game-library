@@ -59,10 +59,4 @@
   <body>
   <section class="section">
       <div class="container">
-          <% if (locals.errors) errors.forEach( error => { %>
-            <div class="notification"><%= `${error.param} error: ${error.msg}` %></div>
-          <% }); %>
-
-          <% if (locals.msg) {%>
-            <div class="notification"><%= locals.msg %></div>
-          <% } %>
+          <%- messages('partials/message', locals) %>

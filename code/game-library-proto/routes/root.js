@@ -58,8 +58,6 @@ routes.get('/library/', (req, res) => {
 routes.get('/admin/', (req, res) => {
     const data = {
         page_title  : 'Admin',
-        errors      : null,
-        msg         : null,
     };
 
     res.render('admin/index', data);

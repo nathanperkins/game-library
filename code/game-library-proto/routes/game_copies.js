@@ -5,8 +5,6 @@ const connection = require('../db');
 routes.get('/new', (req, res) => {
     const data = {
         page_title  : 'New Game Copy',
-        errors      : null,
-        msg         : null,
     };
 
     res.render('game_copies/new', data);
@@ -17,8 +15,6 @@ routes. get('/', (req, res) => {
         page_title  : "Game Copies Index",
         table_name  : "game_copies",
         pretty_name : "Game Copies",
-        errors     : null,
-        msg        : null,   
     }
 
     connection.query(queries.get_all_game_copies, (err, rows, fields) => {

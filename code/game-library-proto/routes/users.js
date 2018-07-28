@@ -18,8 +18,6 @@ routes. get('/', (req, res) => {
         page_title  : "Users Index",
         table_name  : "users",
         pretty_name : "Users",
-        errors     : null,
-        msg        : null,   
     }
 
     connection.query(queries.get_all_users, (err, rows, fields) => {
@@ -41,7 +39,6 @@ routes. get('/', (req, res) => {
 routes.get('/new/', (req, res) => {
     const data = {
         page_title: 'Registration',
-        msg: null,
     };
 
     res.render('users/new', data);
@@ -50,7 +47,6 @@ routes.get('/new/', (req, res) => {
 routes.get('/login/', (req, res) => {
     const data = {
         page_title: 'Registration',
-        msg: null,
     };
 
     res.render('users/login', data);
@@ -72,7 +68,8 @@ routes.post("/login", (req, res) => {
             req.session.name = `${user.first_name} ${user.last_name}`;
             res.redirect('/');
         } else {
-            res.redirect('/users/login/')
+            req.flash('danger', 'Login failed: bad email or password');
+            res.redirect('/users/login/');
         }
     });
 });
@@ -137,13 +134,15 @@ routes.post('/', [
 
     const data = {
         page_title: 'Registration',
-        errors: errors.array(),
     };
 
     if (!errors.isEmpty()) {
+        errors.array().forEach(error => {
+            req.flash('danger', `${error.param} error: ${error.msg}`)
+        });
+
         res.render('users/new', data);
     } else {
-
         // create a hash from the password
         bcrypt.hash(req.body.password, 10, (err, hash) => {
 

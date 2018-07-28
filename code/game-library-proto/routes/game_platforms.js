@@ -7,8 +7,6 @@ routes. get('/', (req, res) => {
         page_title  : "Game Platform Index",
         table_name  : "game_platforms",
         pretty_name : "Game Platform",
-        errors     : null,
-        msg        : null,   
     }
 
     connection.query(queries.get_all_game_platforms, (err, rows, fields) => {
@@ -31,8 +29,6 @@ routes. get('/', (req, res) => {
 routes.get('/new', (req, res) => {
     const data = {
         page_title  : 'New Game Platform',
-        errors      : null,
-        msg         : null,
     };
 
     res.render('game_platforms/new', data);

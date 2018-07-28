@@ -19,9 +19,10 @@ routes.get('/', (req, res) => {
 routes.get('/new/', (req, res) => {
     const data = {
         page_title  : 'Library',
-        msg         : `Added request for release_id: ${req.query.release_id}`,
         search      : null,
     };
+
+    req.flash('success', `Added request for release_id: ${req.query.release_id}`);
 
     connection.query(queries.get_all_game_releases_with_search, ['%', '%'], (err, rows, fields) => {
         if (err) throw err;

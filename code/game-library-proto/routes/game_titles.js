@@ -7,8 +7,6 @@ routes. get('/', (req, res) => {
         page_title  : "Game Title Index",
         table_name  : "game_titles",
         pretty_name : "Game Title",
-        errors     : null,
-        msg        : null,   
     }
 
     connection.query(queries.get_all_game_titles, (err, rows, fields) => {
@@ -31,8 +29,6 @@ routes. get('/', (req, res) => {
 routes. get('/', (req, res) => {
     const context = {
         page_title : "Game Title Index",
-        errors     : null,
-        msg        : null,   
     }
 
     connection.query(queries.get_all_game_titles, (err, rows, fields) => {
@@ -47,8 +43,6 @@ routes. get('/', (req, res) => {
 routes.get('/new', (req, res) => {
     const context = {
         page_title  : 'New Game Title',
-        errors      : null,
-        msg         : null,
     };
 
     res.render('game_titles/new', context);
