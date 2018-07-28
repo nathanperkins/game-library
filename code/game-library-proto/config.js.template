@@ -5,6 +5,10 @@ module.exports = {
         port      : 3000,
     },
 
+    session: {
+        password  : "SessionPassword",
+    },
+
     db: {
         host      : 'localhost',
         user      : 'root',

@@ -73,6 +73,12 @@ FROM users AS User
 ORDER BY User.last_name, User.first_name DESC
 ;`
 
+const get_user_by_email = `
+SELECT User.id, User.last_name, User.first_name, User.email, User.password, User.role
+FROM users AS User
+WHERE User.email = ?
+;`
+
 const get_all_game_titles = `
 SELECT Title.id, Title.name, Title.genre, Title.developer, Title.producer
 FROM game_titles AS Title
@@ -115,6 +121,7 @@ module.exports = {
     get_all_game_releases,
     get_all_game_copies,
     get_user_by_id,
+    get_user_by_email,
     insert_new_user,
     get_all_game_releases_with_search,
     get_game_requests_by_status,

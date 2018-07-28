@@ -14,11 +14,12 @@
     <font size="4">
         <strong>Name: </strong><%= user.first_name %> <%= user.last_name %>
         <br>
+        <strong>E-mail: </strong><%= user.email %>
+        <br>
         <strong>Role: </strong><%= user.role %>
         <br>
-        <strong>E-mail: </strong><%= user.email %>
     </font>
-    <br><br>
+    <br>
 
     <a href="/users/change_password/" class="button" style="height:25px;width:150px">Change Password</a>            
 <% } else { %>

@@ -9,6 +9,10 @@ const connection = require('../db');
 const { body, validationResult } = require('express-validator/check');
 const { sanitizeBody } = require('express-validator/filter');
 
+// using bcrypt to hash and compare passwords
+// from https://medium.com/@holtkam2/add-user-authentication-to-your-node-expressjs-application-using-bcrypt-81bb0f618ab3
+const bcrypt = require('bcrypt');
+
 routes. get('/', (req, res) => {
     const context = {
         page_title  : "Users Index",
@@ -24,8 +28,8 @@ routes. get('/', (req, res) => {
         context.rows   = rows;
         context.fields = [
             'ID',
-            'First Name',
             'Last Name',
+            'First Name',
             'Email',
             'Role',
         ]
@@ -52,12 +56,44 @@ routes.get('/login/', (req, res) => {
     res.render('users/login', data);
 });
 
+// login user
+routes.post("/login", (req, res) => {
+    console.log(req.body);
+    
+    const email     = req.body.email;
+    const password  = req.body.password;
+
+    connection.query(queries.get_user_by_email, [email], (err, rows, fields) => {
+        const user = rows[0];
+
+        if (user) {
+            delete user.password;
+            req.session.user = user;
+            req.session.name = `${user.first_name} ${user.last_name}`;
+            res.redirect('/');
+        } else {
+            res.redirect('/users/login/')
+        }
+    });
+});
+
+routes.get('/logout', (req, res) => {
+    req.session.user = null;
+
+    res.redirect('/');
+});
+
 routes.get('/profile/', (req, res) => {
     const data = {
         page_title: 'User Profile',
     };
 
-    const user_id = 58;
+    const user = req.session.user;
+
+    if (!user) {
+        res.redirect('/users/login');
+    }
+    const user_id = req.session.user.id;
 
     connection.query(queries.get_user_by_id, [user_id], (err, rows, fields) => {
         if (err) throw err;
@@ -86,6 +122,7 @@ routes.get('/change_password/', (req, res) => {
     res.render('users/change_password', data);
 });
 
+// create new user
 routes.post('/', [
         // validations from express-validator
         body(['first_name', 'last_name']).trim()

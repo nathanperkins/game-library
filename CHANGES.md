@@ -1,5 +1,9 @@
 # Changelog
 
+## 2018-07-28
+- Add Query
+  - get_user_by_email (for login)
+  
 ## 2018-07-25
 - Add Queries
   - get_game_requests_by_user
