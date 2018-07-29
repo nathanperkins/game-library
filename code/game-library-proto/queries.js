@@ -67,6 +67,13 @@ VALUES
 (?, ?)
 ;`
 
+const insert_new_platform = `
+INSERT INTO game_platforms
+(name, manufacturer, release_date)
+VALUES
+(?, ?, ?)
+;`
+
 const get_all_users = `
 SELECT User.id, User.last_name, User.first_name, User.email, User.role
 FROM users AS User
@@ -118,6 +125,7 @@ module.exports = {
     get_all_users,
     get_all_game_titles,
     get_all_game_platforms,
+    insert_new_platform,
     get_all_game_releases,
     get_all_game_copies,
     get_user_by_id,

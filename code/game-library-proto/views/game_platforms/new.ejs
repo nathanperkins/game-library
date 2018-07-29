@@ -4,24 +4,25 @@
         <h2>Create a new platform:</h2>
       </div>
 
+<form action='/game_platforms/' method=POST>
       <div class="field">
         <label class="label">Name</label>
         <div class="control">
-          <input class="input" type="text" placeholder="e.g. Playstation 4">
+          <input class="input" type="text" name="name" placeholder="e.g. Playstation 4">
         </div>
       </div>
 
     <div class="field">
         <label class="label">Manufacturer</label>
         <div class="control">
-          <input class="input" type="text" placeholder="e.g. Sony">
+          <input class="input" type="text" name="manufacturer" placeholder="e.g. Sony">
         </div>
       </div>
 
       <div class="field">
         <label class="label">Release Date</label>
         <div class="control">
-          <input class="input" type="date">
+          <input class="input" name="release_date" type="date">
         </div>
     </div>
 
@@ -33,5 +34,7 @@
         <button class="button is-text">Cancel</button>
     </div>
     </div>
+  </form>
+
 
 <%- include('../partials/footer'); %>
