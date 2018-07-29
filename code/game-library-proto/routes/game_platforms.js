@@ -27,7 +27,9 @@ routes. get('/', (req, res) => {
             'Release Date',
         ]
 
-        rows.forEach( row => row.release_date = row.release_date.toLocaleDateString('en-US') );
+        rows.forEach( row => {
+            if (row.release_date) row.release_date = row.release_date.toLocaleDateString('en-US') 
+        });
 
         res.render('generic/table', context);
     });
@@ -61,13 +63,13 @@ routes.post('/', [
             const newPlatform = [
                 req.body.name,
                 req.body.manufacturer,
-                req.body.release_date
+                req.body.release_date || null
             ];
 
             connection.query(queries.insert_new_platform, newPlatform, (err, rows) => {
                 if (err) throw err;
 
-                res.redirect('/game_platforms/new/');
+                res.redirect('/game_platforms/');
             });
         
     }
