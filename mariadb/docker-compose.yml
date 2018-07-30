@@ -1,8 +1,18 @@
-# sample docker-compose.yml
+# docker-compose.yml
+# local mariaDB service
 # from https://hub.docker.com/_/mariadb/
 
+# start with "docker-compose up -d" from the same folder as this file
+# stop with "docker-compose down" from the same folder as this file
+
+# creates a local folder "./db-data/" to hold the db and related files
+
 # Use root/password as user/password credentials
-# adminer is a db admin frontend, but
+# for logging into the database at localhost:3306
+
+# adminer is a db admin frontend that you can use
+# at http://localhost:8080/
+
 version: '3.1'
 
 services:

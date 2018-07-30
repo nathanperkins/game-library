@@ -46,32 +46,34 @@ routes.get('/new', (req, res) => {
 routes.post('/', [
         // validations from express-validator
         body(['name', 'manufacturer']).trim()
-        .isAscii().withMessage('must be ASCII characters only'),
+        .isAscii().withMessage('must be at least one character (ASCII characters only)'),
     ], (req, res) => {
     const errors = validationResult(req);
 
     const data = {
         page_title: 'Add Platform',
-        errors: errors.array(), 
     };
 
     if (!errors.isEmpty()) {
+        errors.array().forEach(error => {
+            req.flash('danger', `${error.param} error: ${error.msg}`);
+        });
+
         res.render('game_platforms/new', data);
     } else {
+        // parameters for insert query
+        const newPlatform = [
+            req.body.name,
+            req.body.manufacturer,
+            req.body.release_date || null
+        ];
 
-            // parameters for insert query
-            const newPlatform = [
-                req.body.name,
-                req.body.manufacturer,
-                req.body.release_date || null
-            ];
+        connection.query(queries.insert_new_platform, newPlatform, (err, rows) => {
+            if (err) throw err;
+            req.flash('success', `Platform created: ${req.body.manufacturer} ${req.body.name}`);
 
-            connection.query(queries.insert_new_platform, newPlatform, (err, rows) => {
-                if (err) throw err;
-
-                res.redirect('/game_platforms/');
-            });
-        
+            res.redirect('/game_platforms/');
+        });
     }
 });
 

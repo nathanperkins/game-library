@@ -4,24 +4,25 @@
 <h2>Create a new title:</h2>
 </div>
 
+<form action='/game_titles/' method=POST>
 <div class="field">
 <label class="label">Name</label>
 <div class="control">
-    <input class="input" type="text" placeholder="e.g. Harvest Moon: Back to Nature">
+    <input class="input" type="text" name="name" placeholder="e.g. Harvest Moon: Back to Nature">
 </div>
 </div>
 
 <div class="field">
 <label class="label">Description</label>
 <div class="control">
-    <textarea class="textarea" placeholder="Optional"></textarea>
+    <textarea class="textarea" name="description" placeholder="Optional"></textarea>
 </div>
 </div>
 
 <div class="field">
 <label class="label">Genre</label>
 <div class="control">
-<div class="select">
+<div class="select" name="genre">
     <select>
     <option>Select genre</option>
     <option>RPG</option>
@@ -36,14 +37,14 @@
 <div class="field">
 <label class="label">Developer</label>
 <div class="control">
-    <input class="input" type="text" placeholder=" ">
+    <input class="input" type="text" name="developer" placeholder=" ">
 </div>
 </div>
 
 <div class="field">
 <label class="label">Producer</label>
 <div class="control">
-    <input class="input" type="text" placeholder=" ">
+    <input class="input" type="text" name="producer" placeholder=" ">
 </div>
 </div>
 
@@ -55,5 +56,5 @@
     <button class="button is-text">Cancel</button>
 </div>
 </div>
-
+</form>
 <%- include('../partials/footer'); %>

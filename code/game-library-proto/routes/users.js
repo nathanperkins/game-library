@@ -138,7 +138,7 @@ routes.post('/', [
 
     if (!errors.isEmpty()) {
         errors.array().forEach(error => {
-            req.flash('danger', `${error.param} error: ${error.msg}`)
+            req.flash('danger', `${error.param} error: ${error.msg}`);
         });
 
         res.render('users/new', data);
@@ -156,6 +156,8 @@ routes.post('/', [
 
             connection.query(queries.insert_new_user, newUser, (err, rows) => {
                 if (err) throw err;
+
+                req.flash('success', `User created: ${req.body.first_name} ${req.body.last_name}!`);
 
                 res.redirect('/users/');
             });

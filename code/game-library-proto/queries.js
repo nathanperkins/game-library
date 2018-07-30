@@ -74,6 +74,13 @@ VALUES
 (?, ?, ?)
 ;`
 
+const insert_new_title = `
+INSERT INTO game_titles
+(name, description, genre, developer, producer)
+VALUES
+(?, ?, ?, ?, ?)
+;`
+
 const get_all_users = `
 SELECT User.id, User.last_name, User.first_name, User.email, User.role
 FROM users AS User
@@ -126,6 +133,7 @@ module.exports = {
     get_all_game_titles,
     get_all_game_platforms,
     insert_new_platform,
+    insert_new_title,
     get_all_game_releases,
     get_all_game_copies,
     get_user_by_id,

@@ -1,5 +1,10 @@
 # Changelog
 
+## 2018-07-29
+- Add Query
+  - insert_new_platform
+  - insert_new_title
+
 ## 2018-07-28
 - Add Query
   - get_user_by_email (for login)
