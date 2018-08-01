@@ -1,51 +1,67 @@
 <%- include('../partials/header'); %>
 
-<div class="content">
-    <h2>Create a new game release:</h2>
+    <div class="content">
+        <h2>Create a new game release:</h2>
     </div>
 
-    <div class="field">
-    <label class="label">Title ID</label>
-    <div class="control">
-        <input class="input" type="text" placeholder="Zelda: Breath of the Wild">
-    </div>
-    </div>
+    <label class="label">Title:</label>
+    <%= game_title %>
 
-<div class="field">
-    <label class="label">Platform</label>
-    <div class="control">
-        <input class="input" type="text" placeholder="Nintendo Switch">
-    </div>
-    </div>
 
-    <div class="field">
-    <label class="label">Release Date</label>
-    <div class="control">
-        <input class="input" type="date">
-    </div>
-</div>
+        <form action='/game_releases/' method=POST>
+            <input type="hidden" name="game_id" value="<%= game_id %>">
+            <input type="hidden" name="game_title" value="<%= game_title %>">
+            <input type="hidden" id="platform_name" name="platform_name" value="<%= rows[0].name%>">
 
-    <div class="field">
-    <label class="label">Rating</label>
-    <div class="control">
-        <input type="number" min="0" max="5" step ="0.1" value="5">
-    </div>
-</div>
+            <label class="label">Platform</label>
+            <div class="control">
+                <div class="select">
+                    <select name="platform_id" id="platform_id" onchange="getName()">
+                        <% rows.forEach( row => { %>
+                            <option value="<%= row.id %>">
+                                <%= row.name %>
+                            </option>
+                            <% }); %>
+                    </select>
+                </div>
+            </div>
 
-    <div class="field">
-    <label class="label">Boxart URL</label>
-    <div class="control">
-        <input class="input" type="text" placeholder="Optional">
-    </div>
-    </div>
+            <div class="field">
+                <label class="label">Release Date</label>
+                <div class="control">
+                    <input class="input" name="release_date" type="date" required>
+                </div>
+            </div>
 
-    <div class="field is-grouped">
-    <div class="control">
-        <button class="button is-link">Submit</button>
-    </div>
-    <div class="control">
-        <button class="button is-text">Cancel</button>
-    </div>
-    </div>
+            <div class="field">
+                <label class="label">Rating</label>
+                <div class="control">
+                    <input type="number" min="0" max="5" step="0.1" value="5" name="rating">
+                </div>
+            </div>
 
-<%- include('../partials/footer'); %>
+            <div class="field">
+                <label class="label">Boxart URL</label>
+                <div class="control">
+                    <input class="input" type="text" name="boxart_url" placeholder="Optional">
+                </div>
+            </div>
+
+            <div class="field is-grouped">
+                <div class="control">
+                    <button class="button is-link">Submit</button>
+                </div>
+                <div class="control">
+                    <button class="button is-text">Cancel</button>
+                </div>
+            </div>
+        </form>
+
+        <script>
+            function getName() {
+                var x = platform_id.options[platform_id.selectedIndex].text;
+                document.getElementById("platform_name").value = x;
+            }
+        </script>
+
+        <%- include('../partials/footer'); %>

@@ -28,7 +28,8 @@ routes. get('/', (req, res) => {
             'Producer',
         ]
 
-        res.render('generic/table', context);
+        res.render('game_titles/index', context);
+
     });
 });
 

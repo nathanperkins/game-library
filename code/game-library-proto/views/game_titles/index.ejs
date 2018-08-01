@@ -1,0 +1,40 @@
+<%- include('../partials/header', { page_title: page_title }); %>
+
+<h1 class="title">
+   <%= page_title %>
+</h1>
+
+<a href="/<%= table_name %>/new %>" class="button is-success"><i class="fas fa-fw fa-plus"></i>New <%= pretty_name %></a>
+<br>
+
+<% if (rows) { %>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <thead>
+        <% fields.forEach( field => { %>
+            <th><%= field %></th>
+        <% }); %>
+        <th>Add</th>
+    </thead>
+    <tbody>
+        <% rows.forEach( row => { %>
+        <tr>
+            <% for (const prop in row) { %>
+            <td><%= row[prop] %></td>
+            <% } %>
+            <td>
+                <form action='/game_releases/new'>
+                    <input type="hidden" name="game_title" value="<%= row.name %>">
+                    <input type="hidden" name="game_id" value="<%= row.id %>">
+                    <button class="button is-success is-small"><i class="fas fa-fw fa-plus">
+                    </i>New Release</a>
+                </form>
+            </td>
+        </tr>
+        <% }); %>
+    </tbody>
+</table>
+<% } else { %>
+No rows!
+<% } %>
+
+<%- include ../partials/footer %>
