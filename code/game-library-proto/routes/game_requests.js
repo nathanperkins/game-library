@@ -22,7 +22,7 @@ routes.get('/new/', (req, res) => {
         search      : null,
     };
 
-    req.flash('success', `Added request for release_id: ${req.query.release_id}`);
+    req.flash('success', `${req.query.game_title} requested!`);
 
     connection.query(queries.get_all_game_releases_with_search, ['%', '%'], (err, rows, fields) => {
         if (err) throw err;
