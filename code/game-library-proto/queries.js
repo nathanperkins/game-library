@@ -89,6 +89,12 @@ VALUES
 (?, ?, ?, ?, ?)
 ;`
 
+const insert_new_copy = `
+INSERT INTO game_copies
+(status, release_id, library_tag, dt_procured)
+VALUES
+(?, ?, ?, ?)
+;`
 
 const get_all_users = `
 SELECT User.id, User.last_name, User.first_name, User.email, User.role
@@ -115,7 +121,7 @@ ORDER BY release_date DESC
 ;`
 
 const get_all_game_releases = `
-SELECT Title.name as title, Platform.name as platform, GRelease.release_date
+SELECT GRelease.id, Title.name as title, Platform.name as platform, GRelease.release_date
 FROM game_releases AS GRelease
 JOIN game_titles AS Title
 ON Title.id = GRelease.title_id
@@ -144,6 +150,7 @@ module.exports = {
     insert_new_platform,
     insert_new_release,
     insert_new_title,
+    insert_new_copy,
     get_all_game_releases,
     get_all_game_copies,
     get_user_by_id,

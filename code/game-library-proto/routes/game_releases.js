@@ -21,6 +21,7 @@ routes.get('/', (req, res) => {
 
         context.rows = rows;
         context.fields = [
+            'ID',
             'Title',
             'Platform',
             'Release Date',
@@ -30,7 +31,7 @@ routes.get('/', (req, res) => {
             if (row.release_date) row.release_date = row.release_date.toLocaleDateString('en-US')
         });
 
-        res.render('generic/table', context);
+        res.render('game_releases/index', context);
     });
 });
 
@@ -76,13 +77,12 @@ routes.post('/', [
 
     } else {
         const platform_name = req.body.platform_name;
-        const platform_id = req.body.platform_id;
         const game_title = req.body.game_title;
 
         // parameters for insert query
         const newRelease = [
-            data.game_id,
-            platform_id,
+            req.body.game_id,
+            req.body.platform_id,
             req.body.rating || null,
             req.body.boxart_url || null,
             req.body.release_date || null,
