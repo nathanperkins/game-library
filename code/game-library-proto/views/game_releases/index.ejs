@@ -4,7 +4,7 @@
    <%= page_title %>
 </h1>
 
-<a href="/<%= table_name %>/new %>" class="button is-success"><i class="fas fa-fw fa-plus"></i>New <%= pretty_name %></a>
+<a href="/game_titles/" class="button is-success"><i class="fas fa-fw fa-plus"></i>New <%= pretty_name %></a>
 <br>
 
 <% if (rows) { %>
@@ -24,8 +24,8 @@
             <td>
                 <form action='/game_copies/new'>
                     <input type="hidden" name="release_id" value="<%= row.id %>">
-                    <input type="hidden" name="release_title" value="<%= row.title %>">
-                    <input type="hidden" name="release_platform" value="<%= row.platform %>">
+                    <input type="hidden" name="game_title" value="<%= row.title %>">
+                    <input type="hidden" name="game_platform" value="<%= row.platform %>">
                     <button class="button is-success is-small"><i class="fas fa-fw fa-plus">
                     </i>New Copy</a>
                 </form>

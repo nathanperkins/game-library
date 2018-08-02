@@ -69,12 +69,16 @@ routes.post('/', [
         ];
 
         connection.query(queries.insert_new_platform, newPlatform, (err, rows) => {
-            if (err) throw err;
-            req.flash('success', `Platform created: ${req.body.manufacturer} ${req.body.name}`);
+            if (err)
+                req.flash('danger', `The ${req.body.name} is already in the library.`);
+
+            else
+                req.flash('success', `Platform created: ${req.body.manufacturer} ${req.body.name}`);
 
             res.redirect('/game_platforms/');
+            
         });
     }
 });
 
-module.exports = routes;
+module.exports = routes; 

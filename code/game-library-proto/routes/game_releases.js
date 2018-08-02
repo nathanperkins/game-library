@@ -58,6 +58,7 @@ routes.post('/', [
     body('boxart_url').trim().optional()
         .isURL().withMessage('must be a valid URL only'),
 ], (req, res) => {
+
     const errors = validationResult(req);
 
     const data = {
@@ -89,11 +90,14 @@ routes.post('/', [
         ]
 
         connection.query(queries.insert_new_release, newRelease, (err) => {
-            if (err) throw err;
-
-            req.flash('success', `Release created: ${game_title} on ${platform_name}!`);
+            if (err)
+                req.flash('danger', `${game_title} on ${platform_name} is already in the library.`);
+    
+            else
+                req.flash('success', `Release created: ${game_title} on ${platform_name}!`);
 
             res.redirect('/game_releases/');
+            
         });
     }
 });

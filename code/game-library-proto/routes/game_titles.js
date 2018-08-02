@@ -69,9 +69,11 @@ routes.post('/', [
         ];
 
         connection.query(queries.insert_new_title, newTitle, (err, rows) => {
-            if (err) throw err;
+            if (err)
+                req.flash('danger', `${req.body.name} is already in the library.`);
 
-            req.flash('success', `Title created: ${req.body.name}!`);
+            else
+                req.flash('success', `Title created: ${req.body.name}!`);
 
             res.redirect('/game_titles/');
         });

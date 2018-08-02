@@ -12,8 +12,8 @@ const { body, validationResult } = require('express-validator/check');
 routes.get('/new', (req, res) => {
     const data = {
         page_title: 'New Game Copy',
-        game_title: req.query.release_title,
-        game_platform: req.query.release_platform,
+        game_title: req.query.game_title,
+        game_platform: req.query.game_platform,
         release_id: req.query.release_id
     };
 
@@ -48,10 +48,10 @@ routes.post('/', [
 ], (req, res) => {
     const errors = validationResult(req);
 
-    const query = {
+    const data = {
         page_title: 'New Game Copy',
-        game_title: req.body.release_title,
-        game_platform: req.body.release_platform,
+        game_title: req.body.game_title,
+        game_platform: req.body.game_platform,
         release_id: req.body.release_id
     };
 
@@ -78,14 +78,18 @@ routes.post('/', [
             req.body.dt_procured
         ]
 
-        console.log(req.body.status);
-
         connection.query(queries.insert_new_copy, newCopy, (err) => {
-            if (err) throw err;
+            if (err) {
+                req.flash('danger', `Oops! That's already in the library. Choose a new tag.`);
+                const query = querystring.stringify(data);
+                res.redirect('/game_copies/new?' + query);  
+            } 
 
+            else{
             req.flash('success', `Copy created: Tag #${library_tag}: ${game_title} on ${game_platform}!`);
 
             res.redirect('/game_copies/');
+            }
         });
     }
 });
