@@ -1,17 +1,11 @@
 const config = require('config');
 const mysql = require('mysql');
 const db_config = config.get('db');
-const connection = mysql.createConnection(db_config);
-const pool   = mysql.createPool(config.get('db'));
+const pool   = mysql.createPool(db_config);
 const execSQL = require('exec-sql');
 
-// keep db connection alive by making a query every 10 seconds
-// https://stackoverflow.com/a/28215691/8092467
-setInterval(function () {
-    connection.query('SELECT 1');
-}, 10000);
-
-connection.createTables = function(callback) {
+// create or reset tables using create_tables.sql
+pool.createTables = function(callback) {
     execSQL.connect(db_config);
     execSQL.executeFile(__dirname + '/sql/create_tables.sql', (err) => {
         execSQL.disconnect();
@@ -19,7 +13,8 @@ connection.createTables = function(callback) {
     });
 }
 
-connection.insertDummyData = function(callback) {
+// insert the dummy data from insert_dummy_data.sql
+pool.insertDummyData = function(callback) {
     execSQL.connect(db_config);
     execSQL.executeFile(__dirname + '/sql/insert_dummy_data.sql', (err) => {
         execSQL.disconnect();
@@ -27,4 +22,4 @@ connection.insertDummyData = function(callback) {
     });
 }
 
-module.exports = connection;
+module.exports = pool;

@@ -54,8 +54,6 @@ routes.get('/login/', (req, res) => {
 
 // login user
 routes.post("/login", (req, res) => {
-    console.log(req.body);
-    
     const email     = req.body.email;
     const password  = req.body.password;
 
