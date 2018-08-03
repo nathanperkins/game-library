@@ -1,3 +1,13 @@
+const fs = require('fs');
+
+if (!fs.existsSync("config/default.json")) {
+    console.log("Error: config/config.json has not been configured.\n",
+                "Please copy default.json.template to default.json\n",
+                "and modify as necessary.\n");
+
+    process.exit(1);
+}
+
 const express = require('express');
 const app = express();
 
@@ -5,14 +15,9 @@ const app = express();
 // from https://medium.com/@holtkam2/add-user-authentication-to-your-node-expressjs-application-using-bcrypt-81bb0f618ab3
 const bcrypt = require('bcrypt');
 
-// check for config.js
-// from https://stackoverflow.com/questions/4482686/check-synchronously-if-file-directory-exists-in-node-js/4482701
-const fs = require('fs');
-if (!fs.existsSync('./config.js')) {
-    throw('./config.js does not exist. Please prepare from config.js.template.');
-}
+const config = require('config');
+app.set(config.get('app'));
 
-const config = require('./config');
 const routes = require('./routes/root');
 
 // using the ejs template engine
@@ -21,7 +26,7 @@ app.set('view engine', 'ejs');
 // use express-sessions
 const session = require('express-session');
 app.use(session({
-    secret: config.session.password,
+    secret: config.get('session.password'),
     resave: false,
     saveUninitialized: false,
 }));
@@ -54,3 +59,5 @@ app.use('/', routes);
 
 // start server using port from config
 app.listen(config.app.port, config.app.address, () => console.log(`${config.app.name} started at http://${config.app.address}:${config.app.port}/`));
+
+module.exports = app;

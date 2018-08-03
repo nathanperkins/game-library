@@ -1,0 +1,13 @@
+{
+  "app": {
+    "port"      : 9999
+  },
+
+  "session": {
+    "password"  : "TestSessionPassword"
+  },
+
+  "db": {
+    "database"  : "game_library_test"
+  }
+}

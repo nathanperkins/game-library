@@ -14,12 +14,12 @@
 <!-- <div class="tabs"><ul></ul></div> -->
 <hr class="hr">
 
-<% if (rows) { %>
+<% if (rows.length > 0) { %>
     <% rows.forEach( row => { %>
         <%- include('../partials/game_card', { game: row }); %>
     <% }); %>
 <% } else { %>
-No Games!
+<h2>No games!</h2>
 <% } %>
 
 <%- include('../partials/footer'); %>
