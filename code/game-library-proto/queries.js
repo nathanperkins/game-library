@@ -91,9 +91,9 @@ VALUES
 
 const insert_new_copy = `
 INSERT INTO game_copies
-(status, release_id, library_tag, dt_procured)
+(release_id, library_tag, dt_procured)
 VALUES
-(?, ?, ?, ?)
+(?, ?, ?)
 ;`
 
 const get_all_users = `

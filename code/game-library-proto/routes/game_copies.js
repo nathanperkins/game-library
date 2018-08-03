@@ -72,7 +72,6 @@ routes.post('/', [
 
         // parameters for insert query
         const newCopy = [
-            req.body.status,
             req.body.release_id,
             library_tag,
             req.body.dt_procured
@@ -80,7 +79,7 @@ routes.post('/', [
 
         connection.query(queries.insert_new_copy, newCopy, (err) => {
             if (err) {
-                req.flash('danger', `Oops! That's already in the library. Choose a new tag.`);
+                req.flash('danger', `Oops! That's already in the library. Please choose a new tag.`);
                 const query = querystring.stringify(data);
                 res.redirect('/game_copies/new?' + query);  
             } 
