@@ -1,6 +1,6 @@
-const routes = require('express').Router();
-const queries = require('../queries');
-const connection = require('../db');
+const routes       = require('express').Router();
+
+const GamePlatform = require('../models/game_platforms');
 
 // express-validator used to validate and clean form data
 // from https://express-validator.github.io/docs/
@@ -16,19 +16,19 @@ routes. get('/', (req, res) => {
         pretty_name : "Game Platform",
     }
 
-    connection.query(queries.get_all_game_platforms, (err, rows, fields) => {
+    GamePlatform.getAll({}, (err, rows, fields) => {
         if (err) throw err;
 
         context.rows   = rows;
         context.fields = [
-            'ID',
-            'Name',
-            'Manufacturer',
-            'Release Date',
+            {name: 'id',           pretty: 'ID'},
+            {name: 'name',         pretty: 'Name'},
+            {name: 'manufacturer', pretty: 'Manufacturer'},
+            {name: 'release_date', pretty: 'Release Date'},
         ]
 
         rows.forEach( row => {
-            if (row.release_date) row.release_date = row.release_date.toLocaleDateString('en-US') 
+            if (row.release_date) row.release_date = row.release_date.toLocaleDateString('en-US');
         });
 
         res.render('generic/table', context);
@@ -62,21 +62,20 @@ routes.post('/', [
         res.render('game_platforms/new', data);
     } else {
         // parameters for insert query
-        const newPlatform = [
-            req.body.name,
-            req.body.manufacturer,
-            req.body.release_date || null
-        ];
+        const newPlatform = {
+            name         : req.body.name,
+            manufacturer : req.body.manufacturer,
+            release_date : req.body.release_date || null
+        };
 
-        connection.query(queries.insert_new_platform, newPlatform, (err, rows) => {
+        GamePlatform.create(newPlatform, (err, platform) => {
             if (err)
-                req.flash('danger', `The ${req.body.name} is already in the library.`);
+                req.flash('danger', `The ${newPlatform.name} is already in the library.`);
 
             else
-                req.flash('success', `Platform created: ${req.body.manufacturer} ${req.body.name}`);
+                req.flash('success', `Platform created: ${platform.manufacturer} ${platform.name}`);
 
             res.redirect('/game_platforms/');
-            
         });
     }
 });

@@ -18,7 +18,7 @@ routes. get('/', (req, res) => {
     const context = {
         page_title  : "Users Index",
         table_name  : "users",
-        pretty_name : "Users",
+        pretty_name : "User",
     }
 
     User.getAll( {}, (err, rows, fields) => {
@@ -26,11 +26,11 @@ routes. get('/', (req, res) => {
 
         context.rows   = rows;
         context.fields = [
-            'ID',
-            'Last Name',
-            'First Name',
-            'Email',
-            'Role',
+            {name: 'id',         pretty: 'ID'},
+            {name: 'last_name',  pretty: 'Last Name'},
+            {name: 'first_name', pretty: 'First Name'},
+            {name: 'email',      pretty: 'Email'},
+            {name: 'role',       pretty: 'Role'},
         ]
 
         res.render('generic/table', context);

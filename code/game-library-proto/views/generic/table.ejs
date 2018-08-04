@@ -11,21 +11,21 @@
 <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
     <thead>
         <% fields.forEach( field => { %>
-            <th><%= field %></th>
+            <th><%= field.pretty %></th>
         <% }); %>
     </thead>
     <tbody>
         <% rows.forEach( row => { %>
         <tr>
-            <% for (const prop in row) { %>
-            <td><%= row[prop] %></td>
-            <% } %>
+            <% fields.forEach( field => { %>
+            <td><%= row[field.name] %></td>
+            <% }); %>
         </tr>
         <% }); %>
     </tbody>
 </table>
 <% } else { %>
-<h2>No <%= pretty_name %></h2>!
+<h2>No <%= pretty_name %>s</h2>!
 <% } %>
 
 <%- include ../partials/footer %>

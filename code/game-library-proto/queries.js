@@ -54,14 +54,6 @@ VALUES
 (?, ?)
 ;`
 
-const insert_new_platform = `
-INSERT INTO game_platforms
-(name, manufacturer, release_date)
-VALUES
-(?, ?, ?)
-;`
-
-
 const insert_new_release = `
 INSERT INTO game_releases
 (title_id, platform_id, rating, boxart_url, release_date)
@@ -74,12 +66,6 @@ INSERT INTO game_copies
 (release_id, library_tag, dt_procured)
 VALUES
 (?, ?, ?)
-;`
-
-const get_all_game_platforms = `
-SELECT Platform.id, Platform.name, Platform.manufacturer, Platform.release_date
-FROM game_platforms AS Platform
-ORDER BY release_date DESC
 ;`
 
 const get_all_game_releases = `
@@ -105,8 +91,6 @@ ORDER BY library_tag ASC
 ;`
 
 module.exports = {
-    get_all_game_platforms,
-    insert_new_platform,
     insert_new_release,
     insert_new_copy,
     insert_new_request,
