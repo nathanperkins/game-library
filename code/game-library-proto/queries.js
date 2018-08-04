@@ -61,13 +61,6 @@ VALUES
 (?, ?, ?, ?, ?)
 ;` 
 
-const insert_new_copy = `
-INSERT INTO game_copies
-(release_id, library_tag, dt_procured)
-VALUES
-(?, ?, ?)
-;`
-
 const get_all_game_releases = `
 SELECT GRelease.id, Title.name as title, Platform.name as platform, GRelease.release_date
 FROM game_releases AS GRelease
@@ -78,24 +71,10 @@ ON Platform.id = GRelease.platform_id
 ORDER BY release_date DESC
 ;`
 
-const get_all_game_copies = `
-SELECT Title.name AS title, Platform.name AS platform, Copy.library_tag
-FROM game_copies AS Copy
-JOIN game_releases AS GRelease
-ON GRelease.id = Copy.release_id
-JOIN game_platforms AS Platform
-ON Platform.id = GRelease.platform_id
-JOIN game_titles AS Title
-ON Title.id = GRelease.title_id
-ORDER BY library_tag ASC
-;`
-
 module.exports = {
     insert_new_release,
-    insert_new_copy,
     insert_new_request,
     get_all_game_releases,
-    get_all_game_copies,
     get_all_game_releases_with_search,
     get_game_requests_by_status,
     get_game_requests_by_user,

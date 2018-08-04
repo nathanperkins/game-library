@@ -58,7 +58,7 @@ GamePlatform.create = (obj, callback) => {
         (name, manufacturer, release_date)
         VALUES
         (:name, :manufacturer, :release_date)
-        ;`
+        ;`;
 
     const compiledQuery = compileSql(sql, obj);
 

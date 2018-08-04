@@ -5,9 +5,10 @@
     <%= game_title %> for <%= game_platform %>
 </h3>
 </div>
-  <form action="<%= endpoint %>" method=POST>
+  <form action="<%= endpoint %>" method="<%= method %>">
     
     <input type="hidden" name="release_id" value="<%= release_id %>">
+    <input type="hidden" name="copy_id" value="<%= copy_id %>">
     <input type="hidden" name="game_title" value="<%= game_title %>">
     <input type="hidden" name="game_platform" value="<%= game_platform %>">
     <input type="hidden" name="redirect" value="<%= redirect %>">
@@ -15,14 +16,14 @@
     <div class="field">
       <label class="label">Libary Tag</label>
       <div class="control">
-        <input class="input" type="text" name="library_tag" placeholder="e.g. 123456" required>
+        <input class="input" type="text" name="library_tag" placeholder="e.g. 123456" value="<%= library_tag %>"   required>
       </div>
     </div>
 
     <div class="field">
       <label class="label">Date Procured</label>
       <div class="control">
-        <input class="input" type="date" name="dt_procured" required>
+        <input class="input" type="date" name="dt_procured" value="<%= dt_procured %>" required>
       </div>
     </div>
 
