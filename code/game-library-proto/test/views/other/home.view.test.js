@@ -9,7 +9,7 @@ const db       = require(__basedir + '/db');
 
 chai.use(chaiHttp);
 
-describe('Page - Home', () => {
+describe('View - Home', () => {
 
     beforeEach('reset database', done => {
         db.createTables( err => {

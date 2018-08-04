@@ -68,10 +68,12 @@ routes.post('/', [
         };
 
         GameTitle.create(newTitle, (err, title) => {
-            if (err)
+            if (err) {
                 req.flash('danger', err['msg'] || err['sqlMessage']);
-            else
+            }
+            else {
                 req.flash('success', `Title created: ${title.name}!`);
+            }
 
             res.redirect('/game_titles/');
         });

@@ -9,7 +9,7 @@ const db       = require(__basedir + '/db');
 
 chai.use(chaiHttp);
 
-describe('Page - Users index', () => {
+describe('View - Users index', () => {
 
     describe('GET /users/ without user', () => {
 

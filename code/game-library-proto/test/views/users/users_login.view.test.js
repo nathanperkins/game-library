@@ -8,7 +8,7 @@ const app      = require('../../../app');
 
 chai.use(chaiHttp);
 
-describe('Page - Login', () => {
+describe('View - Login', () => {
     describe('GET /users/login/', () => {
         
         it('it should respond with 200', done => {

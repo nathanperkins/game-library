@@ -74,7 +74,7 @@ routes.post('/', [
     // validations from express-validator
     body('boxart_url').trim().optional()
         .isURL().withMessage('must be a valid URL only'),
-], (req, res) => {
+    ], (req, res) => {
 
     const errors = validationResult(req);
 
@@ -98,19 +98,24 @@ routes.post('/', [
         const newRelease = {
             title_id     : req.body.title_id,
             platform_id  : req.body.platform_id,
-            rating       : req.body.rating       || null,
-            boxart_url   : req.body.boxart_url   || null,
-            release_date : req.body.release_date || null,
+            rating       : req.body.rating,
+            boxart_url   : req.body.boxart_url,
+            release_date : req.body.release_date,
         }
 
-        GameRelease.create(newRelease, (err) => {
+        GameRelease.create(newRelease, (err, release) => {
+            if (err && err.errno === 1062) {
+                req.flash('danger', `Game Release creation failed: it is a duplicate title, platform combination.`);
+                res.redirect(`/game_releases/new/?title_id=${newRelease.title_id}`);
+                return;
+            }
             if (err) {
-                req.flash('danger', `Game Release for title ${req.body.title_id}, platform ${req.body.platform_id} is already in the library.`);
-                res.redirect('/game_titles/');
+                req.flash('danger', `Game Release creation failed: ${err.msg || err.sqlMessage}`);
+                res.redirect(`/game_titles/`);
                 return;
             }
 
-            req.flash('success', `Release created: for title ${req.body.title_id}, platform ${req.body.platform_id}!`);
+            req.flash('success', `Release created: ${release.title} for ${release.platform}!`);
             res.redirect('/game_releases/');
             
         });

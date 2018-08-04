@@ -69,11 +69,12 @@ routes.post('/', [
         };
 
         GamePlatform.create(newPlatform, (err, platform) => {
-            if (err)
+            if (err) {
                 req.flash('danger', `The ${newPlatform.name} is already in the library.`);
-
-            else
+            }
+            else {
                 req.flash('success', `Platform created: ${platform.manufacturer} ${platform.name}`);
+            }
 
             res.redirect('/game_platforms/');
         });

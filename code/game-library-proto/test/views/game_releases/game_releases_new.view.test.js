@@ -9,7 +9,7 @@ const db       = require(__basedir + '/db');
 
 chai.use(chaiHttp);
 
-describe('Page - Create Game Release', () => {
+describe('View - Create Game Release', () => {
 
     before('reset db and add releases', done => {
         db.createTables( err => {

@@ -8,7 +8,7 @@ const app      = require('../../../app');
 
 chai.use(chaiHttp);
 
-describe('Page - Create Game Platform', () => {
+describe('View - Create Game Platform', () => {
     describe('GET /game_platforms/new/', () => {
         
         it('it should respond with 200', done => {

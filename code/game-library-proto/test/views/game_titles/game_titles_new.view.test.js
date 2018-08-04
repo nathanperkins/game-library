@@ -8,7 +8,7 @@ const app      = require('../../../app');
 
 chai.use(chaiHttp);
 
-describe('Page - Create Game Title', () => {
+describe('View - Create Game Title', () => {
     describe('GET /game_titles/new/', () => {
         
         it('it should respond with 200', done => {

@@ -18,7 +18,9 @@ global.__basedir = __dirname;
 const bcrypt = require('bcrypt');
 
 const config = require('config');
-app.set(config.get('app'));
+app.set('port', config.app.port);
+app.set('address', config.app.address);
+app.set('base_url', `http://${app.get('address')}:${app.get('port')}`)
 
 const routes = require('./routes/root');
 
@@ -60,6 +62,6 @@ app.use(express.static('public'));
 app.use('/', routes);
 
 // start server using port from config
-app.listen(config.app.port, config.app.address, () => console.log(`${config.app.name} started at http://${config.app.address}:${config.app.port}/`));
+app.listen(app.get('port'), app.get('address'), () => console.log(`${config.app.name} started at ${app.get('base_url')}/`));
 
 module.exports = app;

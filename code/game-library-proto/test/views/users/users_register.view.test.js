@@ -8,7 +8,7 @@ const app      = require('../../../app');
 
 chai.use(chaiHttp);
 
-describe('Page - Register', () => {
+describe('View - Register', () => {
     describe('GET /users/new/', () => {
         
         it('it should respond with 200', done => {

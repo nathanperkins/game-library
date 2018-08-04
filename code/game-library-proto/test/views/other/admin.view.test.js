@@ -8,7 +8,7 @@ const app      = require('../../../app');
 
 chai.use(chaiHttp);
 
-describe('Page - Admin', () => {
+describe('View - Admin', () => {
     describe('GET /admin/', () => {
         
         it('it should respond with 200', done => {

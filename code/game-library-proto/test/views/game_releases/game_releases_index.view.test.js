@@ -9,7 +9,7 @@ const db       = require(__basedir + '/db');
 
 chai.use(chaiHttp);
 
-describe('Page - Game Release Index', () => {
+describe('View - Game Release Index', () => {
 
     describe('GET /game_releases/ without release', () => {
 
