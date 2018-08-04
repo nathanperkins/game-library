@@ -7,7 +7,7 @@ const should   = chai.should();
 
 chai.use(chaiHttp);
 
-describe('Login', () => {
+describe('Page - Login', () => {
     describe('GET /users/login/', () => {
         
         it('it should respond with 200', done => {

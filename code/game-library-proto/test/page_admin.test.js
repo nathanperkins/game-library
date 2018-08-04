@@ -7,7 +7,7 @@ const should   = chai.should();
 
 chai.use(chaiHttp);
 
-describe('Admin', () => {
+describe('Page - Admin', () => {
     describe('GET /admin/', () => {
         
         it('it should respond with 200', done => {

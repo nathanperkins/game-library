@@ -1,5 +1,6 @@
-const routes = require('express').Router();
-const queries = require('../queries');
+const routes     = require('express').Router();
+const queries    = require('../queries');
+const User       = require('../models/users');
 const connection = require('../db');
 
 // express-validator used to validate and clean form data
@@ -20,7 +21,7 @@ routes. get('/', (req, res) => {
         pretty_name : "Users",
     }
 
-    connection.query(queries.get_all_users, (err, rows, fields) => {
+    User.all( {}, (err, rows, fields) => {
         if (err) throw err;
 
         context.rows   = rows;
@@ -57,11 +58,8 @@ routes.post("/login", (req, res) => {
     const email     = req.body.email;
     const password  = req.body.password;
 
-    connection.query(queries.get_user_by_email, [email], (err, rows, fields) => {
-        const user = rows[0];
-
+    User.get({email: email}, (err, user) => {
         if (user) {
-            delete user.password;
             req.session.user = user;
             req.session.name = `${user.first_name} ${user.last_name}`;
             res.redirect('/');
@@ -83,17 +81,17 @@ routes.get('/profile/', (req, res) => {
         page_title: 'User Profile',
     };
 
-    const user = req.session.user;
-
-    if (!user) {
+    if ( !req.session.user ) {
         res.redirect('/users/login');
+        return;
     }
+
     const user_id = req.session.user.id;
 
-    connection.query(queries.get_user_by_id, [user_id], (err, rows, fields) => {
+    User.get({id: user_id}, (err, user, fields) => {
         if (err) throw err;
 
-        data.user = rows[0];
+        data.user = user;
         
         connection.query(queries.get_game_requests_by_user, [user_id], (err, rows, fields) => {
             if (err) throw err;
@@ -140,27 +138,27 @@ routes.post('/', [
         });
 
         res.render('users/new', data);
-    } else {
-        // create a hash from the password
-        bcrypt.hash(req.body.password, 10, (err, hash) => {
-
-            // parameters for insert query
-            const newUser = [
-                req.body.first_name,
-                req.body.last_name,
-                req.body.email,
-                hash,
-            ]
-
-            connection.query(queries.insert_new_user, newUser, (err, rows) => {
-                if (err) throw err;
-
-                req.flash('success', `User created: ${req.body.first_name} ${req.body.last_name}!`);
-
-                res.redirect('/users/');
-            });
-        });
+        return;
     }
+
+    User.create({
+        first_name : req.body.first_name,
+        last_name  : req.body.last_name,
+        email      : req.body.email,
+        password   : req.body.password,
+        role       : "user",
+    }, (err, user) => {
+        if (err) {
+            console.log(err);
+            req.flash('danger', err['msg'] || err['sqlMessage']);
+            res.redirect('/users/new/');
+            return;
+        }
+
+        req.flash('success', `User created: ${user.first_name} ${user.last_name}!`);
+
+        res.redirect('/users/');
+    });
 });
 
 module.exports = routes;

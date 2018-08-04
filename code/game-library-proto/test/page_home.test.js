@@ -8,7 +8,7 @@ const should   = chai.should();
 
 chai.use(chaiHttp);
 
-describe('Home', () => {
+describe('Page - Home', () => {
 
     beforeEach('reset database', done => {
         db.createTables( err => {

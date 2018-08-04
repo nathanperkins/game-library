@@ -8,84 +8,87 @@ const should   = chai.should();
 
 chai.use(chaiHttp);
 
-describe('Library without data', () => {
+describe('Page - Library', () => {
 
-    before('reset database', done => {
-        db.createTables( err => {
-            if (err) throw err;
-            done();
-        });
-    });
+    describe('Library without data', () => {
 
-    describe('GET /library/', () => {
-
-        it('it should respond with 200', done => {
-            chai.request(app)
-                .get('/library/')
-                .end( (err, res) => {
-                    res.should.have.status(200);
-                    done();
-                }
-            );
-        });
-
-        it('it should have a search form', done => {
-            chai.request(app)
-                .get('/library')
-                .end( (err, res) => {
-                    res.text.should.match(/<form action="\/library\/"/);
-                    res.text.should.match(/Search/);
-                    done();
-                });
-        });
-
-        it('it should not have a table', done => {
-            chai.request(app)
-                .get('/library')
-                .end( (err, res) => {
-                    res.text.should.not.match(/<article class="media">/);
-                    res.text.should.match(/No games/);
-                    done();
-                });
-        });
-        
-    });
-});
-
-describe('Library with data', () => {
-    before('reset database and insert dummy data', done => {
-        db.createTables( err => {
-            if (err) throw err;
-            db.insertDummyData( err => {
+        before('reset database', done => {
+            db.createTables( err => {
                 if (err) throw err;
                 done();
             });
         });
+
+        describe('GET /library/', () => {
+
+            it('it should respond with 200', done => {
+                chai.request(app)
+                    .get('/library/')
+                    .end( (err, res) => {
+                        res.should.have.status(200);
+                        done();
+                    }
+                );
+            });
+
+            it('it should have a search form', done => {
+                chai.request(app)
+                    .get('/library')
+                    .end( (err, res) => {
+                        res.text.should.match(/<form action="\/library\/"/);
+                        res.text.should.match(/Search/);
+                        done();
+                    });
+            });
+
+            it('it should not have a table', done => {
+                chai.request(app)
+                    .get('/library')
+                    .end( (err, res) => {
+                        res.text.should.not.match(/<article class="media">/);
+                        res.text.should.match(/No games/);
+                        done();
+                    });
+            });
+            
+        });
     });
 
-    describe('GET /library/', () => {
-
-        it('it should respond with 200', done => {
-            chai.request(app)
-                .get('/library/')
-                .end( (err, res) => {
-                    res.should.have.status(200);
+    describe('Library with data', () => {
+        before('reset database and insert dummy data', done => {
+            db.createTables( err => {
+                if (err) throw err;
+                db.insertDummyData( err => {
+                    if (err) throw err;
                     done();
                 });
+            });
         });
 
-        it('it should have a table', done => {
-            chai.request(app)
-                .get('/library')
-                .end( (err, res) => {
-                    res.text.should.match(/<article class="media">/);
-                    res.text.should.match(/The Legend of Zelda: Breath of the Wild/);
-                    res.text.should.match(/Forget everything you know/);
-                    res.text.should.match(/Wii U/);
-                    res.text.should.not.match(/No games/);
-                    done();
-                });
-        });
+        describe('GET /library/', () => {
 
+            it('it should respond with 200', done => {
+                chai.request(app)
+                    .get('/library/')
+                    .end( (err, res) => {
+                        res.should.have.status(200);
+                        done();
+                    });
+            });
+
+            it('it should have a table', done => {
+                chai.request(app)
+                    .get('/library')
+                    .end( (err, res) => {
+                        res.text.should.match(/<article class="media">/);
+                        res.text.should.match(/The Legend of Zelda: Breath of the Wild/);
+                        res.text.should.match(/Forget everything you know/);
+                        res.text.should.match(/Wii U/);
+                        res.text.should.not.match(/No games/);
+                        done();
+                    });
+            });
+
+        });
     });
 });

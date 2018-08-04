@@ -7,7 +7,7 @@
 <a href="/<%= table_name %>/new %>" class="button is-success"><i class="fas fa-fw fa-plus"></i>New <%= pretty_name %></a>
 <br>
 
-<% if (rows) { %>
+<% if (rows.length > 0) { %>
 <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
     <thead>
         <% fields.forEach( field => { %>
@@ -25,7 +25,7 @@
     </tbody>
 </table>
 <% } else { %>
-No rows!
+<h2>No <%= pretty_name %></h2>!
 <% } %>
 
 <%- include ../partials/footer %>

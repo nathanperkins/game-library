@@ -10,17 +10,19 @@
     "config": "^2.0.1",
     "connect-flash": "^0.1.1",
     "ejs": "^2.6.1",
+    "exec-sql": "^2.0.2",
     "express": "^4.16.3",
     "express-messages": "^1.0.1",
     "express-session": "^1.15.6",
     "express-validator": "^5.2.0",
     "forever": "^0.15.3",
     "mysql": "^2.16.0",
-    "exec-sql": "^2.0.2"
+    "named-placeholders": "^1.1.1"
   },
   "devDependencies": {
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
+    "faker": "^4.1.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.18.3"
   },

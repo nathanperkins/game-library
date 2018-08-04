@@ -7,7 +7,7 @@ const should   = chai.should();
 
 chai.use(chaiHttp);
 
-describe('Register', () => {
+describe('Page - Register', () => {
     describe('GET /users/new/', () => {
         
         it('it should respond with 200', done => {

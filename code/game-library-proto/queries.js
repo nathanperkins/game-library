@@ -47,19 +47,6 @@ WHERE Request.user_id = ?
 ORDER BY Request.status
 ;`
 
-const get_user_by_id = `
-SELECT User.last_name, User.first_name, User.email, User.role
-FROM users AS User
-WHERE User.id = ?
-;`
-
-const insert_new_user = `
-INSERT INTO users
-(first_name, last_name, email, password)
-VALUES
-(?,?,?,?)
-;`
-
 const insert_new_request = `
 INSERT INTO game_requests
 (user_id, release_id)
@@ -94,18 +81,6 @@ INSERT INTO game_copies
 (release_id, library_tag, dt_procured)
 VALUES
 (?, ?, ?)
-;`
-
-const get_all_users = `
-SELECT User.id, User.last_name, User.first_name, User.email, User.role
-FROM users AS User
-ORDER BY User.last_name, User.first_name DESC
-;`
-
-const get_user_by_email = `
-SELECT User.id, User.last_name, User.first_name, User.email, User.password, User.role
-FROM users AS User
-WHERE User.email = ?
 ;`
 
 const get_all_game_titles = `
@@ -144,7 +119,6 @@ ORDER BY library_tag ASC
 
 
 module.exports = {
-    get_all_users,
     get_all_game_titles,
     get_all_game_platforms,
     insert_new_platform,
@@ -153,9 +127,6 @@ module.exports = {
     insert_new_copy,
     get_all_game_releases,
     get_all_game_copies,
-    get_user_by_id,
-    get_user_by_email,
-    insert_new_user,
     get_all_game_releases_with_search,
     get_game_requests_by_status,
     get_game_requests_by_user,
