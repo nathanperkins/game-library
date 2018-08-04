@@ -20,29 +20,29 @@ GamePlatform.getAll = (obj, callback) => {
 
 // returns one game_platform by id    if object = {id} 
 GamePlatform.get = (obj, callback) => {
-    if ( obj.hasOwnProperty('id') ) {
-        const sql = `
-        SELECT Platform.id, Platform.name, Platform.manufacturer, Platform.release_date, Platform.dt_created, Platform.dt_updated
-        FROM game_platforms AS Platform
-        WHERE Platform.id = :id
-        ;`;
-
-        const compiledQuery = compileSql(sql, {id: obj.id});
-        connection.query(compiledQuery[0], compiledQuery[1], (err, rows, fields) => {
-            if (rows.length > 1) {
-                callback(new Error('GamePlatform.get() error: returned more than one row'));
-            }
-            else if (rows.length == 0) {
-                callback(new Error('GamePlatform.get() error: did not find GamePlatform with id: ${obj.id}'));
-            }
-            else {
-                callback(err, rows[0], fields);
-            }
-        });
-    }
-    else {
+    if (!obj.hasOwnProperty('id')) {
         callback(new Error('GamePlatform.get() error: need to provide {id}'));
+        return;
     }
+    
+    const sql = `
+    SELECT Platform.id, Platform.name, Platform.manufacturer, Platform.release_date, Platform.dt_created, Platform.dt_updated
+    FROM game_platforms AS Platform
+    WHERE Platform.id = :id
+    ;`;
+
+    const compiledQuery = compileSql(sql, {id: obj.id});
+    connection.query(compiledQuery[0], compiledQuery[1], (err, rows, fields) => {
+        if (rows.length > 1) {
+            callback(new Error('GamePlatform.get() error: returned more than one row'));
+        }
+        else if (rows.length == 0) {
+            callback(new Error('GamePlatform.get() error: did not find GamePlatform with id: ${obj.id}'));
+        }
+        else {
+            callback(err, rows[0], fields);
+        }
+    });
 };
 
 // create a game_platform from an object
@@ -77,27 +77,26 @@ GamePlatform.create = (obj, callback) => {
 // destroys a game_platform by id
 // returns the sql result
 GamePlatform.destroy = (obj, callback) => {
-
-    if ( obj.hasOwnProperty('id') ) {
-        const sql = `
-            DELETE FROM game_platforms
-            WHERE game_platforms.id = :id
-            ;`;
-
-        const compiledQuery = compileSql(sql, {id: obj.id});
-        connection.query(compiledQuery[0], compiledQuery[1], (err, result) => {
-            
-            if (result.affectedRows === 0) {
-                callback(new Error(`GamePlatform.destroy() error: platform with id: ${obj.id} not found.`));
-                return;
-            }
-
-            callback(err, result);
-        });
+    if (!obj.hasOwnProperty('id')) {
+        callback(new Error('No id given for GamePlatform.destroy()'));
+        return;
     }
-    else {
-        callback(new Error('No id given for GamePlatform.get()'));
-    }
+
+    const sql = `
+        DELETE FROM game_platforms
+        WHERE game_platforms.id = :id
+        ;`;
+
+    const compiledQuery = compileSql(sql, {id: obj.id});
+    connection.query(compiledQuery[0], compiledQuery[1], (err, result) => {
+        
+        if (result.affectedRows === 0) {
+            callback(new Error(`GamePlatform.destroy() error: platform with id: ${obj.id} not found.`));
+            return;
+        }
+
+        callback(err, result);
+    });
 };
 
 // update a game_platform by id

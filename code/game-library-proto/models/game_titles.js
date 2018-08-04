@@ -20,29 +20,29 @@ GameTitle.getAll = (obj, callback) => {
 
 // returns one game_title by id    if object = {id} 
 GameTitle.get = (obj, callback) => {
-    if ( obj.hasOwnProperty('id') ) {
-        const sql = `
-        SELECT Title.id, Title.name, Title.description, Title.genre, Title.developer, Title.producer
-        FROM game_titles AS Title
-        WHERE Title.id = :id
-        ;`;
-
-        const compiledQuery = compileSql(sql, {id: obj.id});
-        connection.query(compiledQuery[0], compiledQuery[1], (err, rows, fields) => {
-            if (rows.length > 1) {
-                callback(new Error('GameTitle.get() error: returned more than one row'));
-            }
-            else if (rows.length == 0) {
-                callback(new Error('GameTitle.get() error: did not find GameTitle with id: ${obj.id}'));
-            }
-            else {
-                callback(err, rows[0], fields);
-            }
-        });
-    }
-    else {
+    if (!obj.hasOwnProperty('id')) {
         callback(new Error('GameTitle.get() error: need to provide {id}'));
+        return;
     }
+
+    const sql = `
+    SELECT Title.id, Title.name, Title.description, Title.genre, Title.developer, Title.producer
+    FROM game_titles AS Title
+    WHERE Title.id = :id
+    ;`;
+
+    const compiledQuery = compileSql(sql, {id: obj.id});
+    connection.query(compiledQuery[0], compiledQuery[1], (err, rows, fields) => {
+        if (rows.length > 1) {
+            callback(new Error('GameTitle.get() error: returned more than one row'));
+        }
+        else if (rows.length == 0) {
+            callback(new Error('GameTitle.get() error: did not find GameTitle with id: ${obj.id}'));
+        }
+        else {
+            callback(err, rows[0], fields);
+        }
+    });
 };
 
 // create a game_title from an object
@@ -77,27 +77,26 @@ GameTitle.create = (obj, callback) => {
 // destroys a game_title by id
 // returns the sql result
 GameTitle.destroy = (obj, callback) => {
-
-    if ( obj.hasOwnProperty('id') ) {
-        const sql = `
-            DELETE FROM game_titles
-            WHERE game_titles.id = :id
-            ;`;
-
-        const compiledQuery = compileSql(sql, {id: obj.id});
-        connection.query(compiledQuery[0], compiledQuery[1], (err, result) => {
-            
-            if (result.affectedRows === 0) {
-                callback(new Error(`GameTitle.destroy() error: title with id: ${obj.id} not found.`));
-                return;
-            }
-
-            callback(err, result);
-        });
+    if (!obj.hasOwnProperty('id')) {
+        callback(new Error('No id given for GameTitle.destroy()'));
+        return;
     }
-    else {
-        callback(new Error('No id given for GameTitle.get()'));
-    }
+    
+    const sql = `
+        DELETE FROM game_titles
+        WHERE game_titles.id = :id
+        ;`;
+
+    const compiledQuery = compileSql(sql, {id: obj.id});
+    connection.query(compiledQuery[0], compiledQuery[1], (err, result) => {
+        
+        if (result.affectedRows === 0) {
+            callback(new Error(`GameTitle.destroy() error: title with id: ${obj.id} not found.`));
+            return;
+        }
+
+        callback(err, result);
+    });
 };
 
 // update a game_title by id

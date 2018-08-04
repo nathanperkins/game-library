@@ -27,36 +27,36 @@ GameCopy.getAll = (obj, callback) => {
 
 // returns one game_copy by id    if object = {id} 
 GameCopy.get = (obj, callback) => {
-    if ( obj.hasOwnProperty('id') ) {
-        const sql = `
-            SELECT Copy.id, Copy.status, Title.name AS title, Platform.name AS platform,
-            Copy.dt_procured, Copy.library_tag
-            FROM game_copies AS Copy
-            JOIN game_releases AS GRelease
-            ON GRelease.id = Copy.release_id
-            JOIN game_platforms AS Platform
-            ON Platform.id = GRelease.platform_id
-            JOIN game_titles AS Title
-            ON Title.id = GRelease.title_id
-            WHERE Copy.id = :id
-        ;`;
-
-        const compiledQuery = compileSql(sql, {id: obj.id});
-        connection.query(compiledQuery[0], compiledQuery[1], (err, rows, fields) => {
-            if (rows.length > 1) {
-                callback(new Error('GameCopy.get() error: returned more than one row'));
-            }
-            else if (rows.length == 0) {
-                callback(new Error('GameCopy.get() error: did not find GameCopy with id: ${obj.id}'));
-            }
-            else {
-                callback(err, rows[0], fields);
-            }
-        });
-    }
-    else {
+    if (!obj.hasOwnProperty('id')) {
         callback(new Error('GameCopy.get() error: need to provide {id}'));
+        return;
     }
+
+    const sql = `
+        SELECT Copy.id, Copy.status, Title.name AS title, Platform.name AS platform,
+        Copy.dt_procured, Copy.library_tag
+        FROM game_copies AS Copy
+        JOIN game_releases AS GRelease
+        ON GRelease.id = Copy.release_id
+        JOIN game_platforms AS Platform
+        ON Platform.id = GRelease.platform_id
+        JOIN game_titles AS Title
+        ON Title.id = GRelease.title_id
+        WHERE Copy.id = :id
+    ;`;
+
+    const compiledQuery = compileSql(sql, {id: obj.id});
+    connection.query(compiledQuery[0], compiledQuery[1], (err, rows, fields) => {
+        if (rows.length > 1) {
+            callback(new Error('GameCopy.get() error: returned more than one row'));
+        }
+        else if (rows.length == 0) {
+            callback(new Error('GameCopy.get() error: did not find GameCopy with id: ${obj.id}'));
+        }
+        else {
+            callback(err, rows[0], fields);
+        }
+    });
 };
 
 // create a game_copy from an object
@@ -91,27 +91,26 @@ GameCopy.create = (obj, callback) => {
 // destroys a game_copy by id
 // returns the sql result
 GameCopy.destroy = (obj, callback) => {
-
-    if ( obj.hasOwnProperty('id') ) {
-        const sql = `
-            DELETE FROM game_copies
-            WHERE game_copies.id = :id
-            ;`;
-
-        const compiledQuery = compileSql(sql, {id: obj.id});
-        connection.query(compiledQuery[0], compiledQuery[1], (err, result) => {
-            
-            if (result.affectedRows === 0) {
-                callback(new Error(`GameCopy.destroy() error: copy with id: ${obj.id} not found.`));
-                return;
-            }
-
-            callback(err, result);
-        });
-    }
-    else {
+    if (!obj.hasOwnProperty('id')) {
         callback(new Error('No id given for GameCopy.get()'));
+        return;
     }
+
+    const sql = `
+        DELETE FROM game_copies
+        WHERE game_copies.id = :id
+        ;`;
+
+    const compiledQuery = compileSql(sql, {id: obj.id});
+    connection.query(compiledQuery[0], compiledQuery[1], (err, result) => {
+        
+        if (result.affectedRows === 0) {
+            callback(new Error(`GameCopy.destroy() error: copy with id: ${obj.id} not found.`));
+            return;
+        }
+
+        callback(err, result);
+    });
 };
 
 // update a game_copy by id
