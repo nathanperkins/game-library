@@ -23,7 +23,7 @@
             <td><%= row.title %></td>
             <td><%= row.platform %></td>
             <td><%= row.library_tag %></td>
-            <td><%= row.dt_completed.toLocaleDateString('en-US') %></td>
+            <td><%= row.dt_completed.toLocaleString('en-US') %></td>
             <td><input type=submit value=Delete></td>
         </tr>
         <% }); %>

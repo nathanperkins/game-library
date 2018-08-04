@@ -13,6 +13,7 @@
     "host"      : "localhost",
     "user"      : "root",
     "password"  : "password",
-    "database"  : "game_library_dev"
+    "database"  : "game_library_dev",
+    "timezone"  : "Z"
   }
 }

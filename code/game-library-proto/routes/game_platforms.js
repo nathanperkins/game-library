@@ -28,7 +28,7 @@ routes. get('/', (req, res) => {
         ]
 
         rows.forEach( row => {
-            if (row.release_date) row.release_date = row.release_date.toLocaleDateString('en-US');
+            if (row.release_date) row.release_date = row.release_date.toLocaleString("en-US", {timeZone: "UTC"});
         });
 
         res.render('generic/table', context);

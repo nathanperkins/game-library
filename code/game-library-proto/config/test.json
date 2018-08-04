@@ -8,6 +8,7 @@
   },
 
   "db": {
-    "database"  : "game_library_test"
+    "database"  : "game_library_test",
+    "timezone": "Z"
   }
 }
