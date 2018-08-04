@@ -4,14 +4,14 @@ const chai     = require('chai');
 const chaiHttp = require('chai-http');
 const should   = chai.should();
 
-const app      = require('../app');
 const db       = require('../db');
+const app      = require('../app');
 
 chai.use(chaiHttp);
 
-describe('Page - Users index', () => {
+describe('Page - Game Release Index', () => {
 
-    describe('GET /users/ without user', () => {
+    describe('GET /game_releases/ without release', () => {
 
         before('reset database', done => {
             db.createTables( err => {
@@ -22,7 +22,7 @@ describe('Page - Users index', () => {
 
         it('it should respond with 200', done => {
             chai.request(app)
-                .get('/users/')
+                .get('/game_releases/')
                 .end( (err, res) => {
                     res.should.have.status(200);
                     done();
@@ -32,10 +32,10 @@ describe('Page - Users index', () => {
 
         it('it should have content', done => {
             chai.request(app)
-                .get('/users/')
+                .get('/game_releases/')
                 .end( (err, res) => {
-                    res.text.should.match(/Users Index/);
-                    res.text.should.match(/New User/);
+                    res.text.should.match(/Game Release Index/);
+                    res.text.should.match(/New Game Release/);
                     done();
                 }
             );
@@ -43,10 +43,10 @@ describe('Page - Users index', () => {
 
         it('it should not have a table', done => {
             chai.request(app)
-                .get('/users/')
+                .get('/game_releases/')
                 .end( (err, res) => {
                     res.text.should.not.match(/<table/);
-                    res.text.should.match(/No Users/);
+                    res.text.should.match(/No Game Releases/);
                     done();
                 }
             );
@@ -54,9 +54,9 @@ describe('Page - Users index', () => {
 
     });
 
-    describe('GET /users/ with user', () => {
+    describe('GET /game_releases/ with release', () => {
 
-        before('reset db and add users', done => {
+        before('reset db and add releases', done => {
             db.createTables( err => {
                 if (err) throw err;
                 db.insertDummyData( err => {
@@ -68,10 +68,10 @@ describe('Page - Users index', () => {
 
         it('it should have content', done => {
             chai.request(app)
-                .get('/users/')
+                .get('/game_releases/')
                 .end( (err, res) => {
-                    res.text.should.match(/Users Index/);
-                    res.text.should.match(/New User/);
+                    res.text.should.match(/Game Release Index/);
+                    res.text.should.match(/New Game Release/);
                     done();
                 }
             );
@@ -79,19 +79,20 @@ describe('Page - Users index', () => {
 
         it('it should have a table', done => {
             chai.request(app)
-                .get('/users/')
+                .get('/game_releases/')
                 .end( (err, res) => {
                     res.text.should.match(/ID/);
-                    res.text.should.match(/Last Name/);
-                    res.text.should.match(/First Name/);
-                    res.text.should.match(/Email/);
-                    res.text.should.match(/Role/);
+                    res.text.should.match(/Title/);
+                    res.text.should.match(/Platform/);
+                    res.text.should.match(/Release Date/);
+                    res.text.should.match(/Add/);
+                    res.text.should.not.match(/boxart_url/);
+                    res.text.should.not.match(/rating/);
 
-                    res.text.should.match(/61/);
-                    res.text.should.match(/Abshire/);
-                    res.text.should.match(/George/);
-                    res.text.should.match(/george.abshire@walshmorissetteandkihn.com/);
-                    res.text.should.match(/user/);
+                    res.text.should.match(/3/);
+                    res.text.should.match(/The Legend of Zelda: Breath of the Wild/);
+                    res.text.should.match(/Switch/);
+                    res.text.should.match(/3\/3\/2017/);
                     done();
                 }
             );

@@ -1,7 +1,10 @@
 const routes = require('express').Router();
 const queries = require('../queries');
-const connection = require('../db');
 const querystring = require('querystring');
+
+const GamePlatform = require('../models/game_platforms');
+const GameRelease  = require('../models/game_releases');
+const GameTitle    = require('../models/game_titles');
 
 // express-validator used to validate and clean form data
 // from https://express-validator.github.io/docs/
@@ -11,24 +14,24 @@ const { body, validationResult } = require('express-validator/check');
 
 routes.get('/', (req, res) => {
     const context = {
-        page_title: "Game Releases Index",
+        page_title: "Game Release Index",
         table_name: "game_releases",
         pretty_name: "Game Release",
     }
 
-    connection.query(queries.get_all_game_releases, (err, rows) => {
+    GameRelease.getAll({}, (err, releases) => {
         if (err) throw err;
 
-        context.rows = rows;
+        context.rows = releases;
         context.fields = [
-            'ID',
-            'Title',
-            'Platform',
-            'Release Date',
+            {name: "id",           pretty: 'ID'},
+            {name: "title",        pretty: 'Title'},
+            {name: "platform",     pretty: 'Platform'},
+            {name: "release_date", pretty: 'Release Date'},
         ]
 
-        rows.forEach(row => {
-            if (row.release_date) row.release_date = row.release_date.toLocaleString("en-US", {timeZone: "UTC"});
+        releases.forEach(release => {
+            if (release.release_date) release.release_date = release.release_date.toLocaleString("en-US", {year: "numeric", month: "numeric", day: "numeric", timeZone: "UTC"});
         });
 
         res.render('game_releases/index', context);
@@ -36,21 +39,35 @@ routes.get('/', (req, res) => {
 });
 
 routes.get('/new', (req, res) => {
+    const data = { page_title: 'New Game Release'};
 
-    const data = {
-        page_title: 'New Game Release',
-        game_title: req.query.game_title,
-        game_id: req.query.game_id
-    };
+    if( !req.query.hasOwnProperty('title_id')) {
+        req.flash('danger', `Error: need to provide a title_id`);
+        res.redirect('/game_titles/');
+        return;
+    }
 
-    connection.query(queries.get_all_game_platforms, (err, rows) => {
-        if (err) throw err;
+    GameTitle.get({id: req.query.title_id}, (err, title) => {
+        if (!title) {
+            req.flash('danger', `Error: title_id ${req.query.title_id} was not found`);
+            res.redirect('/game_titles/');
+            return;
+        }
+        if (err) {
+            throw err;
+        }
+        GamePlatform.getAll({}, (err, platforms) => {
+            if (err) throw err;
 
-        data.rows = rows;
+            data.platforms = platforms;
+            data.release   = {
+                title_id: title.id,
+                title   : title.name,
+            }
 
-        res.render('game_releases/new', data);
+            res.render('game_releases/new', data);
+        });
     });
-
 });
 
 routes.post('/', [
@@ -64,7 +81,7 @@ routes.post('/', [
     const data = {
         page_title: 'New Game Release',
         game_title: req.body.game_title,
-        game_id: req.body.game_id,
+        title_id: req.body.title_id,
     };
 
     if (!errors.isEmpty()) {
@@ -77,25 +94,23 @@ routes.post('/', [
         res.redirect('/game_releases/new?' + query);
 
     } else {
-        const platform_name = req.body.platform_name;
-        const game_title = req.body.game_title;
-
         // parameters for insert query
-        const newRelease = [
-            req.body.game_id,
-            req.body.platform_id,
-            req.body.rating || null,
-            req.body.boxart_url || null,
-            req.body.release_date || null,
-        ]
+        const newRelease = {
+            title_id     : req.body.title_id,
+            platform_id  : req.body.platform_id,
+            rating       : req.body.rating       || null,
+            boxart_url   : req.body.boxart_url   || null,
+            release_date : req.body.release_date || null,
+        }
 
-        connection.query(queries.insert_new_release, newRelease, (err) => {
-            if (err)
-                req.flash('danger', `${game_title} on ${platform_name} is already in the library.`);
-    
-            else
-                req.flash('success', `Release created: ${game_title} on ${platform_name}!`);
+        GameRelease.create(newRelease, (err) => {
+            if (err) {
+                req.flash('danger', `Game Release for title ${req.body.title_id}, platform ${req.body.platform_id} is already in the library.`);
+                res.redirect('/game_titles/');
+                return;
+            }
 
+            req.flash('success', `Release created: for title ${req.body.title_id}, platform ${req.body.platform_id}!`);
             res.redirect('/game_releases/');
             
         });

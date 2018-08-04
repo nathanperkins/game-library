@@ -1,0 +1,39 @@
+{
+    "platforms" : {
+        "1" : {
+            "name"         : "Switch",
+            "manufacturer" : "Nintendo",
+            "release_date" : "2017-03-03"
+        }
+    },
+
+    "releases" : {
+        "1" : {
+            "title_id"     : 1,
+            "platform_id"  : 1,
+            "rating"       : 10,
+            "boxart_url"   : "https://www.mobygames.com/images/covers/l/383716-the-legend-of-zelda-breath-of-the-wild-nintendo-switch-front-cover.png",
+            "release_date" : "2017-03-03"
+        }
+    },
+
+    "titles" : {
+        "1" : {
+            "name"        : "Legend of Zelda",
+            "description" : "The Legend of Zelda is an action-adventure video game developed and published by Nintendo and designed by Shigeru Miyamoto and Takashi Tezuka.",
+            "genre"       : "Action-adventure",
+            "developer"   : "Nintendo",
+            "producer"    : "Nintendo"
+        }
+    },
+
+    "users" : {
+        "1" : {
+            "first_name" : "First",
+            "last_name"  : "Last",
+            "email"      : "first.last@email.com",
+            "password"   : "Password123",
+            "role"       : "user"
+        }
+    }
+}

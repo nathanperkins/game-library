@@ -6,11 +6,8 @@ const should   = chai.should();
 const db           = require('../db');
 const GamePlatform = require('../models/game_platforms');
 
-const generic_platform = {
-    name         : "Switch",
-    manufacturer : "Nintendo",
-    release_date : "2017-03-03",
-};
+const test_data        = JSON.parse(require('fs').readFileSync("test/test_data.json"));
+const generic_platform = test_data['platforms']['1'];
 
 describe('Model - GamePlatform', () => {
 

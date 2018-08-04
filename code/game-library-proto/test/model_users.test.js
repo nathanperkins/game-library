@@ -1,18 +1,13 @@
 process.env.NODE_ENV = 'test';
 
 const chai     = require('chai');
-const db       = require('../db');
 const should   = chai.should();
 
+const db       = require('../db');
 const User     = require('../models/users');
 
-const generic_user = {
-    first_name : "First",
-    last_name  : "Last",
-    email      : "first.last@email.com",
-    password   : "Password123",
-    role       : "user",
-};
+const test_data        = JSON.parse(require('fs').readFileSync("test/test_data.json"));
+const generic_user = test_data['users']['1'];
 
 describe('Model - Users', () => {
 

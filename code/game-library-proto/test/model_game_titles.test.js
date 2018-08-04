@@ -6,13 +6,8 @@ const should   = chai.should();
 const db           = require('../db');
 const GameTitle    = require('../models/game_titles');
 
-const generic_title = {
-    name : "Legend of Zelda",
-    description: "The Legend of Zelda is an action-adventure video game developed and published by Nintendo and designed by Shigeru Miyamoto and Takashi Tezuka.",
-    genre: "Action-adventure",
-    developer: "Nintendo",
-    producer: "Nintendo",
-};
+const test_data        = JSON.parse(require('fs').readFileSync("test/test_data.json"));
+const generic_title = test_data['titles']['1'];
 
 describe('Model - GameTitle', () => {
 

@@ -11,21 +11,19 @@
 <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
     <thead>
         <% fields.forEach( field => { %>
-            <th><%= field %></th>
+            <th><%= field.pretty %></th>
         <% }); %>
         <th>Add</th>
     </thead>
     <tbody>
         <% rows.forEach( row => { %>
         <tr>
-            <% for (const prop in row) { %>
-            <td><%= row[prop] %></td>
-            <% } %>
+            <% fields.forEach( field => { %>
+            <td><%= row[field.name] %></td>
+            <% }); %>
             <td>
                 <form action='/game_copies/new'>
                     <input type="hidden" name="release_id" value="<%= row.id %>">
-                    <input type="hidden" name="game_title" value="<%= row.title %>">
-                    <input type="hidden" name="game_platform" value="<%= row.platform %>">
                     <button class="button is-success is-small"><i class="fas fa-fw fa-plus">
                     </i>New Copy</a>
                 </form>
@@ -35,7 +33,7 @@
     </tbody>
 </table>
 <% } else { %>
-<h2>No items!</h2>
+<h2>No Game Releases</h2>
 <% } %>
 
 <%- include ../partials/footer %>

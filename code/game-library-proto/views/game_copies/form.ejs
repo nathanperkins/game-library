@@ -2,15 +2,13 @@
 <div class="content">
   <h3><%= page_heading %> 
     <br>
-    <%= game_title %> for <%= game_platform %>
+    <%= release.title %> for <%= release.platform %>
 </h3>
 </div>
   <form action="<%= endpoint %>" method="<%= method %>">
     
     <input type="hidden" name="release_id" value="<%= release_id %>">
     <input type="hidden" name="copy_id" value="<%= copy_id %>">
-    <input type="hidden" name="game_title" value="<%= game_title %>">
-    <input type="hidden" name="game_platform" value="<%= game_platform %>">
     <input type="hidden" name="redirect" value="<%= redirect %>">
 
     <div class="field">

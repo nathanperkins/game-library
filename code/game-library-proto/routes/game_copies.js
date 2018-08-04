@@ -1,6 +1,8 @@
 const routes = require('express').Router();
-const GameCopy = require('../models/game_copies');
 const querystring = require('querystring');
+
+const GameCopy = require('../models/game_copies');
+const GameRelease = require('../models/game_releases');
 
 // express-validator used to validate and clean form data
 // from https://express-validator.github.io/docs/
@@ -39,15 +41,21 @@ routes.get('/new', (req, res) => {
         endpoint: '/game_copies/',
         method: 'POST',
         redirect: '/game_copies/new?',
-        game_title: req.query.game_title,
-        game_platform: req.query.game_platform,
         release_id: req.query.release_id,
         copy_id: null,
         library_tag: null,
         dt_procured: null
     };
 
-    res.render('game_copies/form', data);
+    GameRelease.get({id: req.query.release_id}, (err, release) => {
+        if (err) throw err;
+
+        data.release = release;
+
+        res.render('game_copies/form', data);
+    });
+
+    
 });
 
 

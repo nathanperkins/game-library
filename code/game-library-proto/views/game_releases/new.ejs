@@ -5,21 +5,19 @@
     </div>
 
     <label class="label">Title:</label>
-    <%= game_title %>
+    <%= release.title %>
 
 
-        <form action='/game_releases/' method=POST>
-            <input type="hidden" name="game_id" value="<%= game_id %>">
-            <input type="hidden" name="game_title" value="<%= game_title %>">
-            <input type="hidden" id="platform_name" name="platform_name" value="<%= rows[0].name%>">
+        <form action="/game_releases/" method="POST">
+            <input type="hidden" name="title_id" value="<%= release.title_id %>">
 
             <label class="label">Platform</label>
             <div class="control">
                 <div class="select">
                     <select name="platform_id" id="platform_id" onchange="getName()">
-                        <% rows.forEach( row => { %>
-                            <option value="<%= row.id %>">
-                                <%= row.name %>
+                        <% platforms.forEach( platform => { %>
+                            <option value="<%= platform.id %>">
+                                <%= platform.name %>
                             </option>
                             <% }); %>
                     </select>
@@ -56,12 +54,5 @@
                 </div>
             </div>
         </form>
-
-        <script>
-            function getName() {
-                var x = platform_id.options[platform_id.selectedIndex].text;
-                document.getElementById("platform_name").value = x;
-            }
-        </script>
 
         <%- include('../partials/footer'); %>
