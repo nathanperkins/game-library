@@ -1,12 +1,13 @@
 process.env.NODE_ENV = 'test';
 
-const chai     = require('chai');
-const should   = chai.should();
+const chai   = require('chai');
+const should = chai.should();
 
-const db       = require('../db');
-const User     = require('../models/users');
+const app  = require('../../app');
+const db   = require(__basedir + '/db');
+const User = require(__basedir + '/models/users');
 
-const test_data        = JSON.parse(require('fs').readFileSync("test/test_data.json"));
+const test_data        = JSON.parse(require('fs').readFileSync(__basedir + "/test/test_data.json"));
 const generic_user = test_data['users']['1'];
 
 describe('Model - Users', () => {

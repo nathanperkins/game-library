@@ -31,7 +31,7 @@
     "forever-list": "forever list",
     "forever-stop": "forever stop game-library",
     "start": "nodemon app.js",
-    "test": "mocha --exit"
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC"

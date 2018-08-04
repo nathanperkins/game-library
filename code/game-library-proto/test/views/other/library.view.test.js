@@ -4,8 +4,8 @@ const chai     = require('chai');
 const chaiHttp = require('chai-http');
 const should   = chai.should();
 
-const db       = require('../db');
-const app      = require('../app');
+const app      = require('../../../app');
+const db       = require(__basedir + '/db');
 
 chai.use(chaiHttp);
 

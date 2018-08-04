@@ -11,6 +11,8 @@ if (!fs.existsSync("config/default.json")) {
 const express = require('express');
 const app = express();
 
+global.__basedir = __dirname;
+
 // using bcrypt to hash and compare passwords
 // from https://medium.com/@holtkam2/add-user-authentication-to-your-node-expressjs-application-using-bcrypt-81bb0f618ab3
 const bcrypt = require('bcrypt');

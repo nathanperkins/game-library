@@ -3,10 +3,11 @@ process.env.NODE_ENV = 'test';
 const chai     = require('chai');
 const should   = chai.should();
 
-const db           = require('../db');
-const GameTitle    = require('../models/game_titles');
+const app          = require('../../app');
+const db           = require(__basedir + '/db');
+const GameTitle    = require(__basedir + '/models/game_titles');
 
-const test_data        = JSON.parse(require('fs').readFileSync("test/test_data.json"));
+const test_data        = JSON.parse(require('fs').readFileSync(__basedir + "/test/test_data.json"));
 const generic_title = test_data['titles']['1'];
 
 describe('Model - GameTitle', () => {

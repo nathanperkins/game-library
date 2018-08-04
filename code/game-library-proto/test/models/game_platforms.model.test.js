@@ -3,10 +3,11 @@ process.env.NODE_ENV = 'test';
 const chai     = require('chai');
 const should   = chai.should();
 
-const db           = require('../db');
-const GamePlatform = require('../models/game_platforms');
+const app          = require('../../app');
+const db           = require(__basedir + '/db');
+const GamePlatform = require(__basedir + '/models/game_platforms');
 
-const test_data        = JSON.parse(require('fs').readFileSync("test/test_data.json"));
+const test_data        = JSON.parse(require('fs').readFileSync(__basedir + "/test/test_data.json"));
 const generic_platform = test_data['platforms']['1'];
 
 describe('Model - GamePlatform', () => {

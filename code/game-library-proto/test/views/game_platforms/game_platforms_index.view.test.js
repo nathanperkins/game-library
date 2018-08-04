@@ -4,14 +4,14 @@ const chai     = require('chai');
 const chaiHttp = require('chai-http');
 const should   = chai.should();
 
-const db       = require('../db');
-const app      = require('../app');
+const app      = require('../../../app');
+const db       = require(__basedir + '/db');
 
 chai.use(chaiHttp);
 
-describe('Page - Game Title Index', () => {
+describe('Page - Game Platform Index', () => {
 
-    describe('GET /game_titles/ without title', () => {
+    describe('GET /game_platforms/ without title', () => {
 
         before('reset database', done => {
             db.createTables( err => {
@@ -22,7 +22,7 @@ describe('Page - Game Title Index', () => {
 
         it('it should respond with 200', done => {
             chai.request(app)
-                .get('/game_titles/')
+                .get('/game_platforms/')
                 .end( (err, res) => {
                     res.should.have.status(200);
                     done();
@@ -32,10 +32,10 @@ describe('Page - Game Title Index', () => {
 
         it('it should have content', done => {
             chai.request(app)
-                .get('/game_titles/')
+                .get('/game_platforms/')
                 .end( (err, res) => {
-                    res.text.should.match(/Game Title Index/);
-                    res.text.should.match(/New Game Title/);
+                    res.text.should.match(/Game Platform Index/);
+                    res.text.should.match(/New Game Platform/);
                     done();
                 }
             );
@@ -43,10 +43,10 @@ describe('Page - Game Title Index', () => {
 
         it('it should not have a table', done => {
             chai.request(app)
-                .get('/game_titles/')
+                .get('/game_platforms/')
                 .end( (err, res) => {
                     res.text.should.not.match(/<table/);
-                    res.text.should.match(/No Game Titles/);
+                    res.text.should.match(/No Game Platforms/);
                     done();
                 }
             );
@@ -54,7 +54,7 @@ describe('Page - Game Title Index', () => {
 
     });
 
-    describe('GET /game_titles/ with title', () => {
+    describe('GET /game_platforms/ with title', () => {
 
         before('reset db and add titles', done => {
             db.createTables( err => {
@@ -68,10 +68,10 @@ describe('Page - Game Title Index', () => {
 
         it('it should have content', done => {
             chai.request(app)
-                .get('/game_titles/')
+                .get('/game_platforms/')
                 .end( (err, res) => {
-                    res.text.should.match(/Game Title Index/);
-                    res.text.should.match(/New Game Title/);
+                    res.text.should.match(/Game Platform Index/);
+                    res.text.should.match(/New Game Platform/);
                     done();
                 }
             );
@@ -79,19 +79,18 @@ describe('Page - Game Title Index', () => {
 
         it('it should have a table', done => {
             chai.request(app)
-                .get('/game_titles/')
+                .get('/game_platforms/')
                 .end( (err, res) => {
                     res.text.should.match(/ID/);
-                    res.text.should.match(/Name/);
-                    res.text.should.not.match(/Description/);
-                    res.text.should.match(/Genre/);
-                    res.text.should.match(/Developer/);
-                    res.text.should.match(/Producer/);
+                    res.text.should.match(/Manufacturer/);
+                    res.text.should.match(/Release Date/);
+                    res.text.should.not.match(/Created/);
+                    res.text.should.not.match(/Updated/);
 
                     res.text.should.match(/1/);
-                    res.text.should.match(/The Legend of Zelda/);
-                    res.text.should.match(/Action/);
+                    res.text.should.match(/Switch/);
                     res.text.should.match(/Nintendo/);
+                    res.text.should.match(/3\/3\/2017/);
                     done();
                 }
             );

@@ -3,12 +3,13 @@ process.env.NODE_ENV = 'test';
 const chai     = require('chai');
 const should   = chai.should();
 
-const db           = require('../db');
-const GameRelease  = require('../models/game_releases');
-const GameTitle    = require('../models/game_titles');
-const GamePlatform = require('../models/game_platforms');
+const app          = require('../../app');
+const db           = require(__basedir + '/db');
+const GameRelease  = require(__basedir + '/models/game_releases');
+const GameTitle    = require(__basedir + '/models/game_titles');
+const GamePlatform = require(__basedir + '/models/game_platforms');
 
-const test_data        = JSON.parse(require('fs').readFileSync("test/test_data.json"));
+const test_data        = JSON.parse(require('fs').readFileSync(__basedir + "/test/test_data.json"));
 const generic_release  = test_data['releases']['1'];
 const generic_title    = test_data['titles']['1'];
 const generic_platform = test_data['platforms']['1'];
