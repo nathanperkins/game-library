@@ -4,7 +4,7 @@
 <h2>Create a new title:</h2>
 </div>
 
-<form action='/game_titles/' method=POST>
+<form action="/game_titles/" method="POST">
 <div class="field">
 <label class="label">Name</label>
 <div class="control">
@@ -22,13 +22,18 @@
 <div class="field">
 <label class="label">Genre</label>
 <div class="control">
-<div class="select" name="genre">
-    <select>
-    <option>Select genre</option>
-    <option>RPG</option>
-    <option>Adventure</option>
-    <option>Arcade</option>
-    <option>+ Add new</option>
+<div class="select">
+    <select name="genre">
+    <option disabled>Select genre</option>
+    
+        <option>Action</option>
+        <option>Adventure</option>
+        <option>Arcade</option>
+        <option>Simulation</option>
+        <option>Sports</option>
+        <option>Strategy</option>
+        <option>Role-playing</option>
+        <option>Shooter</option>
     </select>
 </div>
 </div>

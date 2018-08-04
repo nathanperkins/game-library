@@ -27,9 +27,9 @@
     "nodemon": "^1.18.3"
   },
   "scripts": {
-    "forever-start": "node_modules/forever/bin/forever start --uid game-library --append app.js",
-    "forever-list": "node_modules/forever/bin/forever list",
-    "forever-stop": "node_modules/forever/bin/forever stop game-library",
+    "forever-start": "forever start --uid game-library --append app.js",
+    "forever-list": "forever list",
+    "forever-stop": "forever stop game-library",
     "start": "nodemon app.js",
     "test": "mocha --exit"
   },

@@ -72,7 +72,7 @@ describe('Model - Users', () => {
 
     });
 
-    describe('User.all()', () => {
+    describe('User.getAll()', () => {
 
         beforeEach('reset database and add dummy data', done => {
             db.createTables( err => {
@@ -84,10 +84,10 @@ describe('Model - Users', () => {
             });
         });
 
-        describe('User.all({}, callback)', () => {
+        describe('User.getAll({}, callback)', () => {
 
             it('it should get many users', done => {
-                User.all( {}, (err, users) => {
+                User.getAll( {}, (err, users) => {
                     should.equal(err, null);
                     users.length.should.be.above(1);
                     done();
@@ -95,7 +95,7 @@ describe('Model - Users', () => {
             });
 
             it('it should have Kailee first', done => {
-                User.all( {}, (err, users) => {
+                User.getAll( {}, (err, users) => {
                     should.equal(err, null);
                     users.sort( (a, b) => a.id > b.id );
                     users[0].first_name.should.equal('Kailee');
@@ -105,7 +105,7 @@ describe('Model - Users', () => {
             });
 
             it('it should have Brian second', done => {
-                User.all( {}, (err, users) => {
+                User.getAll( {}, (err, users) => {
                     should.equal(err, null);
                     users.sort( (a, b) => a.id > b.id );
                     users[1].first_name.should.equal('Brian');
@@ -128,7 +128,7 @@ describe('Model - Users', () => {
         describe('User.create({user})', () => {
 
             it('it should not have a user yet', done => {
-                User.all( {}, (err, users) => {
+                User.getAll( {}, (err, users) => {
                     should.equal(err, null);
                     users.should.be.empty;
                     done();
@@ -159,7 +159,7 @@ describe('Model - Users', () => {
                     err.should.be.an.instanceOf(Error);
                     should.not.exist(new_user);
 
-                    User.all( {}, (err, users) => {
+                    User.getAll( {}, (err, users) => {
                         should.equal(err, null);
                         users.length.should.equal(0);
                         done();
@@ -259,7 +259,7 @@ describe('Model - Users', () => {
                     err.should.be.an.instanceOf(Error);
                     should.not.exist(result);
 
-                    User.all( {}, (err, users) => {
+                    User.getAll( {}, (err, users) => {
                         should.equal(err, null);
                         users.length.should.equal(1);
                         done();
@@ -280,7 +280,7 @@ describe('Model - Users', () => {
                         should.equal(err, null);
                         result.should.not.be.empty;
 
-                        User.all( {}, (err, users) => {
+                        User.getAll( {}, (err, users) => {
                             should.equal(err, null);
                             users.should.be.empty;
                             done();
@@ -295,7 +295,7 @@ describe('Model - Users', () => {
                     err.should.be.an.instanceOf(Error);
                     should.not.exist(result);
 
-                    User.all( {}, (err, users) => {
+                    User.getAll( {}, (err, users) => {
                         should.equal(err, null);
                         users.length.should.equal(1);
                         done();

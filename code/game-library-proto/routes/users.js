@@ -21,7 +21,7 @@ routes. get('/', (req, res) => {
         pretty_name : "Users",
     }
 
-    User.all( {}, (err, rows, fields) => {
+    User.getAll( {}, (err, rows, fields) => {
         if (err) throw err;
 
         context.rows   = rows;

@@ -69,24 +69,11 @@ VALUES
 (?, ?, ?, ?, ?)
 ;` 
 
-const insert_new_title = `
-INSERT INTO game_titles
-(name, description, genre, developer, producer)
-VALUES
-(?, ?, ?, ?, ?)
-;`
-
 const insert_new_copy = `
 INSERT INTO game_copies
 (release_id, library_tag, dt_procured)
 VALUES
 (?, ?, ?)
-;`
-
-const get_all_game_titles = `
-SELECT Title.id, Title.name, Title.genre, Title.developer, Title.producer
-FROM game_titles AS Title
-ORDER BY name DESC
 ;`
 
 const get_all_game_platforms = `
@@ -117,18 +104,15 @@ ON Title.id = GRelease.title_id
 ORDER BY library_tag ASC
 ;`
 
-
 module.exports = {
-    get_all_game_titles,
     get_all_game_platforms,
     insert_new_platform,
     insert_new_release,
-    insert_new_title,
     insert_new_copy,
+    insert_new_request,
     get_all_game_releases,
     get_all_game_copies,
     get_all_game_releases_with_search,
     get_game_requests_by_status,
     get_game_requests_by_user,
-    insert_new_request,
 }

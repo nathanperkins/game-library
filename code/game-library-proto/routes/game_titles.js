@@ -1,6 +1,6 @@
-const routes = require('express').Router();
-const queries = require('../queries');
-const connection = require('../db');
+const routes     = require('express').Router();
+
+const GameTitle  = require('../models/game_titles');
 
 // express-validator used to validate and clean form data
 // from https://express-validator.github.io/docs/
@@ -16,7 +16,7 @@ routes. get('/', (req, res) => {
         pretty_name : "Game Title",
     }
 
-    connection.query(queries.get_all_game_titles, (err, rows, fields) => {
+    GameTitle.getAll({}, (err, rows, fields) => {
         if (err) throw err;
 
         context.rows   = rows;
@@ -29,7 +29,6 @@ routes. get('/', (req, res) => {
         ]
 
         res.render('game_titles/index', context);
-
     });
 });
 
@@ -60,20 +59,19 @@ routes.post('/', [
         res.render('game_titles/new', data);
     } else {
         // parameters for insert query
-        const newTitle = [
-            req.body.name,
-            req.body.description,
-            req.body.genre,
-            req.body.developer,
-            req.body.producer,
-        ];
+        const newTitle = {
+            name        : req.body.name,
+            description : req.body.description,
+            genre       : req.body.genre,
+            developer   : req.body.developer,
+            producer    : req.body.producer,
+        };
 
-        connection.query(queries.insert_new_title, newTitle, (err, rows) => {
+        GameTitle.create(newTitle, (err, title) => {
             if (err)
-                req.flash('danger', `${req.body.name} is already in the library.`);
-
+                req.flash('danger', err['msg'] || err['sqlMessage']);
             else
-                req.flash('success', `Title created: ${req.body.name}!`);
+                req.flash('success', `Title created: ${title.name}!`);
 
             res.redirect('/game_titles/');
         });

@@ -7,14 +7,14 @@ const User = {};
 // returns all users as an array
 // obj is not used here, but included for consistency
 // with other models
-User.all = (obj, callback) => {
-    const sqlQuery = `
+User.getAll = (obj, callback) => {
+    const sql = `
         SELECT User.id, User.last_name, User.first_name, User.email, User.role
         FROM users AS User
         ORDER BY User.last_name, User.first_name DESC
         ;`;
 
-    connection.query(sqlQuery, (err, rows, fields) => {
+    connection.query(sql, (err, rows, fields) => {
         callback(err, rows, fields);
     });
 };
@@ -32,7 +32,7 @@ User.get = (obj, callback) => {
                 callback(new Error('User.get() error: did not find user with parameter: ${param}'));
             }
             else {
-                callback(err, rows[0] || {}, fields);
+                callback(err, rows[0], fields);
             }
         });
     }
@@ -203,7 +203,6 @@ User.update = (obj, callback) => {
         });
 
         connection.query(compiledQuery[0], compiledQuery[1], (err, result) => {
-            console
             if (err) {
                 callback(err);
                 return;
@@ -219,7 +218,6 @@ User.update = (obj, callback) => {
             });
         });
     });
-    
 };
 
 module.exports = User;
