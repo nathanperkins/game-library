@@ -1,16 +1,17 @@
 {
   "app": {
-    "name"      : "GameLibrary",
+    "name"      : "Game Library Dev",
     "address"   : "127.0.0.1",
     "port"      : 3000
   },
 
   "session": {
-    "password"  : "SessionPassword"
+    "password"  : "DevSessionPassword"
   },
 
   "db": {
     "host"      : "localhost",
+    "port"      : 3307,
     "user"      : "root",
     "password"  : "password",
     "database"  : "game_library_dev",

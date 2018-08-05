@@ -33,11 +33,6 @@ describe('Route - POST /game_releases/', () => {
         });
     });
 
-    afterEach('reset cookies', done => {
-        agent.set('Cookie', []);
-        done();
-    });
-
     it('it should redirect to /game_releases/ on success with msg', done => {
         agent
             .post('/game_releases/')
@@ -76,7 +71,6 @@ describe('Route - POST /game_releases/', () => {
         delete invalid_release.title_id;
 
         agent
-            .set('Cookie', [])
             .post('/game_releases/')
             .type('form')
             .send(invalid_release)

@@ -24,7 +24,7 @@ describe('View - Admin', () => {
             chai.request(app)
                 .get('/admin/')
                 .end( (err, res) => {
-                    res.text.should.match(/GameLibrary - Admin/);
+                    res.text.should.match(/Game Library Test - Admin/);
                     res.text.should.match(/href="\/users\/"/);
                     res.text.should.match(/href="\/game_titles\/"/);
                     res.text.should.match(/href="\/game_platforms\/"/);

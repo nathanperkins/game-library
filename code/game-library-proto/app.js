@@ -41,24 +41,23 @@ app.use(session({
 // message types found here: https://bulma.io/documentation/components/message/
 // docs: https://github.com/expressjs/express-messages
 app.use(require('connect-flash')());
-app.use(function (req, res, next) {
-  res.locals.messages = require('express-messages')(req, res);
-  next();
-});
 
 // add body-parser
 // from https://www.npmjs.com/package/body-parser
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true})); 
 
-// add session to context
-app.use(function(req,res,next){
-    res.locals.session = req.session;
-    next();
-});
-
 // serve static files in the ./public folder
 app.use(express.static('public'));
+
+// custom middleware
+app.use(function (req, res, next) {
+    res.locals.messages = require('express-messages')(req, res);
+    res.locals.session  = req.session;
+    res.locals.app_name = config.app.name;
+    next();
+  });
+
 app.use('/', routes);
 
 // start server using port from config

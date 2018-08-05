@@ -1,2 +1,4 @@
+mariadb/data
 config.js
 config/default.json
+config/production.json

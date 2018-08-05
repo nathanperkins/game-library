@@ -144,7 +144,6 @@ GameRelease.update = (obj, callback) => {
             id           : obj.id,
         });
 
-        console.log(compiledQuery);
         connection.query(compiledQuery[0], compiledQuery[1], (err, result) => {
             if (err) {
                 callback(err);

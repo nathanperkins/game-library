@@ -1,8 +1,6 @@
 ###################################
 # cs340-project specific items here
 
-mariadb/db-data/*
-
 
 #########################################################################
 # Created by https://www.gitignore.io/api/vim,node,macos,visualstudiocode

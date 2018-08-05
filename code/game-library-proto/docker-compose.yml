@@ -1,0 +1,67 @@
+# run
+# docker-compose up
+
+# run forever
+# docker-compose up -d
+
+# check on status
+# docker ps
+
+# shutdown
+# docker-compose down
+
+version: '3.1'
+services:
+
+  gamelibrary:
+    build: .
+    depends_on:
+      - db-prod
+    ports: 
+      - 80:3000
+    restart:
+      always
+
+  db-prod:
+    build: ./mariadb
+    restart: always
+    ports: 
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: game_library_prod
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./mariadb/data/prod/db-data:/var/lib/mysql
+
+  db-dev:
+    build: ./mariadb
+    restart: always
+    ports: 
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: game_library_dev
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./mariadb/data/dev/db-data:/var/lib/mysql
+
+  db-test:
+    image: mariadb
+    restart: always
+    ports: 
+      - 3308:3306
+    environment:
+      MYSQL_DATABASE: game_library_test
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - ./mariadb/data/test/db-data:/var/lib/mysql
+
+  adminer:
+    image: adminer
+    depends_on:
+      - db-prod
+      - db-dev
+      - db-test
+    restart: always
+    ports:
+      - 8080:8080
+

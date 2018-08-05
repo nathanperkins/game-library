@@ -36,7 +36,7 @@ describe('View - Home', () => {
             chai.request(app)
                 .get('/')
                 .end( (err, res) => {
-                    res.text.should.match(/>[\s]*Game Library/);
+                    res.text.should.match(/>[\s]*Game Library Test/);
                     res.text.should.match(/>[\s]*Library/);
                     res.text.should.match(/>[\s]*Login/);
                     res.text.should.match(/>[\s]*Register/);

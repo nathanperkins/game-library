@@ -1,6 +1,6 @@
 {
   "app": {
-    "address" : "127.0.0.1",
+    "name"      : "Game Library Test",
     "port"    : 9999
   },
 
@@ -10,6 +10,6 @@
 
   "db": {
     "database"  : "game_library_test",
-    "timezone": "Z"
+    "port"      : 3308
   }
 }
