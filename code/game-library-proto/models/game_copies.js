@@ -8,8 +8,10 @@ const GameCopy = {};
 // with other models
 GameCopy.getAll = (obj, callback) => {
     const sql = `
-    SELECT Copy.id, Copy.status, Title.name AS title, Platform.name AS platform, 
-    Copy.library_tag
+    SELECT Copy.id, Copy.status, Copy.library_tag, Copy.dt_procured,
+    GRelease.id AS release_id,
+    Title.name AS title, Title.id AS title_id, 
+    Platform.name AS platform, Platform.id AS platform_id
     FROM game_copies AS Copy
     JOIN game_releases AS GRelease
     ON GRelease.id = Copy.release_id
@@ -33,8 +35,10 @@ GameCopy.get = (obj, callback) => {
     }
 
     const sql = `
-        SELECT Copy.id, Copy.status, Title.name AS title, Platform.name AS platform,
-        Copy.dt_procured, Copy.library_tag
+        SELECT Copy.id, Copy.status, Copy.library_tag, Copy.dt_procured,
+        GRelease.id AS release_id,
+        Title.name AS title, Title.id AS title_id, 
+        Platform.name AS platform, Platform.id AS platform_id
         FROM game_copies AS Copy
         JOIN game_releases AS GRelease
         ON GRelease.id = Copy.release_id
@@ -51,7 +55,7 @@ GameCopy.get = (obj, callback) => {
             callback(new Error('GameCopy.get() error: returned more than one row'));
         }
         else if (rows.length == 0) {
-            callback(new Error('GameCopy.get() error: did not find GameCopy with id: ${obj.id}'));
+            callback(new Error(`GameCopy.get() error: did not find GameCopy with id: ${obj.id}`));
         }
         else {
             callback(err, rows[0], fields);

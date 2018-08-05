@@ -37,7 +37,7 @@ GamePlatform.get = (obj, callback) => {
             callback(new Error('GamePlatform.get() error: returned more than one row'));
         }
         else if (rows.length == 0) {
-            callback(new Error('GamePlatform.get() error: did not find GamePlatform with id: ${obj.id}'));
+            callback(new Error(`GamePlatform.get() error: did not find GamePlatform with id: ${obj.id}`));
         }
         else {
             callback(err, rows[0], fields);

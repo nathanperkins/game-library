@@ -23,13 +23,13 @@ User.getAll = (obj, callback) => {
 // returns one user by email if object = {email}
 User.get = (obj, callback) => {
 
-    function genericGet(query, params, callback) {
-        connection.query(query, params, (err, rows, fields) => {
+    function genericGet(query, param, callback) {
+        connection.query(query, param, (err, rows, fields) => {
             if (rows.length > 1) {
                 callback(new Error('User.get() error: returned more than one row'));
             }
             else if (rows.length == 0) {
-                callback(new Error('User.get() error: did not find user with parameter: ${param}'));
+                callback(new Error(`User.get() error: did not find user with parameter: ${param}`));
             }
             else {
                 callback(err, rows[0], fields);

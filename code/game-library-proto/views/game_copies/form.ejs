@@ -1,38 +1,39 @@
 <%- include('../partials/header'); %>
 <div class="content">
-  <h3><%= page_heading %> 
-    <br>
-    <%= release.title %> for <%= release.platform %>
-</h3>
+    <h3><%= page_heading %> 
+      <br>
+      <%= copy.title %> for <%= copy.platform %>
+  </h3>
 </div>
-  <form action="<%= endpoint %>" method="<%= method %>">
-    
-    <input type="hidden" name="release_id" value="<%= release_id %>">
-    <input type="hidden" name="copy_id" value="<%= copy_id %>">
-    <input type="hidden" name="redirect" value="<%= redirect %>">
 
-    <div class="field">
-      <label class="label">Libary Tag</label>
-      <div class="control">
-        <input class="input" type="text" name="library_tag" placeholder="e.g. 123456" value="<%= library_tag %>"   required>
-      </div>
-    </div>
+<form action="<%= endpoint %>" method="<%= method %>">
+  
+  <input type="hidden" name="copy_id" value="<%= copy.id %>">
+  <input type="hidden" name="release_id" value="<%= copy.release_id %>">
+  <input type="hidden" name="redirect" value="<%= redirect %>">
 
-    <div class="field">
-      <label class="label">Date Procured</label>
-      <div class="control">
-        <input class="input" type="date" name="dt_procured" value="<%= dt_procured %>" required>
-      </div>
+  <div class="field">
+    <label class="label">Libary Tag</label>
+    <div class="control">
+      <input class="input" type="text" name="library_tag" placeholder="e.g. 123456" value="<%= copy.library_tag %>" required>
     </div>
+  </div>
 
-    <div class="field is-grouped">
-      <div class="control">
-        <button class="button is-link">Submit</button>
-      </div>
-      <div class="control">
-        <button class="button is-text">Cancel</button>
-      </div>
+  <div class="field">
+    <label class="label">Date Procured</label>
+    <div class="control">
+      <input class="input" type="date" name="dt_procured" value="<%= copy.dt_procured %>" required>
     </div>
-  </form>
+  </div>
+
+  <div class="field is-grouped">
+    <div class="control">
+      <button class="button is-link">Submit</button>
+    </div>
+    <div class="control">
+      <button class="button is-text">Cancel</button>
+    </div>
+  </div>
+</form>
 
   <%- include('../partials/footer'); %>

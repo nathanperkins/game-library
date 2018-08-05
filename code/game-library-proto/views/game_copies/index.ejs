@@ -1,51 +1,48 @@
 <%- include('../partials/header', { page_title: page_title }); %>
 
-    <h1 class="title">
-        <%= page_title %>
-    </h1>
+<h1 class="title">
+    <%= page_title %>
+</h1>
 
-    <a href="/game_releases/" class="button is-success">
-        <i class="fas fa-fw fa-plus"></i>New
-        <%= pretty_name %>
-    </a>
-    <br>
-    <% if (rows.length > 0) { %>
-        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-            <thead>
-                <% fields.forEach( field => { %>
-                    <th>
-                        <%= field.pretty %>
-                    </th>
-                    <% }); %>
-                        <th>Update</th>
-            </thead>
-            <tbody>
-                <% rows.forEach( row => { %>
-                    <tr>
-                        <% fields.forEach( field => { %>
-                            <td><%= row[field.name] %></td>
-                            <% }); %>
-                                <td>
-                                    <div class="button-container">
-                                        <form action="/<%= table_name %>/update" method=GET>
-                                            <input type="hidden" name="copy_id" value="<%= row.id %>">
-                                            <button class="button is-info is-small is-rounded">
-                                                <i class="fas fa-fw fa-edit"></i>
-                                        </form>
+<a href="/game_releases/" class="button is-success">
+    <i class="fas fa-fw fa-plus"></i>New <%= pretty_name %>
+</a>
+<br>
+<% if (rows.length > 0) { %>
+<table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+    <thead>
+    <% fields.forEach( field => { %>
+        <th>
+            <%= field.pretty %>
+        </th>
+    <% }); %>
+        <th>Update</th>
+    </thead>
+    <tbody>
+    <% rows.forEach( row => { %>
+        <tr>
+            <% fields.forEach( field => { %>
+            <td><%= row[field.name] %></td>
+            <% }); %>
+            <td>
+                <div class="button-container">
+                    <a href="/<%= table_name %>/edit/<%= row.id %>" method="GET">
+                        <button class="button is-info is-small is-rounded">
+                        <i class="fas fa-fw fa-edit"></i>
+                    </a>
 
-                                        <form action="/<%= table_name %>/delete">
-                                            <input type="hidden" name="copy_id" value="<%= row.id %>">
-                                            <button class="button is-danger is-small is-rounded">
-                                                <i class="fas fa-fw fa-times-circle"></i>
-                                        </form>
-                                    </div>
-                                </td>
-                    </tr>
-                    <% }); %>
-                </tbody>
-            </table>
-            <% } else { %>
-            <h2>No <%= pretty_name %>s</h2>!
-            <% } %>
-            
-            <%- include ../partials/footer %>
+                    <form action="/<%= table_name %>/<% row.id %>" method="DELETE">
+                        <button type="submit" class="button is-danger is-small is-rounded">
+                        <i class="fas fa-fw fa-times-circle"></i>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        <% }); %>
+        </tbody>
+</table>
+<% } else { %>
+<h2>No Game Copies</h2>!
+<% } %>
+        
+<%- include ../partials/footer %>

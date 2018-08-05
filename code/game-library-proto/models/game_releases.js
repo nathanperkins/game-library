@@ -45,7 +45,7 @@ GameRelease.get = (obj, callback) => {
             callback(new Error('GameRelease.get() error: returned more than one row'));
         }
         else if (rows.length == 0) {
-            callback(new Error('GameRelease.get() error: did not find GameRelease with id: ${obj.id}'));
+            callback(new Error(`GameRelease.get() error: did not find GameRelease with id: ${obj.id}`));
         }
         else {
             callback(err, rows[0], fields);

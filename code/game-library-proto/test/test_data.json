@@ -1,4 +1,12 @@
 {
+    "copies" : {
+        "1" : {
+            "release_id"  : 1,
+            "library_tag" : "0001",
+            "dt_procured" : "2018-08-04"
+        }
+    },
+    
     "platforms" : {
         "1" : {
             "name"         : "Switch",
