@@ -1,5 +1,9 @@
 # Changelog
 
+# 2018-08-04
+- Make all fields required (NOT NULL)
+  - except GameRequest copy_id, dt_checked_out, and dt_completed
+
 ## 2018-07-29
 - Add Query
   - insert_new_platform

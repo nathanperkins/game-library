@@ -33,10 +33,10 @@ CREATE TABLE `users` (
 CREATE TABLE `game_titles` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `name` varchar(255) NOT NULL,
-    `description` text,
-    `genre` varchar(255),
-    `developer` varchar(255),
-    `producer` varchar(255),
+    `description` text NOT NULL,
+    `genre` varchar(255) NOT NULL,
+    `developer` varchar(255) NOT NULL,
+    `producer` varchar(255) NOT NULL,
     `dt_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `dt_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
@@ -47,8 +47,8 @@ CREATE TABLE `game_titles` (
 CREATE TABLE `game_platforms` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `name` varchar(255) NOT NULL,
-    `manufacturer` varchar(255),
-    `release_date` date,
+    `manufacturer` varchar(255) NOT NULL,
+    `release_date` date NOT NULL,
     `dt_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `dt_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
@@ -60,9 +60,9 @@ CREATE TABLE `game_releases` (
     `id`            int(11) NOT NULL AUTO_INCREMENT,
     `title_id`      int(11) NOT NULL,
     `platform_id`   int(11) NOT NULL,
-    `rating`        DECIMAL(5,2),
-    `boxart_url`    varchar(255),
-    `release_date`  date,
+    `rating`        DECIMAL(5,2) NOT NULL,
+    `boxart_url`    varchar(255) NOT NULL,
+    `release_date`  date NOT NULL,
     `dt_created`    datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `dt_updated`    datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
@@ -77,7 +77,7 @@ CREATE TABLE `game_copies` (
     `status` enum('available', 'checked_out', 'lost') NOT NULL,
     `release_id` int(11) NOT NULL,
     `library_tag` varchar(255) NOT NULL,
-    `dt_procured` date,
+    `dt_procured` date NOT NULL,
     `dt_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `dt_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
@@ -92,10 +92,10 @@ CREATE TABLE `game_requests` (
     `release_id` int(11) NOT NULL,
     `copy_id` int(11),
     
-    `dt_requested` datetime,
+    `dt_requested` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `dt_delivered` datetime,
     `dt_completed` datetime,
-    `status` enum('pending', 'checked_out', 'completed') NOT NULL,
+    `status` enum('pending', 'checked_out', 'completed', 'cancelled') NOT NULL,
 
     `dt_created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `dt_updated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

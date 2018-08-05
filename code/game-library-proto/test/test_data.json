@@ -19,7 +19,7 @@
         "1" : {
             "title_id"     : 1,
             "platform_id"  : 1,
-            "rating"       : 10,
+            "rating"       : 100,
             "boxart_url"   : "https://www.mobygames.com/images/covers/l/383716-the-legend-of-zelda-breath-of-the-wild-nintendo-switch-front-cover.png",
             "release_date" : "2017-03-03"
         }

@@ -8,7 +8,9 @@ const GameRelease = {};
 // with other models
 GameRelease.getAll = (obj, callback) => {
     const sql = `
-    SELECT GRelease.id, Title.name AS title, Title.id AS title_id, Platform.name AS platform, Platform.id AS platform_id, GRelease.release_date
+    SELECT GRelease.id, GRelease.release_date, GRelease.rating, GRelease.boxart_url,
+    Title.name AS title, Title.id AS title_id, 
+    Platform.name AS platform, Platform.id AS platform_id
     FROM game_releases AS GRelease
     JOIN game_titles AS Title
     ON Title.id = GRelease.title_id
@@ -30,7 +32,9 @@ GameRelease.get = (obj, callback) => {
     }
     
     const sql = `
-    SELECT GRelease.id, Title.name AS title, Title.id AS title_id, Platform.name AS platform, Platform.id AS platform_id, GRelease.release_date
+    SELECT GRelease.id, GRelease.release_date, GRelease.rating, GRelease.boxart_url,
+    Title.name AS title, Title.id AS title_id, 
+    Platform.name AS platform, Platform.id AS platform_id
     FROM game_releases AS GRelease
     JOIN game_titles AS Title
     ON Title.id = GRelease.title_id
@@ -132,14 +136,15 @@ GameRelease.update = (obj, callback) => {
         }
 
         const compiledQuery = compileSql(sql, {
-            title_id : obj.title_id || release.title_id,
-            platform_id         : obj.platform_id         || release.platform_id,
-            rating : obj.rating || release.rating,
-            boxart_url : obj.boxart_url || release.boxart_url,
+            title_id     : obj.title_id     || release.title_id,
+            platform_id  : obj.platform_id  || release.platform_id,
+            rating       : obj.rating       || release.rating,
+            boxart_url   : obj.boxart_url   || release.boxart_url,
             release_date : obj.release_date || release.release_date,
             id           : obj.id,
         });
 
+        console.log(compiledQuery);
         connection.query(compiledQuery[0], compiledQuery[1], (err, result) => {
             if (err) {
                 callback(err);
