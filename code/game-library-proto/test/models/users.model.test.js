@@ -390,4 +390,68 @@ describe('Model - Users', () => {
 
         });
     });
+
+    describe('User.update()', () => {
+        beforeEach('reset database', done => {
+            db.createTables( err => {
+                if (err) throw err;
+                User.create(generic_user, (err, user) => {
+                    if (err) throw err;
+                    done();
+                });
+            });
+        });
+
+        describe('User.login() missing email', () => {
+            it('it should give an error', done => {
+                User.login({
+                    password: generic_user.password,
+                }, (err, user) => {
+                    err.should.be.an.instanceOf(Error);
+                    should.not.exist(user);
+                    done();
+                });
+            });
+        });
+
+        describe('User.login() missing password', () => {
+            it('it should give an error', done => {
+                User.login({
+                    email: generic_user.email,
+                }, (err, user) => {
+                    err.should.be.an.instanceOf(Error);
+                    should.not.exist(user);
+                    done();
+                });
+            });
+        });
+
+        describe('User.login() incorrect password', () => {
+            it('it should give an error', done => {
+                User.login({
+                    email: generic_user.email,
+                    password: "bad password",
+                }, (err, user) => {
+                    err.should.be.an.instanceOf(Error);
+                    should.not.exist(user);
+                    done();
+                });
+            });
+        });
+
+        describe('User.login() correct password', () => {
+            it('it should return the user', done => {
+                User.login({
+                    email: generic_user.email,
+                    password: generic_user.password,
+                }, (err, user) => {
+                    should.equal(err, null);
+                    user.should.exist;
+                    user.should.not.have.property('password');
+                    user.id.should.equal(1);
+                    done();
+                });
+            });
+        });
+    });
 });

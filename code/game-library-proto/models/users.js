@@ -105,7 +105,7 @@ User.password = (obj, callback) => {
 
     if (obj.hasOwnProperty('email')) {
         const sql = 
-            `SELECT User.id, User.email, User.password
+            `SELECT User.id, User.password, User.last_name, User.first_name, User.email, User.role
             FROM users AS User
             WHERE User.email = :email
             ;`;
@@ -140,30 +140,59 @@ User.password = (obj, callback) => {
     }
 };
 
+User.login = (obj, callback) => {
+    if (!(obj.hasOwnProperty('email') && obj.hasOwnProperty('password'))) {
+        callback(new Error('No id given for User.get()'));
+        return;
+    }
+
+    User.password({email: obj.email}, (err, user) => {
+        if (!user) {
+            callback(new Error('Login error: bad username or password'));
+            return;
+        }
+        bcrypt.compare(obj.password, user.password || obj.password, (err, res) => {
+            if (err) {
+                callback(err);
+                return;
+            }
+
+            if (!res) {
+                callback(new Error('Login error: bad username or password'));
+                return;
+            }
+
+            delete user.password;
+
+            callback(null, user);
+        });
+    });
+};
+
 // destroys a user by id
 // returns the sql result
 User.destroy = (obj, callback) => {
 
-    if ( obj.hasOwnProperty('id') ) {
-        const sql = `
-            DELETE FROM users
-            WHERE users.id = :id
-            ;`;
-
-        const compiledQuery = compileSql(sql, {id: obj.id});
-        connection.query(compiledQuery[0], compiledQuery[1], (err, result) => {
-            
-            if (result.affectedRows === 0) {
-                callback(new Error(`User.destroy() error: user with id: ${obj.id} not found.`));
-                return;
-            }
-
-            callback(err, result);
-        });
-    }
-    else {
+    if (!obj.hasOwnProperty('id')) {
         callback(new Error('No id given for User.get()'));
-    }
+        return;
+    };
+    
+    const sql = `
+        DELETE FROM users
+        WHERE users.id = :id
+        ;`;
+
+    const compiledQuery = compileSql(sql, {id: obj.id});
+    connection.query(compiledQuery[0], compiledQuery[1], (err, result) => {
+        
+        if (result.affectedRows === 0) {
+            callback(new Error(`User.destroy() error: user with id: ${obj.id} not found.`));
+            return;
+        }
+
+        callback(err, result);
+    });
 };
 
 // update a user by id

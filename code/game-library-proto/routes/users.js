@@ -58,13 +58,16 @@ routes.post("/login", (req, res) => {
     const email     = req.body.email;
     const password  = req.body.password;
 
-    User.get({email: email}, (err, user) => {
+
+
+    User.login({email, password}, (err, user) => {
         if (user) {
             req.session.user = user;
             req.session.name = `${user.first_name} ${user.last_name}`;
+            req.flash('success', `Welcome ${user.first_name}!`);
             res.redirect('/');
         } else {
-            req.flash('danger', 'Login failed: bad email or password');
+            req.flash('danger', err.message);
             res.redirect('/users/login/');
         }
     });
@@ -102,6 +105,28 @@ routes.get('/profile/', (req, res) => {
             data.requests_cancelled   = rows.filter(row => row.status === "completed");
 
             res.render('users/profile', data);
+        });
+    });
+});
+
+routes.get('/:user_id/promote/', (req, res) => {
+    User.get({id: req.params.user_id}, (err, user) => {
+        if (err) {
+            req.flash('danger', err.message);
+            res.redirect('/');
+            return;
+        }
+
+        User.update({id: user.id, role: 'admin'}, (err, user) => {
+            if (err) {
+                req.flash('danger', err.message);
+            }
+            else {
+                req.session.user = user;
+                req.flash('success', `${user.email} was promoted to ${user.role}`);
+            }
+            
+            res.redirect('/');
         });
     });
 });
@@ -149,15 +174,14 @@ routes.post('/', [
         role       : "user",
     }, (err, user) => {
         if (err) {
-            console.log(err);
             req.flash('danger', err['msg'] || err['sqlMessage']);
             res.redirect('/users/new/');
             return;
         }
 
-        req.flash('success', `User created: ${user.first_name} ${user.last_name}!`);
-
-        res.redirect('/users/');
+        req.session.user = user;
+        req.flash('success', `Welcome ${user.first_name} ${user.last_name}!`);
+        res.redirect('/');
     });
 });
 

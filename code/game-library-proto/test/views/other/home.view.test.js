@@ -6,18 +6,23 @@ const should   = chai.should();
 
 const app      = require('../../../app');
 const db       = require(__basedir + '/db');
+const User     = require(__basedir + '/models/users');
+
+const test_data = JSON.parse(require('fs').readFileSync(__basedir + "/test/test_data.json"));
+const user      = test_data['users']['1'];
 
 chai.use(chaiHttp);
+const agent = chai.request.agent(app.get('base_url'));
 
 describe('View - Home', () => {
 
     beforeEach('reset database', done => {
         db.createTables( err => {
             if (err) throw err;
-            db.insertDummyData( err => {
+            User.create(user, (err, user) => {
                 if (err) throw err;
                 done();
-            })
+            });
         });
     });
 
@@ -66,17 +71,24 @@ describe('View - Home', () => {
     });
 
     describe('GET / with user', () => {
-
         it('it should have logout', done => {
-            //TODO
-            done();
+            agent
+                .post('/users/login/')
+                .type('form')
+                .send(user)
+                .end( (err, res) => {
+                    if (err) throw err;
+                    agent
+                        .get('/')
+                        .end( (err, res) => {
+                            res.text.should.match(/Logout/);
+                            res.text.should.match(/Promote/);
+                            res.text.should.not.match(/Login/);
+                            res.text.should.not.match(/Register/);
+                            done();
+                        });
+                })
         });
-
-        it('it should not have admin, login or register', done => {
-            //TODO
-            done();
-        });
-
     });
 
     describe('GET /nonsense/', () => {

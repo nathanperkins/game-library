@@ -49,8 +49,12 @@
               <% } %>
               
             </div>
-        
             <div class="navbar-end">
+                <% if (locals.session.user && locals.session.user.role !== 'admin') { %>
+                <a class="navbar-item" href="/users/<%= locals.session.user.id %>/promote/">
+                  Promote
+                </a>
+                <% } %>
                 <!-- right side elements here -->
             </div>
         </div>
