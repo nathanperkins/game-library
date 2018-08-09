@@ -35,7 +35,8 @@ describe('View - Users index', () => {
                 .get('/users/')
                 .end( (err, res) => {
                     res.text.should.match(/Users Index/);
-                    res.text.should.match(/New User/);
+                    res.text.should.not.match(/New User/);
+                    res.text.should.match(/Users description here/);
                     done();
                 }
             );
@@ -46,7 +47,7 @@ describe('View - Users index', () => {
                 .get('/users/')
                 .end( (err, res) => {
                     res.text.should.not.match(/<table/);
-                    res.text.should.match(/No Users/);
+                    res.text.should.match(/No data/);
                     done();
                 }
             );
@@ -71,7 +72,8 @@ describe('View - Users index', () => {
                 .get('/users/')
                 .end( (err, res) => {
                     res.text.should.match(/Users Index/);
-                    res.text.should.match(/New User/);
+                    res.text.should.not.match(/New User/);
+                    res.text.should.match(/Users description here/);
                     done();
                 }
             );
@@ -86,6 +88,7 @@ describe('View - Users index', () => {
                     res.text.should.match(/First Name/);
                     res.text.should.match(/Email/);
                     res.text.should.match(/Role/);
+                    res.text.should.match(/Update/);
 
                     res.text.should.match(/61/);
                     res.text.should.match(/Abshire/);

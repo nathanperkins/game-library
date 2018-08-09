@@ -35,6 +35,8 @@ describe('View - Game Copy Index', () => {
                 .get('/game_copies/')
                 .end( (err, res) => {
                     res.text.should.match(/Game Copy Index/);
+                    res.text.should.match(/Copy description here/);
+                    res.text.should.match(/href="\/game_releases\//);
                     res.text.should.match(/New Game Copy/);
                     done();
                 }
@@ -46,7 +48,7 @@ describe('View - Game Copy Index', () => {
                 .get('/game_copies/')
                 .end( (err, res) => {
                     res.text.should.not.match(/<table/);
-                    res.text.should.match(/No Game Copies/);
+                    res.text.should.match(/No data/);
                     done();
                 }
             );
@@ -87,6 +89,7 @@ describe('View - Game Copy Index', () => {
                     res.text.should.match(/Platform/);
                     res.text.should.match(/Library Tag/);
                     res.text.should.match(/Update/);
+                    res.text.should.not.match(/Add Child/);
 
                     res.text.should.match(/4/);
                     res.text.should.match(/The Legend of Zelda/);

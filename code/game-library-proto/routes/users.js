@@ -17,8 +17,11 @@ const bcrypt = require('bcrypt');
 routes. get('/', (req, res) => {
     const context = {
         page_title  : "Users Index",
+        page_description: "Users description here",
         table_name  : "users",
         pretty_name : "User",
+        new_endpoint: "/users/new/",
+        update: true,
     }
 
     User.getAll( {}, (err, rows, fields) => {

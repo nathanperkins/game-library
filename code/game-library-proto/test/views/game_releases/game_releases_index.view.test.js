@@ -36,6 +36,8 @@ describe('View - Game Release Index', () => {
                 .end( (err, res) => {
                     res.text.should.match(/Game Release Index/);
                     res.text.should.match(/New Game Release/);
+                    res.text.should.match(/href="\/game_titles\//);
+                    res.text.should.match(/Release description here/);
                     done();
                 }
             );
@@ -46,7 +48,7 @@ describe('View - Game Release Index', () => {
                 .get('/game_releases/')
                 .end( (err, res) => {
                     res.text.should.not.match(/<table/);
-                    res.text.should.match(/No Game Releases/);
+                    res.text.should.match(/No data/);
                     done();
                 }
             );
@@ -72,6 +74,8 @@ describe('View - Game Release Index', () => {
                 .end( (err, res) => {
                     res.text.should.match(/Game Release Index/);
                     res.text.should.match(/New Game Release/);
+                    res.text.should.match(/href="\/game_titles\//);
+                    res.text.should.match(/Release description here/);
                     done();
                 }
             );
@@ -85,7 +89,8 @@ describe('View - Game Release Index', () => {
                     res.text.should.match(/Title/);
                     res.text.should.match(/Platform/);
                     res.text.should.match(/Release Date/);
-                    res.text.should.match(/Add/);
+                    res.text.should.match(/>Update</);
+                    res.text.should.match(/Add Child/);
                     res.text.should.not.match(/boxart_url/);
                     res.text.should.not.match(/rating/);
 
@@ -93,6 +98,8 @@ describe('View - Game Release Index', () => {
                     res.text.should.match(/The Legend of Zelda: Breath of the Wild/);
                     res.text.should.match(/Switch/);
                     res.text.should.match(/3\/3\/2017/);
+                    res.text.should.match(/action="\/game_copies\/new/);
+                    res.text.should.match(/name="release_id" value="10"/);
                     done();
                 }
             );

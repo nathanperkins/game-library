@@ -65,6 +65,7 @@ describe('View - Create Game Copy', () => {
                     res.text.should.match(/Zelda/);
                     res.text.should.match(/Switch/);
                     res.text.should.match(/<form action="\/game_copies\/" method="POST">/);
+                    res.text.should.match(/<input[\w\s"=-]* value="POST"/);
                     res.text.should.match(/<input[\w\s"=-]* name="copy_id"/);
                     res.text.should.match(/<input[\w\s"=-]* name="release_id"/);
                     res.text.should.match(/<input[\w\s"=-]* name="library_tag"/);

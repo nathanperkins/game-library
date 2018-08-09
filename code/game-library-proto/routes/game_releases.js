@@ -15,8 +15,14 @@ const { body, validationResult } = require('express-validator/check');
 routes.get('/', (req, res) => {
     const context = {
         page_title: "Game Release Index",
+        page_description: "Release description here",
         table_name: "game_releases",
         pretty_name: "Game Release",
+        new_endpoint: "/game_titles/",
+        child_endpoint: "/game_copies/new",
+        child_name: "Copy",
+        id_name: "release_id",
+        update: true,
     }
 
     GameRelease.getAll({}, (err, releases) => {
@@ -34,7 +40,7 @@ routes.get('/', (req, res) => {
             if (release.release_date) release.release_date = release.release_date.toLocaleString("en-US", {year: "numeric", month: "numeric", day: "numeric", timeZone: "UTC"});
         });
 
-        res.render('game_releases/index', context);
+        res.render('generic/table', context);
     });
 });
 

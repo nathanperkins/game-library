@@ -16,6 +16,7 @@
     "express-session": "^1.15.6",
     "express-validator": "^5.2.0",
     "forever": "^0.15.3",
+    "method-override": "^3.0.0",
     "mysql": "^2.16.0",
     "named-placeholders": "^1.1.1"
   },

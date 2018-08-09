@@ -50,8 +50,21 @@ app.use(bodyParser.urlencoded({extended: true}));
 // serve static files in the ./public folder
 app.use(express.static('public'));
 
+// use method-override for using RESTFul routes with HTML forms
+// https://www.npmjs.com/package/method-override
+const methodOverride = require('method-override');
+app.use(methodOverride(function (req, res) {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+        // look in urlencoded POST bodies and delete it
+        var method = req.body._method;
+        delete req.body._method;
+        return method;
+    }
+}));
+
 // custom middleware
 app.use(function (req, res, next) {
+
     res.locals.messages = require('express-messages')(req, res);
     res.locals.session  = req.session;
     res.locals.app_name = config.app.name;

@@ -20,3 +20,7 @@
     display: inline;
     vertical-align: middle;
 }
+
+a.new-entity-button {
+    margin-bottom: 1em;
+}

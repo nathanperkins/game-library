@@ -11,9 +11,15 @@ const { sanitizeBody } = require('express-validator/filter');
 
 routes. get('/', (req, res) => {
     const context = {
-        page_title  : "Game Title Index",
-        table_name  : "game_titles",
-        pretty_name : "Game Title",
+        page_title      : "Game Title Index",
+        page_description: "Title description here",
+        table_name      : "game_titles",
+        id_name         : "title_id",
+        pretty_name     : "Game Title",
+        new_endpoint    : "/game_titles/new/",
+        child_endpoint  : "/game_releases/new",
+        child_name      : "Release",
+        update: true,
     }
 
     GameTitle.getAll({}, (err, rows, fields) => {
@@ -21,14 +27,14 @@ routes. get('/', (req, res) => {
 
         context.rows   = rows;
         context.fields = [
-            'ID',
-            'Name',
-            'Genre',
-            'Developer',
-            'Producer',
+            {name: 'id', pretty: 'ID'},
+            {name: 'name', pretty: 'Name'},
+            {name: 'genre', pretty: 'Genre'},
+            {name: 'developer', pretty: 'Developer'},
+            {name: 'producer', pretty: 'Producer'},
         ]
 
-        res.render('game_titles/index', context);
+        res.render('generic/table', context);
     });
 });
 

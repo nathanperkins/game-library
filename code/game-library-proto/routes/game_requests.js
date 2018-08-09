@@ -71,4 +71,10 @@ routes.get('/completed/', (req, res) => {
     });
 });
 
+routes.delete('/:request_id', (req, res) => {
+    console.log("attempted to delete: ", req.params.request_id);
+
+    res.redirect('/game_requests/');
+})
+
 module.exports = routes;

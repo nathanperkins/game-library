@@ -36,6 +36,8 @@ describe('View - Game Platform Index', () => {
                 .end( (err, res) => {
                     res.text.should.match(/Game Platform Index/);
                     res.text.should.match(/New Game Platform/);
+                    res.text.should.match(/href="\/game_platforms\/new\//);
+                    res.text.should.match(/Platform description here/);
                     done();
                 }
             );
@@ -46,7 +48,7 @@ describe('View - Game Platform Index', () => {
                 .get('/game_platforms/')
                 .end( (err, res) => {
                     res.text.should.not.match(/<table/);
-                    res.text.should.match(/No Game Platforms/);
+                    res.text.should.match(/No data/);
                     done();
                 }
             );
@@ -72,6 +74,8 @@ describe('View - Game Platform Index', () => {
                 .end( (err, res) => {
                     res.text.should.match(/Game Platform Index/);
                     res.text.should.match(/New Game Platform/);
+                    res.text.should.match(/href="\/game_platforms\/new\//);
+                    res.text.should.match(/Platform description here/);
                     done();
                 }
             );
@@ -84,6 +88,7 @@ describe('View - Game Platform Index', () => {
                     res.text.should.match(/ID/);
                     res.text.should.match(/Manufacturer/);
                     res.text.should.match(/Release Date/);
+                    res.text.should.match(/>Update</);
                     res.text.should.not.match(/Created/);
                     res.text.should.not.match(/Updated/);
 

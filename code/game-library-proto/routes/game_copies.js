@@ -14,8 +14,11 @@ const { sanitizeBody } = require('express-validator/filter');
 routes.get('/', (req, res) => {
     const context = {
         page_title: "Game Copy Index",
+        page_description: "Copy description here",
         table_name: "game_copies",
+        new_endpoint: "/game_releases/",
         pretty_name: "Game Copy",
+        update: true,
     }
 
     GameCopy.getAll({}, (err, rows, fields) => {
@@ -30,7 +33,7 @@ routes.get('/', (req, res) => {
             {name: 'library_tag',   pretty: 'Library Tag'},
         ]
 
-        res.render('game_copies/index', context);
+        res.render('generic/table', context);
     });
 });
 
@@ -74,7 +77,7 @@ routes.get('/edit/:copy_id', (req, res) => {
         page_title: 'Edit Game Copy',
         page_heading: 'Update this copy of',
         endpoint: `/game_copies/${copy_id}`,
-        method: 'POST',
+        method: 'PATCH',
         redirect: '/game_copies/edit/' + copy_id,
     };
 
@@ -139,7 +142,7 @@ routes.post('/', [
     }
 });
 
-routes.post('/:copy_id', [
+routes.patch('/:copy_id', [
     // validations from express-validator
     body('library_tag').trim()
         .isInt().withMessage('must contain numbers only'),

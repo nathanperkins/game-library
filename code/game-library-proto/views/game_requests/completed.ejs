@@ -24,7 +24,12 @@
             <td><%= row.platform %></td>
             <td><%= row.library_tag %></td>
             <td><%= row.dt_completed.toLocaleString('en-US') %></td>
-            <td><input type=submit value=Delete></td>
+            <td>
+                <form action="/game_requests/<%= row.id %>" method="POST">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <input type=submit value=Delete>
+                </form>
+           </td>
         </tr>
         <% }); %>
     </tbody>

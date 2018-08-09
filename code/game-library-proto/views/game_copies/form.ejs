@@ -6,8 +6,8 @@
   </h3>
 </div>
 
-<form action="<%= endpoint %>" method="<%= method %>">
-  
+<form action="<%= endpoint %>" method="POST">
+  <input type="hidden" name="_method" value="<%= method %>">
   <input type="hidden" name="copy_id" value="<%= copy.id %>">
   <input type="hidden" name="release_id" value="<%= copy.release_id %>">
   <input type="hidden" name="redirect" value="<%= redirect %>">

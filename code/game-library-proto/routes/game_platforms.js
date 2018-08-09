@@ -12,8 +12,11 @@ const { sanitizeBody } = require('express-validator/filter');
 routes. get('/', (req, res) => {
     const context = {
         page_title  : "Game Platform Index",
+        page_description: "Platform description here",
         table_name  : "game_platforms",
         pretty_name : "Game Platform",
+        new_endpoint: "/game_platforms/new/",
+        update: true,
     }
 
     GamePlatform.getAll({}, (err, rows, fields) => {
