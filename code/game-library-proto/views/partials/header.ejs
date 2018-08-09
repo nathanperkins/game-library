@@ -9,18 +9,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
     <link rel="stylesheet" href="/css/style.css">
     <script defer src="https://use.fontawesome.com/releases/v5.1.0/js/all.js"></script>
-    <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   </head>
   <header>
     <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
         <div class="navbar-brand">
           <a class="navbar-item" href="/">
             <!-- <img src="https://bulma.io/images/bulma-logo.png" alt="Bulma: a modern CSS framework based on Flexbox" width="112" height="28"> -->
-            <i class="fas fa-fw fa-gamepad" style="font-size: 1.5em;"></i><%= app_name %>
+            <i class="fas fa-fw fa-gamepad" style="font-size: 2em; padding-right: 6px"></i><%= app_name %>
           </a>
+          <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
         </div>
 
-        <div class="navbar-menu is-active">
+        <div class="navbar-menu">
             <div class="navbar-start">
               <!-- left side elements here -->
               <a class="navbar-item" href="/library/">
@@ -28,24 +32,24 @@
               </a>
 
               <% if (locals.session.user) { %>
-                <a class="navbar-item" href="/users/profile/">
-                  Profile
-                </a>
-                <% if (locals.session.user.role === "admin") { %>
-                  <a class="navbar-item" href="/admin/">
-                    Admin
-                  </a>
-                <% } %>
-                <a class="navbar-item" href="/users/logout/">
-                  Logout
-                </a>
+              <a class="navbar-item" href="/users/profile/">
+                Profile
+              </a>
+              <% if (locals.session.user.role === "admin") { %>
+              <a class="navbar-item" href="/admin/">
+                Admin
+              </a>
+              <% } %>
+              <a class="navbar-item" href="/users/logout/">
+                Logout
+              </a>
               <% } else { %>
-                <a class="navbar-item" href="/users/login/">
-                  Login
-                </a>
-                <a class="navbar-item" href="/users/new/">
-                  Register
-                </a>
+              <a class="navbar-item" href="/users/new/">
+                Register
+              </a>
+              <a class="navbar-item" href="/users/login/">
+                Login
+              </a>
               <% } %>
               
             </div>
@@ -63,4 +67,4 @@
   <body>
   <section class="section">
       <div class="container">
-          <%- messages('partials/message', locals) %>
+            <%- messages('partials/message', locals) %>

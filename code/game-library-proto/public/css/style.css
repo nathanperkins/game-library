@@ -21,6 +21,28 @@
     vertical-align: middle;
 }
 
+#admin {
+    max-width: 800px;
+}
+
+#admin p {
+    margin-bottom: 1em;
+}
+
+#admin a .admin-icon {
+    margin-right: 0.3em;
+}
+.admin-section {
+    padding: 1.6em;
+    border-radius: 1.3em;
+    background-color: rgba(0,0,0,.05);
+    margin-bottom: 1em;
+}
+
+.admin-section button{
+    width: 100%
+}
+
 a.new-entity-button {
     margin-bottom: 1em;
 }

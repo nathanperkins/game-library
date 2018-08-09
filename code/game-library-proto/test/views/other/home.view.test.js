@@ -55,7 +55,7 @@ describe('View - Home', () => {
                 .get('/')
                 .end( (err, res) => {
                     res.text.should.match(/<h1[\w\s="]*>[\s]*Game Library/);
-                    res.text.should.match(/<p[\w\s="]*>[\s]*Request your games/)
+                    res.text.should.match(/<p[\w\s-="]*>[\s]*Request your games/)
                     done();
                 });
         });

@@ -1,60 +1,139 @@
 <%- include('../partials/header'); %>
 
-<h1 class="title">
-    Admin Console
-</h1>
-<p class="subtitle is-4">
-    Do your admin thing here
-</p>
+    <h1 class="title">
+        Admin Console
+    </h1>
 
-<hr class="hr">
+    <p class="subtitle is-4">
+        View tables and manage library
+    </p>
+    <div id="admin">
+        <div class="tile is-ancestor">
 
-<div class="level">
-    <div class="notification">
-        <a href="/users/">View the <strong>Users</strong> table.</a>
-    </div>
-</div>
+            <div class="tile is-parent">
+                <div class="tile is-child">
+                    <div class="admin-section card">
+                        <p class="title is-4">
+                            Requests
+                        </p>
+                        <div class="content">
+                            <strong>Requests</strong> are made for a title on a specific platform. Admins can checkout a copy to
+                            a user and return it once they are done, which completes the request.
+                        </div>
+                        <a class="button is-link is-fullwidth" href="/game_requests/pending/">
+                            <i class="fas fa-fw fa-pause-circle admin-icon"></i>Pending
+                        </a>
+                        <br>
 
-<div class="level">
-    <div class="notification">
-        <a href="/game_titles/">View the <strong>Game_Titles</strong> table.</a>
-    </div>
-</div>
+                        <a class="button is-info is-fullwidth" href="/game_requests/checked_out/">
+                            <i class="fas fa-fw fa-play-circle admin-icon"></i>Checked Out
+                        </a>
+                        <br>
 
-<div class="level">
-        <div class="notification">
-            <a href="/game_platforms/">View the <strong>Game_Platforms</strong> table.</a>
-        </div>
-    </div>
+                        <a class="button is-primary is-fullwidth" href="/game_requests/completed/">
+                            <i class="fas fa-fw fa-check-circle admin-icon"></i>Complete
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-    <div class="level">
-            <div class="notification">
-                <a href="/game_releases/">View the <strong>Game_Releases</strong> table.</a>
+            <div class="tile is-parent">
+                <div class="tile is-child">
+                    <div class="admin-section card">
+                        <p class="title is-4">
+                            Users
+                        </p>
+                        <div class="content">
+                            <p>
+                                <strong>Users</strong> are those who use the game library, and are separated into two roles: admins,
+                                like you, and users.
+                            </p>
+                            <p>Admins update and organize the library and manage game requests, while users make requests to
+                                borrow games from the library.</p>
+                        </div>
+                        <a class="button is-success is-fullwidth" href="/users/">
+                            <i class="fas fa-fw fa-users admin-icon"></i> Users
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tile is-parent">
+                <div class="tile is-child">
+                    <div class="admin-section card">
+                        <p class="title is-4">
+                            Platforms
+                        </p>
+                        <div class="content">
+                            <p>
+                                <strong>Platforms</strong> are the consoles games are played on, like the Nintendo Switch or Sony
+                                PS4.
+                            </p>
+                        </div>
+                        <a class="button is-info is-fullwidth" href="/game_platforms/">
+                            <i class="fas fa-fw fa-hdd admin-icon" style=""></i> Platforms
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 
-<div class="level">
-    <div class="notification">
-        <a href="/game_copies/">View the <strong>Game_Copies</strong> table.</a>
-    </div>
-</div>
+        <div class="tile is-ancestor">
+            <div class="tile is-parent">
+                <div class="tile is-child">
+                    <div class="admin-section card">
+                        <p class="title is-4">
+                            Titles
+                        </p>
+                        <div class="content">
+                            <p>
+                                <strong>Titles</strong> are the names of games, like "Stardew Valley" or "Pokemon: Ultra Sun".
+                            </p>
+                        </div>
+                        <a class="button is-link is-fullwidth" href="/game_titles/">
+                            <i class="fas fa-fw fa-star admin-icon"></i> Titles
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-<div class="level">
-    <div class="notification">
-        <a href="/game_requests/pending/">View all unfulfilled <strong>Requests</strong>.</a>
-    </div>
-</div>
+            <div class="tile is-parent">
+                <div class="tile is-child">
+                    <div class="admin-section card">
+                        <p class="title is-4">
+                            Releases
+                        </p>
+                        <div class="content">
+                            <p>
+                                <strong>Releases</strong> are comprised of the game title and the platform it is released on, like
+                                "Super Mario Sunshine for Gamecube" or "The Elder Scrolls V: Skyrim for PS4".
+                            </p>
+                        </div>
+                        <a class="button is-primary is-fullwidth" href="/game_releases/">
+                            <i class="fas fa-fw fa-box-open admin-icon"></i> Releases
+                        </a>
+                    </div>
+                </div>
+            </div>
 
-<div class="level">
-    <div class="notification">
-        <a href="/game_requests/checked_out/">View all checked-out <strong>Requests</strong>.</a>
+            <div class="tile is-parent">
+                <div class="tile is-child">
+                    <div class="admin-section card">
+                        <p class="title is-4">
+                            Copies
+                        </p>
+                        <div class="content">
+                            <p>
+                                <strong>Copies</strong> are the physical copies of games that are in the library, each with a unique
+                                tag number.
+                            </p>
+                        </div>
+                        <a class="button is-success is-fullwidth" href="/game_copies/">
+                            <i class="fas fa-fw fa-tags admin-icon"></i>Game Copies
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-
-<div class="level">
-    <div class="notification">
-        <a href="/game_requests/completed/">View all completed <strong>Requests</strong>.</a>
-    </div>
-</div>
-
-<%- include('../partials/footer'); %>
+    <%- include('../partials/footer'); %>
