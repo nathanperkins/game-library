@@ -37,7 +37,7 @@ describe('View - Game Release Index', () => {
                     res.text.should.match(/Game Release Index/);
                     res.text.should.match(/New Game Release/);
                     res.text.should.match(/href="\/game_titles\//);
-                    res.text.should.match(/Release description here/);
+                    res.text.should.match(/<!DOCTYPE html>\n<html>\n/);
                     done();
                 }
             );
@@ -75,7 +75,7 @@ describe('View - Game Release Index', () => {
                     res.text.should.match(/Game Release Index/);
                     res.text.should.match(/New Game Release/);
                     res.text.should.match(/href="\/game_titles\//);
-                    res.text.should.match(/Release description here/);
+                    res.text.should.match(/<!DOCTYPE html>\n<html>\n/);
                     done();
                 }
             );

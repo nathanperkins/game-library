@@ -37,7 +37,7 @@ describe('View - Game Platform Index', () => {
                     res.text.should.match(/Game Platform Index/);
                     res.text.should.match(/New Game Platform/);
                     res.text.should.match(/href="\/game_platforms\/new\//);
-                    res.text.should.match(/Platform description here/);
+                    res.text.should.match(/Here are the platforms currently listed in the library. To add a new platform, use the button below./);
                     done();
                 }
             );
@@ -75,7 +75,7 @@ describe('View - Game Platform Index', () => {
                     res.text.should.match(/Game Platform Index/);
                     res.text.should.match(/New Game Platform/);
                     res.text.should.match(/href="\/game_platforms\/new\//);
-                    res.text.should.match(/Platform description here/);
+                    res.text.should.match(/Here are the platforms currently listed in the library. To add a new platform, use the button below./);
                     done();
                 }
             );
