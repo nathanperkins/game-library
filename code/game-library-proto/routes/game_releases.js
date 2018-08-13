@@ -15,7 +15,7 @@ const { body, validationResult } = require('express-validator/check');
 routes.get('/', (req, res) => {
     const context = {
         page_title: "Game Release Index",
-        page_description: "Release description here",
+        page_description: "Here are the releases currently listed in the library. To add a new release, use the button below to be taken to the game titles table. Find the title for which you'd like to add a new release to the library, and click '+ New Release' at the end of the row.",
         table_name: "game_releases",
         pretty_name: "Game Release",
         new_endpoint: "/game_titles/",

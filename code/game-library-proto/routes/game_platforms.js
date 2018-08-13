@@ -12,7 +12,7 @@ const { sanitizeBody } = require('express-validator/filter');
 routes. get('/', (req, res) => {
     const context = {
         page_title  : "Game Platform Index",
-        page_description: "Platform description here",
+        page_description: "Here are the platforms currently listed in the library. To add a new platform, use the button below.",
         table_name  : "game_platforms",
         pretty_name : "Game Platform",
         new_endpoint: "/game_platforms/new/",

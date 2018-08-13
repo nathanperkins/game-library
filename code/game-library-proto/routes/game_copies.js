@@ -14,7 +14,7 @@ const { sanitizeBody } = require('express-validator/filter');
 routes.get('/', (req, res) => {
     const context = {
         page_title: "Game Copy Index",
-        page_description: "To add a new game copy to the library, click on '+ New Game Copy' to be taken to the release table. Find the release for which you'd like to add a new copy to the library, and click '+ New Game Copy' at the end of the row.",
+        page_description: "Here are the copies currently listed in the library. To add a new game copy, click the button below to be taken to the release table. Find the release for which you'd like to add a new copy to the library, and click '+ New Game Copy' at the end of the row.",
         table_name: "game_copies",
         id_name: "copy_id",
         new_endpoint: "/game_releases/",
@@ -228,7 +228,6 @@ routes.delete('/:copy_id', (req, res) => {
             return;
         }
 
-        console.log(found_copy.status);
         if (found_copy.status == 'checked_out' || found_copy.status == 'lost') {
             req.flash('danger', `Cannot delete game copies that are currently checked out or lost.`);
             res.redirect(`/game_copies/`);
