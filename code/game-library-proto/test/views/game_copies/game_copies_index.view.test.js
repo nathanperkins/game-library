@@ -35,7 +35,7 @@ describe('View - Game Copy Index', () => {
                 .get('/game_copies/')
                 .end( (err, res) => {
                     res.text.should.match(/Game Copy Index/);
-                    res.text.should.match(/Copy description here/);
+                    res.text.should.match(/To add a new game copy/);
                     res.text.should.match(/href="\/game_releases\//);
                     res.text.should.match(/New Game Copy/);
                     done();

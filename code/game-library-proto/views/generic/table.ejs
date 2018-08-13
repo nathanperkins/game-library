@@ -24,7 +24,7 @@
         <th>Delete</th>
         <% } %>
         <% if (locals.child_endpoint) { %>
-            <th>Add Child</th>
+            <th>Add <%= child_name %></th>
         <% } %>
     </thead>
     <tbody>
@@ -46,7 +46,7 @@
             <% } if (locals.delete) { %>
             <td>
             <div class="button-container">
-                <form action="/<%= table_name %>/<% row.id %>" method="POST">
+                <form action="/<%= table_name %>/<%= row.id %>" method="POST">
                     <input type="hidden" name="_method" value="DELETE">
                     <input type="hidden" name="<%= id_name %>" value="<%= row.id %>">
                     <button type="submit" class="button is-danger is-small is-rounded">

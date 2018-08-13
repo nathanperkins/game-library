@@ -14,10 +14,12 @@ const { sanitizeBody } = require('express-validator/filter');
 routes.get('/', (req, res) => {
     const context = {
         page_title: "Game Copy Index",
-        page_description: "Copy description here",
+        page_description: "To add a new game copy to the library, click on '+ New Game Copy' to be taken to the release table. Find the release for which you'd like to add a new copy to the library, and click '+ New Game Copy' at the end of the row.",
         table_name: "game_copies",
+        id_name: "copy_id",
         new_endpoint: "/game_releases/",
         pretty_name: "Game Copy",
+        delete: true,
         update: true,
     }
 
@@ -26,11 +28,11 @@ routes.get('/', (req, res) => {
 
         context.rows = rows;
         context.fields = [
-            {name: 'id',            pretty: 'ID'},
-            {name: 'status',        pretty: 'Status'},
-            {name: 'title',         pretty: 'Title'},
-            {name: 'platform',      pretty: 'Platform'},
-            {name: 'library_tag',   pretty: 'Library Tag'},
+            { name: 'id', pretty: 'ID' },
+            { name: 'status', pretty: 'Status' },
+            { name: 'title', pretty: 'Title' },
+            { name: 'platform', pretty: 'Platform' },
+            { name: 'library_tag', pretty: 'Library Tag' },
         ]
 
         res.render('generic/table', context);
@@ -46,9 +48,9 @@ routes.get('/new/', (req, res) => {
         redirect: '/game_copies/new/?',
     };
 
-    GameRelease.get({id: req.query.release_id}, (err, release) => {
+    GameRelease.get({ id: req.query.release_id }, (err, release) => {
         if (err) {
-            req.flash('danger', `${ err.message || err.sqlMessage}`);
+            req.flash('danger', `${err.message || err.sqlMessage}`);
             res.redirect(`/game_releases/`);
             return;
         }
@@ -63,7 +65,7 @@ routes.get('/new/', (req, res) => {
         res.render('game_copies/form', data);
     });
 
-    
+
 });
 
 /* Route for updating a game copy - brings values from the table to
@@ -81,19 +83,40 @@ routes.get('/edit/:copy_id', (req, res) => {
         redirect: '/game_copies/edit/' + copy_id,
     };
 
-    GameCopy.get({id: copy_id}, (err, copy, fields) => {
+    GameCopy.get({ id: copy_id }, (err, copy, fields) => {
         if (err) {
-            req.flash('danger', `${ err.message || err.sqlMessage}`);
+            req.flash('danger', `${err.message || err.sqlMessage}`);
             res.redirect(`/game_copies/`);
             return;
         }
 
-        copy.dt_procured = copy.dt_procured.toISOString().slice(0,10);
+        copy.dt_procured = copy.dt_procured.toISOString().slice(0, 10);
         data.copy = copy;
 
         res.render('game_copies/form', data);
     });
 });
+
+routes.get('/delete/:copy_id', (req, res) => {
+    const copy_id = req.params.copy_id;
+
+    const data = {
+        page_title: 'Edit Game Copy',
+    };
+
+    GameCopy.get({ id: copy_id }, (err, copy, fields) => {
+        if (err) {
+            req.flash('danger', `${err.message || err.sqlMessage}`);
+            res.redirect(`/game_copies/`);
+            return;
+        }
+
+        data.copy = copy;
+
+        res.render('game_copies/delete', data);
+    });
+});
+
 
 routes.post('/', [
     // validations from express-validator
@@ -104,8 +127,6 @@ routes.post('/', [
 
     const data = {
         page_title: req.body.page_title,
-        game_title: req.body.game_title,
-        game_platform: req.body.game_platform,
         release_id: req.body.release_id,
         library_tag: req.body.library_tag,
         dt_procured: req.body.dt_procured,
@@ -123,20 +144,27 @@ routes.post('/', [
     } else {
         // parameters for insert query
         const newCopy = {
-            release_id  : req.body.release_id,
+            release_id: req.body.release_id,
             library_tag: req.body.library_tag,
             dt_procured: req.body.dt_procured
         };
 
-        GameCopy.create(newCopy, (err, copy) => {
+        GameCopy.create(newCopy, (err) => {
             if (err) {
                 req.flash('danger', `Oops! Tag #${newCopy.library_tag} is already in the library. Please choose a new tag.`);
                 res.redirect(data.redirect + query);
             }
 
             else {
-                req.flash('success', `Copy created: Tag #${newCopy.library_tag} ${data.game_title} on ${data.game_platform}!`);
-                res.redirect('/game_copies/');
+
+                GameRelease.get({ id: newCopy.release_id }, (release) => {
+
+                    data.title = release.title;
+                    data.platform = release.platform;
+                    req.flash('success', `Copy created: Tag #${newCopy.library_tag} ${data.title} on ${data.platform}!`);
+                    res.redirect('/game_copies/');
+
+                });
             }
         });
     }
@@ -146,7 +174,7 @@ routes.patch('/:copy_id', [
     // validations from express-validator
     body('library_tag').trim()
         .isInt().withMessage('must contain numbers only'),
-    ], (req, res) => {
+], (req, res) => {
     const errors = validationResult(req);
     const copy_id = req.params.copy_id;
 
@@ -159,9 +187,9 @@ routes.patch('/:copy_id', [
         return;
     }
 
-    GameCopy.get({id: copy_id}, (err, found_copy) => {
+    GameCopy.get({ id: copy_id }, (err, found_copy) => {
         if (err) {
-            req.flash('danger', `Game Copy edit error:  ${ err.msg || err.sqlMessage}`);
+            req.flash('danger', `Game Copy edit error:  ${err.msg || err.sqlMessage}`);
             res.redirect(`/game_copies/`);
             return;
         }
@@ -169,7 +197,7 @@ routes.patch('/:copy_id', [
         const copy_params = {
             library_tag: req.body.library_tag || found_copy.library_tag,
             dt_procured: req.body.dt_procured || found_copy.dt_procured,
-            id:          copy_id
+            id: copy_id
         };
 
         GameCopy.update(copy_params, (err, updated_copy) => {
@@ -180,12 +208,48 @@ routes.patch('/:copy_id', [
             }
 
             if (err) {
-                req.flash('danger', `Game Copy edit error:  ${ err.msg || err.sqlMessage}`);
+                req.flash('danger', `Game Copy edit error:  ${err.msg || err.sqlMessage}`);
                 res.redirect(`/game_copies/edit/${copy_id}`);
                 return;
             }
-    
+
             req.flash('success', `Copy updated: Tag #${updated_copy.library_tag} ${updated_copy.title} on ${updated_copy.platform}!`);
+            res.redirect('/game_copies/');
+        });
+    });
+});
+
+routes.delete('/:copy_id', (req, res) => {
+
+    const copy_id = req.params.copy_id;
+
+    GameCopy.get({ id: copy_id }, (err, found_copy) => {
+        if (err) {
+            req.flash('danger', `Game Copy delete error:  ${err.msg || err.sqlMessage}`);
+            res.redirect(`/game_copies/`);
+            return;
+        }
+
+        console.log(found_copy.status);
+        if (found_copy.status == 'checked_out' || found_copy.status == 'lost') {
+            req.flash('danger', `Cannot delete game copies that are currently checked out or lost.`);
+            res.redirect(`/game_copies/`);
+            return;
+        }
+
+        const copy_params = {
+            id: copy_id
+        };
+
+        GameCopy.destroy(copy_params, (err, deleted_copy) => {
+
+            if (err) {
+                req.flash('danger', `Game Copy delete error:  ${err.msg || err.sqlMessage}`);
+                res.redirect(`/game_copies/`);
+                return;
+            }
+
+            req.flash('success', `Copy deleted: Tag #${found_copy.library_tag} ${found_copy.title} on ${found_copy.platform}!`);
             res.redirect('/game_copies/');
         });
     });
