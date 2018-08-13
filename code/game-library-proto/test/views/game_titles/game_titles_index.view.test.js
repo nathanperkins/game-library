@@ -37,7 +37,7 @@ describe('View - Game Title Index', () => {
                     res.text.should.match(/Game Title Index/);
                     res.text.should.match(/New Game Title/);
                     res.text.should.match(/href="\/game_titles\/new\//);
-                    res.text.should.match(/Title description here/);
+                    res.text.should.match(/Here are the titles currently listed in the library. To add a new title, use the button below./);
                     done();
                 }
             );
@@ -75,7 +75,7 @@ describe('View - Game Title Index', () => {
                     res.text.should.match(/Game Title Index/);
                     res.text.should.match(/New Game Title/);
                     res.text.should.match(/href="\/game_titles\/new\//);
-                    res.text.should.match(/Title description here/);
+                    res.text.should.match(/Here are the titles currently listed in the library. To add a new title, use the button below./);
                     done();
                 }
             );
