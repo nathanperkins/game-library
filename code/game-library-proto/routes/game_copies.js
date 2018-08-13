@@ -156,9 +156,7 @@ routes.post('/', [
             }
 
             else {
-
-                GameRelease.get({ id: newCopy.release_id }, (release) => {
-
+                GameRelease.get({ id: newCopy.release_id }, (err, release) => {
                     data.title = release.title;
                     data.platform = release.platform;
                     req.flash('success', `Copy created: Tag #${newCopy.library_tag} ${data.title} on ${data.platform}!`);
