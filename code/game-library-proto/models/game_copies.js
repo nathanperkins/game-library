@@ -63,6 +63,40 @@ GameCopy.get = (obj, callback) => {
     });
 };
 
+GameCopy.getByReleaseId = (release_id, callback) => {
+    if (!obj.hasOwnProperty('release_id')) {
+        callback(new Error('GameCopy.getByReleaseId() error: need to provide {release_id}'));
+        return;
+    }
+
+    const sql = `
+        SELECT Copy.id, Copy.status, Copy.library_tag, Copy.dt_procured,
+        GRelease.id AS release_id,
+        Title.name AS title, Title.id AS title_id, 
+        Platform.name AS platform, Platform.id AS platform_id
+        FROM game_copies AS Copy
+        JOIN game_releases AS GRelease
+        ON GRelease.id = Copy.release_id
+        JOIN game_platforms AS Platform
+        ON Platform.id = GRelease.platform_id
+        JOIN game_titles AS Title
+        ON Title.id = GRelease.title_id
+        WHERE GRelease.id = :id
+    ;`;
+
+    const compiledQuery = compileSql(sql, {release_id: obj.id});
+    connection.query(compiledQuery[0], compiledQuery[1], (err, rows, fields) => {
+        if (err) throw err;
+        
+        if (rows.length == 0) {
+            callback(new Error(`GameCopy.getByReleaseId() error: did not find GameCopy with release_id: ${obj.release_id}`));
+            return;
+        }
+        
+        callback(err, rows[0], fields);
+    });
+};
+
 // create a game_copy from an object
 // returns that game_copy
 GameCopy.create = (obj, callback) => {

@@ -30,6 +30,33 @@ GameRequest.getAll = (obj, callback) => {
     });
 };
 
+GameRequest.getAllWithCopies = (obj, callback) => {
+    const sql = `SELECT Request.id, Request.dt_completed, Request.dt_requested, Request.dt_delivered, Request.dt_completed,
+        Title.name AS title, Platform.name AS platform, 
+        CONCAT(User.first_name, ' ', User.last_name) AS user, User.id as user_id, 
+        GRelease.id as release_id, 
+        Copy.id as copy_id, Copy.library_tag
+    FROM game_requests AS Request
+    JOIN game_releases AS GRelease
+        ON GRelease.id = Request.release_id
+    JOIN game_titles AS Title
+        ON Title.id = GRelease.title_id
+    JOIN game_platforms AS Platform
+        ON Platform.id = GRelease.platform_id
+    JOIN users AS User
+        ON User.id = Request.user_id
+    JOIN game_copies AS Copy
+        ON Copy.release_id = Release.id
+    WHERE dt_delivered IS NULL
+      AND dt_completed IS NOT NULL
+    ;`
+
+    connection.query(sql, (err, rows, fields) => {
+        console.log(rows);
+        callback(err, rows, fields);
+    });
+};
+
 GameRequest.getAllByStatus = (status, callback) => {
     GameRequest.getAll({}, (err, rows, fields) => {
         if (err) throw err;

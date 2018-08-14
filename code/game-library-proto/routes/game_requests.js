@@ -3,6 +3,7 @@ const queries = require('../queries');
 const connection = require('../db');
 
 const GameRequest = require('../models/game_requests');
+const GameCopy = require('../models/game_copies');
 
 routes.get('/', (req, res) => {
     const data = {
@@ -39,11 +40,18 @@ routes.get('/pending/', (req, res) => {
         page_title: 'Requests',
     };
 
-    GameRequest.getAllByStatus("pending", (err, rows, fields) => {
+    GameRequest.getAllByStatus("pending", (err, requests, fields) => {
         if (err) throw err;
+        GameCopy.getAll({}, (err, copies, fields) => {
+            if (err) throw err;
 
-        data.rows = rows;
-        res.render('game_requests/pending', data);
+            requests.forEach(request => {
+                request.copies = copies.filter(copy => copy.release_id === request.release_id);
+            });
+
+            data.rows = requests;
+            res.render('game_requests/pending', data);
+        });
     });
 });
 
@@ -52,10 +60,10 @@ routes.get('/checked_out/', (req, res) => {
         page_title: 'Requests',
     };
 
-    GameRequest.getAllByStatus("checked_out", (err, rows, fields) => {
+    GameRequest.getAllByStatus("checked_out", (err, requests, fields) => {
         if (err) throw err;
-
-        data.rows = rows;
+        
+        data.rows = requests;
         res.render('game_requests/checked_out', data);
     });
 });
@@ -75,13 +83,16 @@ routes.get('/completed/', (req, res) => {
 
 routes.post('/', (req, res) => {
     if (!req.session.user) {
-        res.flash('warning', "Must login before making a requests");
+        req.flash('warning', "Must login before making a requests");
         res.redirect('/users/login');
     }
     console.log("Creating Request: ", req.body);
 
     GameRequest.create(req.body, (err, request) => {
+        if (err) throw err;
 
+        req.flash('success', "Submitted request!");
+        res.redirect(`/users/profile`);
     });
 });
 
@@ -95,5 +106,21 @@ routes.delete('/:request_id', (req, res) => {
         res.redirect('/game_requests/');
     });
 })
+
+routes.post('/:request_id/check_out', (req, res) => {
+    console.log("attempting to check out: ", req.params.request_id);
+
+    if (!req.body.copy_id) {
+        req.flash("danger", "Needs a copy_id");
+        res.redirect('/game_requests/pending');
+        return;
+    }
+
+    GameRequest.update({copy_id: req.body.copy_id}, (err, rows, fields) => {
+        if (err) throw err;
+
+        req.flash("success", "You checked out ${request.")
+    });
+});
 
 module.exports = routes;
