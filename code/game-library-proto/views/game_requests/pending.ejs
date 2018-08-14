@@ -21,18 +21,27 @@
             <td><%= row.user %></td>
             <td><%= row.title %></td>
             <td><%= row.platform %></td>
-            <td><div class="field">
-                <div class="control">
-                    <div class="select">
-                        <select>
-                            <option>9565768</option>
-                            <option>8977879</option>
-                            <option>6957657</option>
-                        </select>
+            <% if (row.copies.length > 0) { %>
+            <form action="/game_requests/<%= row.id %>/check_out" method="POST">
+            <td>
+                <div class="field">
+                    <div class="control">
+                        <div class="select">
+                                <select name="copy_id">
+                                    <% row.copies.forEach(copy => { %>
+                                    <option value="<%= copy.id %>"><%= copy.library_tag %></option>
+                                    <% }); %> 
+                                </select>
+                        </div>
                     </div>
                 </div>
-            </div></td>
-            <td><span class="button ">Check Out</span></td>
+            </td>
+            <td><input type="submit" class="button" value="Check Out"></input></td>
+            </form>
+            <% } else { %>
+            <td>No Copies Available</td>
+            <td></td>
+            <% } %>
         </tr>
         <% }); %>
     </tbody>

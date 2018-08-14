@@ -108,6 +108,7 @@ routes.delete('/:request_id', (req, res) => {
 })
 
 routes.post('/:request_id/check_out', (req, res) => {
+    console.log(req.body);
     console.log("attempting to check out: ", req.params.request_id);
 
     if (!req.body.copy_id) {
@@ -116,10 +117,12 @@ routes.post('/:request_id/check_out', (req, res) => {
         return;
     }
 
-    GameRequest.update({copy_id: req.body.copy_id}, (err, rows, fields) => {
+    GameRequest.update({id: req.params.request_id, copy_id: req.body.copy_id, dt_delivered: new Date()}, (err, request, fields) => {
         if (err) throw err;
+        console.log(request);
 
-        req.flash("success", "You checked out ${request.")
+        req.flash("success", `You checked out ${request.title} to ${request.user}`);
+        res.redirect("/game_requests/checked_out");
     });
 });
 

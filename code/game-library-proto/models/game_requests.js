@@ -188,6 +188,7 @@ GameRequest.update = (obj, callback) => {
         UPDATE game_requests
         SET user_id      = :user_id, 
             release_id   = :release_id, 
+            copy_id      = :copy_id,
             dt_requested = :dt_requested, 
             dt_delivered  = :dt_delivered, 
             dt_completed = :dt_completed 
@@ -203,6 +204,7 @@ GameRequest.update = (obj, callback) => {
         const compiledQuery = compileSql(sql, {
             user_id      : obj.user_id      || release.user_id, 
             release_id   : obj.release_id   || release.release_id, 
+            copy_id      : obj.copy_id      || release.copy_id,
             dt_requested : obj.dt_requested || release.dt_requested, 
             dt_delivered : obj.dt_delivered || release.dt_delivered, 
             dt_completed : obj.dt_completed || release.dt_completed, 
