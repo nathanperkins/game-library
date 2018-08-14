@@ -2,12 +2,14 @@ const routes = require('express').Router();
 const queries = require('../queries');
 const connection = require('../db');
 
+const GameRequest = require('../models/game_requests');
+
 routes.get('/', (req, res) => {
     const data = {
         page_title: 'Requests',
     };
 
-    connection.query(queries.get_all_game_requests, (err, rows, fields) => {
+    GameRequest.getAll({}, (err, rows, fields) => {
         if (err) throw err;
 
         data.rows = rows;
@@ -37,7 +39,7 @@ routes.get('/pending/', (req, res) => {
         page_title: 'Requests',
     };
 
-    connection.query(queries.get_game_requests_by_status, ['pending'], (err, rows, fields) => {
+    GameRequest.getAllByStatus("pending", (err, rows, fields) => {
         if (err) throw err;
 
         data.rows = rows;
@@ -50,7 +52,7 @@ routes.get('/checked_out/', (req, res) => {
         page_title: 'Requests',
     };
 
-    connection.query(queries.get_game_requests_by_status, ['checked_out'], (err, rows, fields) => {
+    GameRequest.getAllByStatus("checked_out", (err, rows, fields) => {
         if (err) throw err;
 
         data.rows = rows;
@@ -63,7 +65,7 @@ routes.get('/completed/', (req, res) => {
         page_title: 'Requests',
     };
 
-    connection.query(queries.get_game_requests_by_status, ['completed'], (err, rows, fields) => {
+    GameRequest.getAllByStatus("completed", (err, rows, fields) => {
         if (err) throw err;
 
         data.rows = rows;
@@ -71,10 +73,27 @@ routes.get('/completed/', (req, res) => {
     });
 });
 
+routes.post('/', (req, res) => {
+    if (!req.session.user) {
+        res.flash('warning', "Must login before making a requests");
+        res.redirect('/users/login');
+    }
+    console.log("Creating Request: ", req.body);
+
+    GameRequest.create(req.body, (err, request) => {
+
+    });
+});
+
 routes.delete('/:request_id', (req, res) => {
     console.log("attempted to delete: ", req.params.request_id);
 
-    res.redirect('/game_requests/');
+    GameRequest.destroy({id: req.params.request_id}, (err, rows, fields) => {
+        if (err) throw err;
+
+        req.flash('success', "Request was deleted!");
+        res.redirect('/game_requests/');
+    });
 })
 
 module.exports = routes;

@@ -30,6 +30,29 @@ GameRequest.getAll = (obj, callback) => {
     });
 };
 
+GameRequest.getAllByStatus = (status, callback) => {
+    GameRequest.getAll({}, (err, rows, fields) => {
+        if (err) throw err;
+
+        let requests = [];
+
+        if (status == "pending") {
+            requests = rows.filter(row => !row.dt_delivered && !row.dt_completed);
+        }
+        else if (status == "checked_out") {
+            requests = rows.filter(row => row.dt_delivered && !row.dt_completed);
+        }
+        else if (status == "completed") {
+            requests = rows.filter(row => !!row.dt_completed);
+        }
+        else {
+            throw new Error("invalid status");
+        }
+
+        callback(err, requests, fields);
+    });
+};
+
 // returns one game_release by id    if object = {id} 
 GameRequest.get = (obj, callback) => {
     if (!obj.hasOwnProperty('id')) {
