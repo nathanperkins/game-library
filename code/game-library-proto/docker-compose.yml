@@ -23,7 +23,7 @@ services:
       always
 
   db-prod:
-    build: ./mariadb
+    image: mariadb:latest
     restart: always
     ports: 
       - 3306:3306
@@ -32,9 +32,11 @@ services:
       MYSQL_ROOT_PASSWORD: password
     volumes:
       - ./mariadb/data/prod/db-data:/var/lib/mysql
+      - ./mariadb/sql/1_ddl.sql:/docker-entrypoint-initdb.d/1_ddl.sql:ro
+      - ./mariadb/sql/2_dump.sql:/docker-entrypoint-initdb.d/2_dump.sql:ro
 
   db-dev:
-    build: ./mariadb
+    image: mariadb:latest
     restart: always
     ports: 
       - 3307:3306
@@ -43,9 +45,11 @@ services:
       MYSQL_ROOT_PASSWORD: password
     volumes:
       - ./mariadb/data/dev/db-data:/var/lib/mysql
+      - ./mariadb/sql/1_ddl.sql:/docker-entrypoint-initdb.d/1_ddl.sql:ro
+      - ./mariadb/sql/2_dump.sql:/docker-entrypoint-initdb.d/2_dump.sql:ro
 
   db-test:
-    image: mariadb
+    image: mariadb:latest
     restart: always
     ports: 
       - 3308:3306
