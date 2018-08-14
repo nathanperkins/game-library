@@ -201,10 +201,10 @@ ORDER BY title, platform ASC
 -- You need to include one delete --
 ------------------------------------
 
--- delete a user (on admin page)
+-- delete a game copy
 
-DELETE FROM users
-WHERE users.id = :user_id_input
+DELETE FROM game_copies
+WHERE game_copies.id = :id
 ;
 
 ---------------------------------------------
@@ -225,6 +225,12 @@ SET copy_id = :copy_id_input, dt_delivered = NOW()
 WHERE id = :game_request_id_input
 ;
 
+-- check in a game
+
+UPDATE game_requests
+SET dt_completed = NOW()
+WHERE id = :game_request_id_input
+
 -- mark a game as returned
 
 UPDATE game_requests
@@ -241,11 +247,4 @@ WHERE id = :game_request_id_input
 DELETE FROM game_requests
 WHERE user_id = :user_id_input
   AND release_id = :release_id_input
-;
-
--- remove a game copy from a request
-
-UPDATE game_requests
-SET copy_id = NULL, dt_delivered = NULL
-WHERE id = :game_request_id_input
 ;
