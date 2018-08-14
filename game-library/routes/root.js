@@ -19,6 +19,19 @@ routes.get('/', (req, res) => {
     res.render('index', data);
 });
 
+routes.get('/reset-db', (req, res) => {
+    console.log("Resetting tables");
+
+    connection.createTables(err => {
+        if (err) throw err;
+        connection.insertDummyData(err => {
+            if (err) throw err;
+            req.flash("success", "Database has been reset.");
+            res.redirect('/');
+        });
+    });
+});
+
 
 const game_copy_routes = require('./game_copies');
 const game_platform_routes = require('./game_platforms');
