@@ -35,7 +35,7 @@ ORDER BY User.last_name, User.first_name ASC
 ;`
 
 const get_game_requests_by_user = `
-SELECT Request.status, Title.name AS title, Platform.name AS platform, Request.dt_completed
+SELECT Request.id, Request.status, Title.name AS title, Platform.name AS platform, Request.dt_completed
 FROM game_requests AS Request
 JOIN game_releases AS GRelease
   ON GRelease.id = Request.release_id

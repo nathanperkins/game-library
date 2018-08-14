@@ -1,7 +1,9 @@
 const routes     = require('express').Router();
 const queries    = require('../queries');
-const User       = require('../models/users');
 const connection = require('../db');
+
+const User       = require('../models/users');
+const GameRequest = require('../models/game_requests');
 
 // express-validator used to validate and clean form data
 // from https://express-validator.github.io/docs/
@@ -61,8 +63,6 @@ routes.post("/login", (req, res) => {
     const email     = req.body.email;
     const password  = req.body.password;
 
-
-
     User.login({email, password}, (err, user) => {
         if (user) {
             req.session.user = user;
@@ -99,13 +99,12 @@ routes.get('/profile/', (req, res) => {
 
         data.user = user;
         
-        connection.query(queries.get_game_requests_by_user, [user_id], (err, rows, fields) => {
+        GameRequest.getAllByUser({ user_id }, (err, requests, fields) => {
             if (err) throw err;
         
-            data.requests_checked_out = rows.filter(row => row.status === "checked_out");
-            data.requests_pending     = rows.filter(row => row.status === "pending");
-            data.requests_completed   = rows.filter(row => row.status === "completed");
-            data.requests_cancelled   = rows.filter(row => row.status === "completed");
+            data.requests_pending     = requests['pending'];
+            data.requests_checked_out = requests['checked_out'];
+            data.requests_completed   = requests['completed'];
 
             res.render('users/profile', data);
         });

@@ -102,13 +102,12 @@ routes.delete('/:request_id', (req, res) => {
     GameRequest.destroy({id: req.params.request_id}, (err, rows, fields) => {
         if (err) throw err;
 
-        req.flash('success', "Request was deleted!");
-        res.redirect('/game_requests/');
+        req.flash('success', `Request id(${req.params.request_id}) was deleted!`);
+        res.redirect(req.body._redirect || '/game_requests/completed');
     });
 })
 
 routes.post('/:request_id/check_out', (req, res) => {
-    console.log(req.body);
     console.log("attempting to check out: ", req.params.request_id);
 
     if (!req.body.copy_id) {
@@ -119,10 +118,20 @@ routes.post('/:request_id/check_out', (req, res) => {
 
     GameRequest.update({id: req.params.request_id, copy_id: req.body.copy_id, dt_delivered: new Date()}, (err, request, fields) => {
         if (err) throw err;
-        console.log(request);
 
         req.flash("success", `You checked out ${request.title} to ${request.user}`);
         res.redirect("/game_requests/checked_out");
+    });
+});
+
+routes.post('/:request_id/check_in', (req, res) => {
+    console.log("attempting to check in: ", req.params.request_id);
+
+    GameRequest.update({id: req.params.request_id, dt_completed: new Date()}, (err, request, fields) => {
+        if (err) throw err;
+
+        req.flash("success", `You checked in ${request.title} from ${request.user}`);
+        res.redirect("/game_requests/completed");
     });
 });
 

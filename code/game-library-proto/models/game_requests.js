@@ -52,7 +52,6 @@ GameRequest.getAllWithCopies = (obj, callback) => {
     ;`
 
     connection.query(sql, (err, rows, fields) => {
-        console.log(rows);
         callback(err, rows, fields);
     });
 };
@@ -121,6 +120,27 @@ GameRequest.get = (obj, callback) => {
         }
     });
 };
+
+GameRequest.getAllByUser = (obj, callback) => {
+    if( !obj.hasOwnProperty("user_id")) {
+        callback(new Error('GameRequest.create(): missing required parameters'));
+        return;
+    }
+
+    GameRequest.getAll({}, (err, rows, fields) => {
+        if (err) throw err;
+
+        rows = rows.filter(row => row.user_id === obj.user_id)
+
+        const requests = {
+            "pending": rows.filter(row => !row.dt_delivered && !row.dt_completed),
+            "checked_out": rows.filter(row => row.dt_delivered && !row.dt_completed),
+            "completed": rows.filter(row => !!row.dt_completed),
+        }
+
+        callback(err, requests, fields);    
+    });
+}
 
 // create a game_release from an object
 // returns that game_release

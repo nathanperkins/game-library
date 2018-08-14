@@ -33,6 +33,36 @@ No user!
     <strong>Rental History</strong>
     </font>
     <br>
+
+    <% if (requests_pending) { %>
+        <font size="3">
+        <strong>Pending</strong>
+        </font>
+    
+        <font size="2">
+        <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
+            <thead>
+                <th>Game</th>
+                <th>Platform</th>
+                <th>Cancel</th>
+            </thead>
+            <tbody>
+                <% requests_pending.forEach( request => { %>
+                <tr>
+                    <td><%= request.title %></td>
+                    <td><%= request.platform %></td>
+                    <td>
+                        <form action="/game_requests/<%= request.id %>" method="POST">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_redirect" value="/users/profile">
+                            <input type="submit" class="button" style="height:25px;width:60px" value="Cancel">
+                        </form>
+                    </td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    <% } %>
 <% if (requests_checked_out) { %>
     <font size="3">
     <strong>Checked Out</strong>
@@ -49,30 +79,6 @@ No user!
             <tr>
                 <td><%= request.title %></td>
                 <td><%= request.platform %></td>
-            </tr>
-            <% }); %>
-        </tbody>
-    </table>
-<% } %>
-
-<% if (requests_pending) { %>
-    <font size="3">
-    <strong>Pending</strong>
-    </font>
-
-    <font size="2">
-    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-        <thead>
-            <th>Game</th>
-            <th>Platform</th>
-            <th>Cancel</th>
-        </thead>
-        <tbody>
-            <% requests_pending.forEach( request => { %>
-            <tr>
-                <td><%= request.title %></td>
-                <td><%= request.platform %></td>
-                <td><span class="button" style="height:25px;width:60px">Cancel</span></td>
             </tr>
             <% }); %>
         </tbody>
@@ -97,28 +103,6 @@ No user!
                 <td><%= request.title %></td>
                 <td><%= request.platform %></td>
                 <td><%= request.dt_completed %></td>
-            </tr>
-            <% }); %>
-        </tbody>
-    </table>
-<% } %>
-
-<% if (requests_cancelled) { %>
-    <font size="3">
-    <strong>Cancelled</strong>
-    </font>
-
-    <font size="2">
-    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-        <thead>
-            <th>Game</th>
-            <th>Platform</th>
-        </thead>
-        <tbody>
-            <% requests_cancelled.forEach( request => { %>
-            <tr>
-                <td><%= request.title %></td>
-                <td><%= request.platform %></td>
             </tr>
             <% }); %>
         </tbody>

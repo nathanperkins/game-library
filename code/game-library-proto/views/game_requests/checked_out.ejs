@@ -22,7 +22,11 @@
             <td><%= row.title %></td>
             <td><%= row.platform %></td>
             <td><%= row.library_tag %></td>
-            <td><span class="button">Check-in</span></td>
+            <td>
+                <form action="/game_requests/<%= row.id %>/check_in" method="POST">
+                <input type="submit" class="button" value="Check-in">
+                </form>
+            </td>
         </tr>
         <% }); %>
     </tbody>
