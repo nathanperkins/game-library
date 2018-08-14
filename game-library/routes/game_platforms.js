@@ -16,7 +16,7 @@ routes. get('/', (req, res) => {
         table_name  : "game_platforms",
         pretty_name : "Game Platform",
         new_endpoint: "/game_platforms/new/",
-        update: true,
+        update: false,
     }
 
     GamePlatform.getAll({}, (err, rows, fields) => {

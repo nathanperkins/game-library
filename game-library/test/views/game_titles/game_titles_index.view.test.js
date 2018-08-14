@@ -91,7 +91,6 @@ describe('View - Game Title Index', () => {
                     res.text.should.match(/Genre/);
                     res.text.should.match(/Developer/);
                     res.text.should.match(/Producer/);
-                    res.text.should.match(/Update/);
                     res.text.should.match(/Add Release/);
 
                     res.text.should.match(/1/);

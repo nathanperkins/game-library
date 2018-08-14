@@ -89,7 +89,6 @@ describe('View - Game Release Index', () => {
                     res.text.should.match(/Title/);
                     res.text.should.match(/Platform/);
                     res.text.should.match(/Release Date/);
-                    res.text.should.match(/>Update</);
                     res.text.should.match(/Add Copy/);
                     res.text.should.not.match(/boxart_url/);
                     res.text.should.not.match(/rating/);

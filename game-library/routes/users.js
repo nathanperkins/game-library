@@ -23,7 +23,7 @@ routes. get('/', (req, res) => {
         table_name  : "users",
         pretty_name : "User",
         new_endpoint: "/users/new/",
-        update: true,
+        update: false,
     }
 
     User.getAll( {}, (err, rows, fields) => {

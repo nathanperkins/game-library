@@ -88,7 +88,6 @@ describe('View - Game Platform Index', () => {
                     res.text.should.match(/ID/);
                     res.text.should.match(/Manufacturer/);
                     res.text.should.match(/Release Date/);
-                    res.text.should.match(/>Update</);
                     res.text.should.not.match(/Created/);
                     res.text.should.not.match(/Updated/);
 

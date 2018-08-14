@@ -19,7 +19,7 @@ routes. get('/', (req, res) => {
         new_endpoint    : "/game_titles/new/",
         child_endpoint  : "/game_releases/new",
         child_name      : "Release",
-        update: true,
+        update: false,
     }
 
     GameTitle.getAll({}, (err, rows, fields) => {

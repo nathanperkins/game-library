@@ -22,7 +22,7 @@ routes.get('/', (req, res) => {
         child_endpoint: "/game_copies/new",
         child_name: "Copy",
         id_name: "release_id",
-        update: true,
+        update: false,
     }
 
     GameRelease.getAll({}, (err, releases) => {

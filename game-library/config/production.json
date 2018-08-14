@@ -1,0 +1,16 @@
+{
+    "app": {
+      "name"      : "Game Library",
+      "address"   : "0.0.0.0"
+    },
+  
+    "session": {
+      "password"  : "ProdSessionPassword"
+    },
+  
+    "db": {
+      "host"     : "db-prod",
+      "port"      : 3306,
+      "database" : "game_library_prod"
+    }
+  }

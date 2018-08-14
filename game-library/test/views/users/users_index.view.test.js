@@ -88,7 +88,6 @@ describe('View - Users index', () => {
                     res.text.should.match(/First Name/);
                     res.text.should.match(/Email/);
                     res.text.should.match(/Role/);
-                    res.text.should.match(/Update/);
 
                     res.text.should.match(/61/);
                     res.text.should.match(/Abshire/);
