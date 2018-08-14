@@ -118,12 +118,12 @@ describe('Model - GameRequest', () => {
 
                     const request = requests[2];
 
-                    request.user_id.should.equal(59);
+                    request.user_id.should.equal(60);
                     request.release_id.should.equal(9);
-                    request.copy_id.should.equal(7)
+                    should.equal(request.copy_id, null);
                     request.dt_requested.should.exist;
-                    request.dt_delivered.should.exist;
-                    request.dt_completed.should.exist;
+                    should.not.exist(request.dt_delivered);
+                    should.not.exist(request.dt_completed);
                     // request.dt_requested.should.equal(new Date("2018-07-09"));
                     // request.dt_delivered.should.equal(new Date("2018-07-10"));
                     // request.dt_completed.should.equal(new Date("2018-07-14"));
