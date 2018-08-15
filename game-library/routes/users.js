@@ -1,8 +1,8 @@
 const routes     = require('express').Router();
-const queries    = require('../queries');
-const connection = require('../db');
 
-const User       = require('../models/users');
+const queries     = require('../queries');
+const connection  = require('../db');
+const User        = require('../models/users');
 const GameRequest = require('../models/game_requests');
 
 // express-validator used to validate and clean form data
@@ -133,13 +133,71 @@ routes.get('/:user_id/promote/', (req, res) => {
     });
 });
 
-routes.get('/change_password/', (req, res) => {
+routes.get('/change_password/',
+    (req, res) => {
+    if (!req.session.user) {
+        req.flash('warning', 'You must be logged in for that.');
+        res.redirect('/users/login');
+        return;
+    }
+
     const data = {
         page_title: 'Change Password',
-        msg: null,
     };
 
     res.render('users/change_password', data);
+});
+
+routes.patch('/change_password', [
+    body('new_password').isLength({min: 8})
+    ], (req, res) => {
+    
+    const errors = validationResult(req);
+
+    if (!req.session.user) {
+        req.flash('warning', 'You must be logged in for that.');
+        res.redirect('/users/login');
+        return;
+    }
+    
+    if (req.body.current_password === '' || req.body.new_password === '' || req.body.new_password_confirm === '') {
+        req.flash('warning', 'You must provide your current password and the new password plus confirmation.');
+        res.redirect('/users/change_password');
+        return;
+    }
+
+    if (req.body.new_password !== req.body.new_password_confirm) {
+        req.flash('warning', 'The new password and password confirmation must match.');
+        res.redirect('/users/change_password');
+        return;
+    }
+
+    if (!errors.isEmpty()) {
+        errors.array().forEach(error => {
+            req.flash('warning', error.msg);
+        })
+        res.redirect('/users/change_password');
+        return;
+    }
+
+    User.login({email: req.session.user.email, password: req.body.current_password}, (err, user) => {
+        if (err) {
+            req.flash('danger', err.message);
+            res.redirect('/users/change_password');
+            return;
+        }
+
+        User.updatePassword({id: user.id, password: req.body.new_password}, (err, user) => {
+            if (err) {
+                req.flash('danger', err.message);
+                res.redirect('/users/change_password');
+                return;
+            }
+
+            req.flash('success', 'Your password has been changed!');
+            res.redirect('/users/profile');
+        });
+    });
 });
 
 // create new user

@@ -140,9 +140,11 @@ User.password = (obj, callback) => {
     }
 };
 
+// compares the password with the password for the given account
 User.login = (obj, callback) => {
+    
     if (!(obj.hasOwnProperty('email') && obj.hasOwnProperty('password'))) {
-        callback(new Error('No id given for User.get()'));
+        callback(new Error('Missing email or password for User.login()'));
         return;
     }
 
@@ -172,7 +174,6 @@ User.login = (obj, callback) => {
 // destroys a user by id
 // returns the sql result
 User.destroy = (obj, callback) => {
-
     if (!obj.hasOwnProperty('id')) {
         callback(new Error('No id given for User.get()'));
         return;
@@ -194,6 +195,31 @@ User.destroy = (obj, callback) => {
         callback(err, result);
     });
 };
+
+// update a user's password
+User.updatePassword = (obj, callback) => {
+    if (!(obj.hasOwnProperty('id') && obj.hasOwnProperty('password'))) {
+        callback(new Error("User.updatePassword() error: missing id or password"));
+    }
+
+    bcrypt.hash(obj.password, 10, (err, hash) => {
+        const sql = 
+        `UPDATE users
+          SET password = :hash
+        WHERE id = :id;`;
+
+        const compiledQuery = compileSql(sql, {id: obj.id, hash: hash});
+
+        connection.query(compiledQuery[0], compiledQuery[1], (err, result) => {
+            if (result.affectedRows < 1) {
+                callback(new Error(`User.updatePassword() error: no change made`));
+            }
+            if (err) callback(err);
+
+            callback(err, result);
+        });
+    });
+}
 
 // update a user by id
 // and return the user

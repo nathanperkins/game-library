@@ -7,7 +7,7 @@ const execSQL = require('exec-sql');
 // create or reset tables using 1_ddl.sql
 pool.createTables = function(callback) {
     execSQL.connect(db_config);
-    execSQL.executeFile(__dirname + '/mariadb/sql/1_ddl.sql', (err) => {
+    execSQL.executeFile(__dirname + '/sql/1_ddl.sql', (err) => {
         execSQL.disconnect();
         callback(err);
     });
@@ -16,7 +16,7 @@ pool.createTables = function(callback) {
 // insert the dummy data from 2_dump.sql
 pool.insertDummyData = function(callback) {
     execSQL.connect(db_config);
-    execSQL.executeFile(__dirname + '/mariadb/sql/2_dump.sql', (err) => {
+    execSQL.executeFile(__dirname + '/sql/2_dump.sql', (err) => {
         execSQL.disconnect();
         callback(err);
     });

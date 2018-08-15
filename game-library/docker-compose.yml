@@ -31,9 +31,9 @@ services:
       MYSQL_DATABASE: game_library_prod
       MYSQL_ROOT_PASSWORD: password
     volumes:
-      - ./mariadb/data/prod/db-data:/var/lib/mysql
-      - ./mariadb/sql/1_ddl.sql:/docker-entrypoint-initdb.d/1_ddl.sql:ro
-      - ./mariadb/sql/2_dump.sql:/docker-entrypoint-initdb.d/2_dump.sql:ro
+      - ./data/prod/db-data:/var/lib/mysql
+      - ./sql/1_ddl.sql:/docker-entrypoint-initdb.d/1_ddl.sql:ro
+      - ./sql/2_dump.sql:/docker-entrypoint-initdb.d/2_dump.sql:ro
 
   db-dev:
     image: mariadb:latest
@@ -44,9 +44,9 @@ services:
       MYSQL_DATABASE: game_library_dev
       MYSQL_ROOT_PASSWORD: password
     volumes:
-      - ./mariadb/data/dev/db-data:/var/lib/mysql
-      - ./mariadb/sql/1_ddl.sql:/docker-entrypoint-initdb.d/1_ddl.sql:ro
-      - ./mariadb/sql/2_dump.sql:/docker-entrypoint-initdb.d/2_dump.sql:ro
+      - ./data/dev/db-data:/var/lib/mysql
+      - ./sql/1_ddl.sql:/docker-entrypoint-initdb.d/1_ddl.sql:ro
+      - ./sql/2_dump.sql:/docker-entrypoint-initdb.d/2_dump.sql:ro
 
   db-test:
     image: mariadb:latest
@@ -57,7 +57,7 @@ services:
       MYSQL_DATABASE: game_library_test
       MYSQL_ROOT_PASSWORD: password
     volumes:
-      - ./mariadb/data/test/db-data:/var/lib/mysql
+      - ./data/test/db-data:/var/lib/mysql
 
   adminer:
     image: adminer
