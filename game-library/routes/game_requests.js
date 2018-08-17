@@ -1,6 +1,4 @@
 const routes = require('express').Router();
-const queries = require('../queries');
-const connection = require('../db');
 
 const GameRequest = require('../models/game_requests');
 const GameCopy = require('../models/game_copies');
@@ -15,23 +13,6 @@ routes.get('/', (req, res) => {
 
         data.rows = rows;
         res.render('game_requests/index', data);
-    });
-});
-
-
-routes.get('/new/', (req, res) => {
-    const data = {
-        page_title  : 'Library',
-        search      : null,
-    };
-
-    req.flash('success', `${req.query.game_title} requested!`);
-
-    connection.query(queries.get_all_game_releases_with_search, ['%', '%'], (err, rows, fields) => {
-        if (err) throw err;
-
-        data.rows = rows;
-        res.render('library/index', data);
     });
 });
 

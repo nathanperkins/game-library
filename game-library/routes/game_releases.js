@@ -1,5 +1,4 @@
 const routes = require('express').Router();
-const queries = require('../queries');
 const querystring = require('querystring');
 
 const GamePlatform = require('../models/game_platforms');

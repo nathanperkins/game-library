@@ -57,6 +57,36 @@ GameRelease.get = (obj, callback) => {
     });
 };
 
+GameRelease.search = (obj, callback) => {
+    let term = '%';
+    if (obj.search_term) {
+        term = `${term}${obj.search_term}%`
+    }
+
+    const sql = `
+    SELECT GR.id as rid, GT.name AS title, GP.name AS platform,
+      GR.boxart_url, GT.description
+    FROM game_releases AS GR
+    JOIN game_titles AS GT
+      ON GT.id = GR.title_id
+    JOIN game_platforms AS GP
+      ON GP.id = GR.platform_id
+    WHERE GT.name LIKE :term
+     OR GP.name LIKE :term
+    ORDER BY title, platform ASC
+    ;`
+
+    const compiledQuery = compileSql(sql, { term });
+    connection.query(compiledQuery[0], compiledQuery[1], (err, rows, fields) => {
+        if (err)
+            callback(err);
+        else 
+            callback(null, rows, fields);
+    });
+};
+
+const get_all_game_releases_with_search = 
+
 // create a game_release from an object
 // returns that game_release
 GameRelease.create = (obj, callback) => {

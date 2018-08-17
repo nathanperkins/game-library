@@ -1,7 +1,5 @@
 const routes     = require('express').Router();
 
-const queries     = require('../queries');
-const connection  = require('../db');
 const User        = require('../models/users');
 const GameRequest = require('../models/game_requests');
 
