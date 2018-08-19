@@ -391,7 +391,7 @@ describe('Model - Users', () => {
         });
     });
 
-    describe('User.update()', () => {
+    describe('User.login()', () => {
         beforeEach('reset database', done => {
             db.createTables( err => {
                 if (err) throw err;
@@ -408,7 +408,7 @@ describe('Model - Users', () => {
                     password: generic_user.password,
                 }, (err, user) => {
                     err.should.be.an.instanceOf(Error);
-                    should.not.exist(user);
+                    user.should.be.false;
                     done();
                 });
             });
@@ -420,20 +420,20 @@ describe('Model - Users', () => {
                     email: generic_user.email,
                 }, (err, user) => {
                     err.should.be.an.instanceOf(Error);
-                    should.not.exist(user);
+                    user.should.be.false;
                     done();
                 });
             });
         });
 
         describe('User.login() incorrect password', () => {
-            it('it should give an error', done => {
+            it('it should not return a user', done => {
                 User.login({
                     email: generic_user.email,
                     password: "bad password",
                 }, (err, user) => {
-                    err.should.be.an.instanceOf(Error);
-                    should.not.exist(user);
+                    should.equal(err, null);
+                    user.should.be.false;
                     done();
                 });
             });

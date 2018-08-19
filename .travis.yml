@@ -9,11 +9,10 @@ services:
 
 cache:
   directories:
-    - code/game-library-proto/mariadb/data/test
-    - code/game-library-proto/node_modules
+    - game-library/node_modules
 
 install:
-  - cd code/game-library-proto
+  - cd game-library/
   - npm run docker-test
   - npm install
   - cp config/default.json.template config/default.json

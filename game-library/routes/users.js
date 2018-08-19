@@ -1,4 +1,5 @@
-const routes     = require('express').Router();
+const routes   = require('express').Router();
+const passport = require('passport');
 
 const User        = require('../models/users');
 const GameRequest = require('../models/game_requests');
@@ -57,25 +58,15 @@ routes.get('/login/', (req, res) => {
 });
 
 // login user
-routes.post("/login", (req, res) => {
-    const email     = req.body.email;
-    const password  = req.body.password;
-
-    User.login({email, password}, (err, user) => {
-        if (user) {
-            req.session.user = user;
-            req.session.name = `${user.first_name} ${user.last_name}`;
-            req.flash('success', `Welcome ${user.first_name}!`);
-            res.redirect('/');
-        } else {
-            req.flash('danger', err.message);
-            res.redirect('/users/login/');
-        }
-    });
-});
+routes.post('/login', 
+    passport.authenticate('local', { successRedirect: '/',
+                                     failureRedirect: '/users/login/',
+                                     failureFlash: 'Invalid username or password.',
+                                     successFlash: 'Welcome!' })
+);
 
 routes.get('/logout', (req, res) => {
-    req.session.user = null;
+    req.logout();
 
     res.redirect('/');
 });
@@ -122,11 +113,14 @@ routes.get('/:user_id/promote/', (req, res) => {
                 req.flash('danger', err.message);
             }
             else {
-                req.session.user = user;
-                req.flash('success', `${user.email} was promoted to ${user.role}`);
+                req.login(user, err => {
+                    if (err) 
+                        req.flash('danger', err.message);
+                    else
+                        req.flash('success', `${user.email} was promoted to ${user.role}`);
+                })
+                res.redirect('/');
             }
-            
-            res.redirect('/');
         });
     });
 });
@@ -237,9 +231,11 @@ routes.post('/', [
             return;
         }
 
-        req.session.user = user;
-        req.flash('success', `Welcome ${user.first_name} ${user.last_name}!`);
-        res.redirect('/');
+        req.login(user, err => {
+            if (err) throw err;
+            req.flash('success', `Welcome ${user.first_name} ${user.last_name}!`);
+            res.redirect('/');
+        });
     });
 });
 

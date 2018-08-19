@@ -38,7 +38,6 @@ describe('Route - POST /users/login/', () => {
                     res.should.redirectTo(`${app.get('base_url')}/users/login/`);
                     res.should.have.status(200);
                     
-                    res.text.should.match(/Login error/);
                     res.text.should.match(/username or password/);
                     done();
                 });
@@ -57,7 +56,6 @@ describe('Route - POST /users/login/', () => {
                     res.should.redirectTo(`${app.get('base_url')}/users/login/`);
                     res.should.have.status(200);
                     
-                    res.text.should.match(/Login error/);
                     res.text.should.match(/username or password/);
                     done();
                 });
@@ -77,8 +75,7 @@ describe('Route - POST /users/login/', () => {
                     res.should.have.status(200);
                     
                     res.text.should.match(/Logout/);
-                    res.text.should.match(/Welcome/);
-                    res.text.should.match(new RegExp(user.first_name, 'g'));
+                    res.text.should.match(/Welcome!/);
                     done();
                 });
         });

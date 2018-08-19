@@ -105,7 +105,7 @@ User.password = (obj, callback) => {
 
     if (obj.hasOwnProperty('email')) {
         const sql = 
-            `SELECT User.id, User.password, User.last_name, User.first_name, User.email, User.role
+            `SELECT User.*
             FROM users AS User
             WHERE User.email = :email
             ;`;
@@ -142,30 +142,29 @@ User.password = (obj, callback) => {
 
 // compares the password with the password for the given account
 User.login = (obj, callback) => {
-    
     if (!(obj.hasOwnProperty('email') && obj.hasOwnProperty('password'))) {
-        callback(new Error('Missing email or password for User.login()'));
+        callback(new Error('Missing email or password for User.login()'), false);
         return;
     }
 
-    User.password({email: obj.email}, (err, user) => {
+    User.password({email: obj.email}, (err, user) => { 
         if (!user) {
-            callback(new Error('Login error: bad username or password'));
-            return;
+            callback(null, false)
+            return
         }
+
         bcrypt.compare(obj.password, user.password || obj.password, (err, res) => {
             if (err) {
-                callback(err);
-                return;
+                callback(err, false)
+                return
             }
 
             if (!res) {
-                callback(new Error('Login error: bad username or password'));
-                return;
+                callback(null, false)
+                return
             }
 
             delete user.password;
-
             callback(null, user);
         });
     });

@@ -22,8 +22,6 @@ app.set('port', config.app.port);
 app.set('address', config.app.address);
 app.set('base_url', `http://${app.get('address')}:${app.get('port')}`)
 
-const routes = require('./routes/root');
-
 // using the ejs template engine
 app.set('view engine', 'ejs');
 
@@ -62,16 +60,21 @@ app.use(methodOverride(function (req, res) {
     }
 }));
 
+// passport.js http://www.passportjs.org/docs/
+const passport = require('./auth')
+app.use(passport.initialize());
+app.use(passport.session());
+
 // custom middleware
 app.use(function (req, res, next) {
-
     res.locals.messages = require('express-messages')(req, res);
     res.locals.session  = req.session;
     res.locals.app_name = config.app.name;
+    res.locals.user = req.user || false;
     next();
   });
 
-app.use('/', routes);
+app.use('/', require('./routes/root'));
 
 // start server using port from config
 app.listen(app.get('port'), app.get('address'), () => console.log(`${config.app.name} started at ${app.get('base_url')}/`));
