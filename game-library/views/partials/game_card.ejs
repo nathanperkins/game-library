@@ -17,10 +17,10 @@
         </div>
         <nav class="level is-mobile">
         <div class="level-left">
-            <% if (session.user) { %>
+            <% if (user) { %>
             <a class="level-item">
                 <form action="/game_requests/" method="POST">
-                    <input type="hidden" name="user_id" value="<%= session.user.id %>">
+                    <input type="hidden" name="user_id" value="<%= user.id %>">
                     <input type="hidden" name="release_id" value="<%= game.rid %>">
                     <span class="icon is-small"><button type"submit" class="button is-success"><i class="fas fa-fw fa-arrow-circle-down"></i>Request</button></span>
                 </form>

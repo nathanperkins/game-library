@@ -63,7 +63,7 @@ routes.get('/completed/', (req, res) => {
 });
 
 routes.post('/', (req, res) => {
-    if (!req.session.user) {
+    if (!req.user) {
         req.flash('warning', "Must login before making a requests");
         res.redirect('/users/login');
     }

@@ -76,12 +76,12 @@ routes.get('/profile/', (req, res) => {
         page_title: 'User Profile',
     };
 
-    if ( !req.session.user ) {
+    if ( !req.user ) {
         res.redirect('/users/login');
         return;
     }
 
-    const user_id = req.session.user.id;
+    const user_id = req.user.id;
 
     User.get({id: user_id}, (err, user, fields) => {
         if (err) throw err;
@@ -127,7 +127,7 @@ routes.get('/:user_id/promote/', (req, res) => {
 
 routes.get('/change_password/',
     (req, res) => {
-    if (!req.session.user) {
+    if (!req.user) {
         req.flash('warning', 'You must be logged in for that.');
         res.redirect('/users/login');
         return;
@@ -146,7 +146,7 @@ routes.patch('/change_password', [
     
     const errors = validationResult(req);
 
-    if (!req.session.user) {
+    if (!req.user) {
         req.flash('warning', 'You must be logged in for that.');
         res.redirect('/users/login');
         return;
@@ -172,7 +172,7 @@ routes.patch('/change_password', [
         return;
     }
 
-    User.login({email: req.session.user.email, password: req.body.current_password}, (err, user) => {
+    User.login({email: req.user.email, password: req.body.current_password}, (err, user) => {
         if (err) {
             req.flash('danger', err.message);
             res.redirect('/users/change_password');
