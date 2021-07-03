@@ -7,8 +7,8 @@
 # attach
 #
 
-FROM node:8
-MAINTAINER Nathan Perkins
+FROM node:14
+LABEL maintainer="nperkins487@gmail.com"
 EXPOSE 3000
 
 ENV NODE_ENV production
