@@ -10,6 +10,7 @@
 # shutdown
 # docker-compose down
 
+
 version: '3.1'
 services:
 
@@ -21,6 +22,9 @@ services:
       - 80:3000
     restart:
       always
+    volumes:
+      - ./config/default.json:/gamelibrary/config/default.json:ro
+      - ./config/production.json:/gamelibrary/config/production.json:ro
 
   db-prod:
     image: mariadb:latest
@@ -68,4 +72,3 @@ services:
     restart: always
     ports:
       - 8080:8080
-

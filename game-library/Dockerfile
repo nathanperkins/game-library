@@ -17,7 +17,9 @@ RUN apt-get update
 RUN apt-get install -y nodejs
 
 RUN mkdir -p /gamelibrary
+RUN mkdir -p /gamelibrary/config/
 WORKDIR /gamelibrary
+
 COPY package*.json ./
 RUN npm install
 
