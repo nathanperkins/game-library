@@ -1,4 +1,4 @@
-# Game-Library [![Build Status](https://travis-ci.com/nathanperkins/cs340-project.svg?token=gmW9Hgyz1H6baCbwVtL3&branch=master)](https://travis-ci.com/nathanperkins/cs340-project)
+# Game-Library [![Build Status](https://app.travis-ci.com/nathanperkins/game-library.svg?branch=master)](https://travis-ci.com/nathanperkins/game-library)
 
 Game-Library is a node/react app for managing inventory and requests for a real-world video game lending library.
 
