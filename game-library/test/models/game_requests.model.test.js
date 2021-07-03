@@ -116,7 +116,7 @@ describe('Model - GameRequest', () => {
                     should.exist(requests);
                     requests.length.should.above(1);
 
-                    const request = requests[2];
+                    const request = requests[1];
 
                     request.user_id.should.equal(60);
                     request.release_id.should.equal(9);

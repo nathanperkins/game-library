@@ -23,6 +23,7 @@ GameRequest.getAll = (obj, callback) => {
     ON User.id = Request.user_id
   LEFT JOIN game_copies AS Copy
     ON Copy.id = Request.copy_id
+  ORDER BY Request.id
   ;`
 
     connection.query(sql, (err, rows, fields) => {
