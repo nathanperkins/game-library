@@ -13,7 +13,7 @@ cache:
 
 install:
   - cd game-library/
-  - npm run docker-test
+  - npm run docker-test-travis
   - npm install
   - cp config/default.json.template config/default.json
 
