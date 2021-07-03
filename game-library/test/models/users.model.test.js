@@ -93,7 +93,7 @@ describe('Model - Users', () => {
             it('it should have Kailee first', done => {
                 User.getAll( {}, (err, users) => {
                     should.equal(err, null);
-                    users.sort( (a, b) => a.id > b.id );
+                    users.sort( (a, b) => a.id - b.id );
                     users[0].first_name.should.equal('Kailee');
                     users[0].last_name.should.equal('Crist');
                     done();
@@ -103,7 +103,7 @@ describe('Model - Users', () => {
             it('it should have Brian second', done => {
                 User.getAll( {}, (err, users) => {
                     should.equal(err, null);
-                    users.sort( (a, b) => a.id > b.id );
+                    users.sort( (a, b) => a.id - b.id );
                     users[1].first_name.should.equal('Brian');
                     users[1].last_name.should.equal('Dibbert');
                     done();
