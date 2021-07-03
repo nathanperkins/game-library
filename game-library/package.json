@@ -36,7 +36,7 @@
     "docker-stop": "docker compose down",
     "start-prod": "NODE_ENV=production node app.js",
     "start": "NODE_ENV=development nodemon app.js",
-    "test": "NODE_ENV=test mocha --recursive"
+    "test": "NODE_ENV=test mocha --recursive --exit"
   },
   "author": "",
   "license": "ISC"
