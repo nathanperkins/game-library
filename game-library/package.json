@@ -15,7 +15,6 @@
     "express-messages": "^1.0.1",
     "express-session": "^1.15.6",
     "express-validator": "^5.3.0",
-    "forever": "^4.0.1",
     "method-override": "^3.0.0",
     "mysql": "^2.16.0",
     "named-placeholders": "^1.1.1",
@@ -30,9 +29,6 @@
     "nodemon": "^2.0.9"
   },
   "scripts": {
-    "forever-start": "NODE_ENV=production forever start --uid gamelibrary --append app.js",
-    "forever-list": "forever list",
-    "forever-stop": "forever stop gamelibrary",
     "docker-prod": "docker compose up --detach --build db-prod gamelibrary",
     "docker-dev": "docker compose up --detach db-test db-dev adminer",
     "docker-test": "docker compose up --detach db-test",
