@@ -4,7 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
-    "bcrypt": "^3.0.0",
+    "bcrypt": "^5.0.1",
     "binary-extensions": "^1.11.0",
     "body-parser": "^1.18.3",
     "config": "^2.0.1",
@@ -15,7 +15,7 @@
     "express-messages": "^1.0.1",
     "express-session": "^1.15.6",
     "express-validator": "^5.3.0",
-    "forever": "^0.15.3",
+    "forever": "^4.0.1",
     "method-override": "^3.0.0",
     "mysql": "^2.16.0",
     "named-placeholders": "^1.1.1",
@@ -26,20 +26,20 @@
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "faker": "^4.1.0",
-    "mocha": "^5.2.0",
-    "nodemon": "^1.18.3"
+    "mocha": "^9.0.2",
+    "nodemon": "^2.0.9"
   },
   "scripts": {
     "forever-start": "NODE_ENV=production forever start --uid gamelibrary --append app.js",
     "forever-list": "forever list",
     "forever-stop": "forever stop gamelibrary",
-    "docker-prod": "docker-compose build && docker-compose up -d db-prod gamelibrary",
-    "docker-dev": "docker-compose up -d db-test db-dev adminer",
-    "docker-test": "docker-compose up -d db-test",
-    "docker-stop": "docker-compose down",
+    "docker-prod": "docker compose build && docker-compose up -d db-prod gamelibrary",
+    "docker-dev": "docker compose up -d db-test db-dev adminer",
+    "docker-test": "docker compose up -d db-test",
+    "docker-stop": "docker compose down",
     "start-prod": "NODE_ENV=production node app.js",
     "start": "NODE_ENV=development nodemon app.js",
-    "test": "NODE_ENV=test mocha"
+    "test": "NODE_ENV=test mocha --recursive"
   },
   "author": "",
   "license": "ISC"
