@@ -14,7 +14,7 @@
 version: '3.1'
 services:
 
-  gamelibrary:
+  app:
     build: .
     depends_on:
       - db-prod
@@ -22,9 +22,19 @@ services:
       - 80:3000
     restart:
       always
-    volumes:
-      - ./config/default.json:/gamelibrary/config/default.json:ro
-      - ./config/production.json:/gamelibrary/config/production.json:ro
+    environment:
+      NAME: "Game Library"
+      PORT: 3000
+      HOST: 0.0.0.0
+      DB_HOST: "db-prod"
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASS: password
+      DB_NAME: game_library_prod
+      NODE_ENV: ""
+    # volumes:
+      # - ./config/default.json:/gamelibrary/config/default.json:ro
+      # - ./config/production.json:/gamelibrary/config/production.json:ro
 
   db-prod:
     image: mariadb:latest

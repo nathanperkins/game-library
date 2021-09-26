@@ -2,3 +2,5 @@ node_modules
 mariadb
 data
 config
+!config/default.json
+!config/custom-environment-variables.json

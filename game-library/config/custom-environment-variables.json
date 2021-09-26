@@ -1,0 +1,20 @@
+{
+    "app": {
+        "name": "NAME",
+        "port": "PORT",
+        "address": "HOST",
+        "debug": "DEBUG"
+    },
+    "session": {
+        "password": "SESSION_PASSWORD"
+    },
+    "db": {
+        "host"    : "DB_HOST",
+        "port"    : "DB_PORT",
+        "user"    : "DB_USER",
+        "password": "DB_PASS",
+        "database": "DB_NAME",
+        "timezone": "DB_TIMEZONE"
+    }
+}
+  

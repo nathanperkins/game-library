@@ -1,13 +1,4 @@
 const fs = require('fs');
-
-if (!fs.existsSync("config/default.json")) {
-    console.log("Error: config/config.json has not been configured.\n",
-                "Please copy default.json.template to default.json\n",
-                "and modify as necessary.\n");
-
-    process.exit(1);
-}
-
 const express = require('express');
 const app = express();
 
