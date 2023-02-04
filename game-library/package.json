@@ -26,7 +26,7 @@
     "chai-http": "^4.0.0",
     "faker": "^4.1.0",
     "mocha": "^9.0.2",
-    "nodemon": "^2.0.9"
+    "nodemon": "^2.0.20"
   },
   "scripts": {
     "docker-prod": "docker compose up --detach --build db-prod gamelibrary",
