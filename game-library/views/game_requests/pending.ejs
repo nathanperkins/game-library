@@ -30,7 +30,7 @@
                                 <select name="copy_id">
                                     <% row.copies.forEach(copy => { %>
                                     <option value="<%= copy.id %>"><%= copy.library_tag %></option>
-                                    <% }); %> 
+                                    <% }); %>
                                 </select>
                         </div>
                     </div>
@@ -50,4 +50,4 @@
 No rows!
 <% } %>
 
-<%- include ../partials/footer %>
+<%- include('../partials/footer') %>
